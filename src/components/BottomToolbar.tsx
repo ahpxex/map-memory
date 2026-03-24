@@ -3,6 +3,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { buildExportSnapshot, downloadSnapshot } from '../lib/storage'
 import {
   currentDatasetImplementedAtom,
+  currentDatasetStatsAtom,
   currentPromptRegionAtom,
   datasetAtom,
   interactionModeAtom,
@@ -32,12 +33,13 @@ export function BottomToolbar() {
   const persistedData = useAtomValue(persistedDataAtom)
   const currentPromptRegion = useAtomValue(currentPromptRegionAtom)
   const datasetImplemented = useAtomValue(currentDatasetImplementedAtom)
+  const currentDatasetStats = useAtomValue(currentDatasetStatsAtom)
   const startNextTrainingRound = useSetAtom(startNextTrainingRoundAtom)
   const replacePersistedData = useSetAtom(replacePersistedDataAtom)
   const importInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    if (dataset !== 'world' || interactionMode !== 'training') {
+    if (interactionMode !== 'training') {
       return
     }
 
@@ -117,10 +119,17 @@ export function BottomToolbar() {
         {interactionMode === 'training' && datasetImplemented ? (
           <div className="rounded-full bg-amber-100 px-4 py-2 text-xs font-semibold text-amber-900">
             {trainingMode === 'locate-from-name' && currentPromptRegion
-              ? `Find: ${language === 'en' ? currentPromptRegion.nameEn : currentPromptRegion.nameZh}`
+              ? `${
+                  language === 'en' ? 'Find' : '找到'
+                }: ${language === 'en' ? currentPromptRegion.nameEn : currentPromptRegion.nameZh}`
               : '训练问题生成中'}
           </div>
         ) : null}
+
+        <div className="rounded-full bg-stone-100/90 px-4 py-2 text-xs font-semibold text-stone-700">
+          {currentDatasetStats.practicedRegions}/{currentDatasetStats.totalRegions} practiced
+          · {currentDatasetStats.accuracy}% accuracy
+        </div>
 
         <div className="flex items-center gap-2">
           <button
@@ -153,32 +162,38 @@ export function BottomToolbar() {
                 return
               }
 
-              const text = await file.text()
-              const parsed = JSON.parse(text)
-              const importedData = isExportSnapshot(parsed)
-                ? parsed.data
-                : isPersistedAppData(parsed)
-                  ? parsed
-                  : null
+              try {
+                const text = await file.text()
+                const parsed = JSON.parse(text)
+                const importedData = isExportSnapshot(parsed)
+                  ? parsed.data
+                  : isPersistedAppData(parsed)
+                    ? parsed
+                    : null
 
-              if (!importedData) {
-                window.alert('This file is not a valid map-memory export.')
+                if (!importedData) {
+                  window.alert('This file is not a valid map-memory export.')
+                  event.target.value = ''
+                  return
+                }
+
+                const confirmed = window.confirm(
+                  'Importing will replace the current local training data. Continue?',
+                )
+
+                if (!confirmed) {
+                  event.target.value = ''
+                  return
+                }
+
+                startTransition(() => {
+                  replacePersistedData(importedData)
+                })
+              } catch {
+                window.alert('Import failed. The selected file is not valid JSON.')
                 event.target.value = ''
                 return
               }
-
-              const confirmed = window.confirm(
-                'Importing will replace the current local training data. Continue?',
-              )
-
-              if (!confirmed) {
-                event.target.value = ''
-                return
-              }
-
-              startTransition(() => {
-                replacePersistedData(importedData)
-              })
               event.target.value = ''
             }}
             ref={importInputRef}

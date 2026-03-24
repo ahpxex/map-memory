@@ -86,7 +86,6 @@ export function AppShell() {
     }
 
     if (
-      dataset === 'world' &&
       currentDatasetImplemented &&
       interactionMode === 'training' &&
       !trainingSession.promptRegionId

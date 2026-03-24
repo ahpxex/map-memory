@@ -1,0 +1,6662 @@
+{
+  "cn-110000": {
+    "id": "cn-110000",
+    "adcode": 110000,
+    "level": "special",
+    "nameZh": "北京市",
+    "nameEn": "Beijing",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      116.41995,
+      40.18994
+    ],
+    "center": [
+      116.405285,
+      39.904989
+    ]
+  },
+  "cn-120000": {
+    "id": "cn-120000",
+    "adcode": 120000,
+    "level": "special",
+    "nameZh": "天津市",
+    "nameEn": "Tianjin",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      117.347043,
+      39.288036
+    ],
+    "center": [
+      117.190182,
+      39.125596
+    ]
+  },
+  "cn-130100": {
+    "id": "cn-130100",
+    "adcode": 130100,
+    "level": "city",
+    "nameZh": "石家庄市",
+    "nameEn": "Shi Jia Zhuang Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      114.444982,
+      38.133034
+    ],
+    "center": [
+      114.502461,
+      38.045474
+    ]
+  },
+  "cn-130200": {
+    "id": "cn-130200",
+    "adcode": 130200,
+    "level": "city",
+    "nameZh": "唐山市",
+    "nameEn": "Tang Shan Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      118.343325,
+      39.71703
+    ],
+    "center": [
+      118.175393,
+      39.635113
+    ]
+  },
+  "cn-130300": {
+    "id": "cn-130300",
+    "adcode": 130300,
+    "level": "city",
+    "nameZh": "秦皇岛市",
+    "nameEn": "Qin Huang Dao Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      119.193332,
+      40.088346
+    ],
+    "center": [
+      119.586579,
+      39.942531
+    ]
+  },
+  "cn-130400": {
+    "id": "cn-130400",
+    "adcode": 130400,
+    "level": "city",
+    "nameZh": "邯郸市",
+    "nameEn": "Han Dan Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      114.548854,
+      36.553496
+    ],
+    "center": [
+      114.490686,
+      36.612273
+    ]
+  },
+  "cn-130500": {
+    "id": "cn-130500",
+    "adcode": 130500,
+    "level": "city",
+    "nameZh": "邢台市",
+    "nameEn": "Xing Tai Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      114.822676,
+      37.213788
+    ],
+    "center": [
+      114.508851,
+      37.0682
+    ]
+  },
+  "cn-130600": {
+    "id": "cn-130600",
+    "adcode": 130600,
+    "level": "city",
+    "nameZh": "保定市",
+    "nameEn": "Bao Ding Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      115.177642,
+      39.025137
+    ],
+    "center": [
+      115.482331,
+      38.867657
+    ]
+  },
+  "cn-130700": {
+    "id": "cn-130700",
+    "adcode": 130700,
+    "level": "city",
+    "nameZh": "张家口市",
+    "nameEn": "Zhang Jia Kou Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      115.038685,
+      40.874645
+    ],
+    "center": [
+      114.884091,
+      40.811901
+    ]
+  },
+  "cn-130800": {
+    "id": "cn-130800",
+    "adcode": 130800,
+    "level": "city",
+    "nameZh": "承德市",
+    "nameEn": "Cheng De Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      117.551533,
+      41.356206
+    ],
+    "center": [
+      117.939152,
+      40.976204
+    ]
+  },
+  "cn-130900": {
+    "id": "cn-130900",
+    "adcode": 130900,
+    "level": "city",
+    "nameZh": "沧州市",
+    "nameEn": "Cang Zhou Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      116.771341,
+      38.270959
+    ],
+    "center": [
+      116.857461,
+      38.310582
+    ]
+  },
+  "cn-131000": {
+    "id": "cn-131000",
+    "adcode": 131000,
+    "level": "city",
+    "nameZh": "廊坊市",
+    "nameEn": "Lang Fang Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      116.540212,
+      39.111215
+    ],
+    "center": [
+      116.704441,
+      39.523927
+    ]
+  },
+  "cn-131100": {
+    "id": "cn-131100",
+    "adcode": 131100,
+    "level": "city",
+    "nameZh": "衡水市",
+    "nameEn": "Heng Shui Shi",
+    "parentAdcode": 130000,
+    "parentNameZh": "河北省",
+    "parentNameEn": "He Bei Sheng",
+    "centroid": [
+      115.828761,
+      37.7648
+    ],
+    "center": [
+      115.665993,
+      37.735097
+    ]
+  },
+  "cn-140100": {
+    "id": "cn-140100",
+    "adcode": 140100,
+    "level": "city",
+    "nameZh": "太原市",
+    "nameEn": "Tai Yuan Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      112.322147,
+      37.960573
+    ],
+    "center": [
+      112.549248,
+      37.857014
+    ]
+  },
+  "cn-140200": {
+    "id": "cn-140200",
+    "adcode": 140200,
+    "level": "city",
+    "nameZh": "大同市",
+    "nameEn": "Da Tong Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      113.72499,
+      39.904541
+    ],
+    "center": [
+      113.295259,
+      40.09031
+    ]
+  },
+  "cn-140300": {
+    "id": "cn-140300",
+    "adcode": 140300,
+    "level": "city",
+    "nameZh": "阳泉市",
+    "nameEn": "Yang Quan Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      113.505474,
+      38.064652
+    ],
+    "center": [
+      113.583285,
+      37.861188
+    ]
+  },
+  "cn-140400": {
+    "id": "cn-140400",
+    "adcode": 140400,
+    "level": "city",
+    "nameZh": "长治市",
+    "nameEn": "Chang Zhi Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      112.921277,
+      36.478022
+    ],
+    "center": [
+      113.113556,
+      36.191112
+    ]
+  },
+  "cn-140500": {
+    "id": "cn-140500",
+    "adcode": 140500,
+    "level": "city",
+    "nameZh": "晋城市",
+    "nameEn": "Jin Cheng Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      112.713186,
+      35.610944
+    ],
+    "center": [
+      112.851274,
+      35.497553
+    ]
+  },
+  "cn-140600": {
+    "id": "cn-140600",
+    "adcode": 140600,
+    "level": "city",
+    "nameZh": "朔州市",
+    "nameEn": "Shuo Zhou Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      112.648197,
+      39.619375
+    ],
+    "center": [
+      112.433387,
+      39.331261
+    ]
+  },
+  "cn-140700": {
+    "id": "cn-140700",
+    "adcode": 140700,
+    "level": "city",
+    "nameZh": "晋中市",
+    "nameEn": "Jin Zhong Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      112.969398,
+      37.329161
+    ],
+    "center": [
+      112.736465,
+      37.696495
+    ]
+  },
+  "cn-140800": {
+    "id": "cn-140800",
+    "adcode": 140800,
+    "level": "city",
+    "nameZh": "运城市",
+    "nameEn": "Yun Cheng Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      111.070718,
+      35.188073
+    ],
+    "center": [
+      111.003957,
+      35.022778
+    ]
+  },
+  "cn-140900": {
+    "id": "cn-140900",
+    "adcode": 140900,
+    "level": "city",
+    "nameZh": "忻州市",
+    "nameEn": "Xin Zhou Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      112.414867,
+      38.885126
+    ],
+    "center": [
+      112.733538,
+      38.41769
+    ]
+  },
+  "cn-141000": {
+    "id": "cn-141000",
+    "adcode": 141000,
+    "level": "city",
+    "nameZh": "临汾市",
+    "nameEn": "Lin Fen Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      111.381988,
+      36.228828
+    ],
+    "center": [
+      111.517973,
+      36.08415
+    ]
+  },
+  "cn-141100": {
+    "id": "cn-141100",
+    "adcode": 141100,
+    "level": "city",
+    "nameZh": "吕梁市",
+    "nameEn": "Lü Liang Shi",
+    "parentAdcode": 140000,
+    "parentNameZh": "山西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      111.268548,
+      37.684104
+    ],
+    "center": [
+      111.134335,
+      37.524366
+    ]
+  },
+  "cn-150100": {
+    "id": "cn-150100",
+    "adcode": 150100,
+    "level": "city",
+    "nameZh": "呼和浩特市",
+    "nameEn": "Hu He Hao Te Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      111.50328,
+      40.597159
+    ],
+    "center": [
+      111.670801,
+      40.818311
+    ]
+  },
+  "cn-150200": {
+    "id": "cn-150200",
+    "adcode": 150200,
+    "level": "city",
+    "nameZh": "包头市",
+    "nameEn": "Bao Tou Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      110.266038,
+      41.559669
+    ],
+    "center": [
+      109.840405,
+      40.658168
+    ]
+  },
+  "cn-150300": {
+    "id": "cn-150300",
+    "adcode": 150300,
+    "level": "city",
+    "nameZh": "乌海市",
+    "nameEn": "Wu Hai Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      106.874373,
+      39.426964
+    ],
+    "center": [
+      106.825563,
+      39.673734
+    ]
+  },
+  "cn-150400": {
+    "id": "cn-150400",
+    "adcode": 150400,
+    "level": "city",
+    "nameZh": "赤峰市",
+    "nameEn": "Chi Feng Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      118.878285,
+      43.239277
+    ],
+    "center": [
+      118.956806,
+      42.275317
+    ]
+  },
+  "cn-150500": {
+    "id": "cn-150500",
+    "adcode": 150500,
+    "level": "city",
+    "nameZh": "通辽市",
+    "nameEn": "Tong Liao Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      121.569548,
+      43.834485
+    ],
+    "center": [
+      122.263119,
+      43.617429
+    ]
+  },
+  "cn-150600": {
+    "id": "cn-150600",
+    "adcode": 150600,
+    "level": "city",
+    "nameZh": "鄂尔多斯市",
+    "nameEn": "E Er Duo Si Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      108.637375,
+      39.425314
+    ],
+    "center": [
+      109.99029,
+      39.817179
+    ]
+  },
+  "cn-150700": {
+    "id": "cn-150700",
+    "adcode": 150700,
+    "level": "city",
+    "nameZh": "呼伦贝尔市",
+    "nameEn": "Hu Lun Bei Er Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      120.906902,
+      49.635232
+    ],
+    "center": [
+      119.758168,
+      49.215333
+    ]
+  },
+  "cn-150800": {
+    "id": "cn-150800",
+    "adcode": 150800,
+    "level": "city",
+    "nameZh": "巴彦淖尔市",
+    "nameEn": "Ba Yan Nao Er Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      107.575749,
+      41.453305
+    ],
+    "center": [
+      107.416959,
+      40.757402
+    ]
+  },
+  "cn-150900": {
+    "id": "cn-150900",
+    "adcode": 150900,
+    "level": "city",
+    "nameZh": "乌兰察布市",
+    "nameEn": "Wu Lan Cha Bu Shi",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      112.443087,
+      41.696874
+    ],
+    "center": [
+      113.114543,
+      41.034126
+    ]
+  },
+  "cn-152200": {
+    "id": "cn-152200",
+    "adcode": 152200,
+    "level": "city",
+    "nameZh": "兴安盟",
+    "nameEn": "Xing An Meng",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      121.341355,
+      46.241397
+    ],
+    "center": [
+      122.070317,
+      46.076268
+    ]
+  },
+  "cn-152500": {
+    "id": "cn-152500",
+    "adcode": 152500,
+    "level": "city",
+    "nameZh": "锡林郭勒盟",
+    "nameEn": "Xi Lin Guo Le Meng",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      115.51632,
+      44.232965
+    ],
+    "center": [
+      116.090996,
+      43.944018
+    ]
+  },
+  "cn-152900": {
+    "id": "cn-152900",
+    "adcode": 152900,
+    "level": "city",
+    "nameZh": "阿拉善盟",
+    "nameEn": "A La Shan Meng",
+    "parentAdcode": 150000,
+    "parentNameZh": "内蒙古自治区",
+    "parentNameEn": "Nei Meng Gu Zi Zhi Qu",
+    "centroid": [
+      102.42556,
+      40.532392
+    ],
+    "center": [
+      105.706422,
+      38.844814
+    ]
+  },
+  "cn-210100": {
+    "id": "cn-210100",
+    "adcode": 210100,
+    "level": "city",
+    "nameZh": "沈阳市",
+    "nameEn": "Shen Yang Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      123.143796,
+      42.100641
+    ],
+    "center": [
+      123.429096,
+      41.796767
+    ]
+  },
+  "cn-210200": {
+    "id": "cn-210200",
+    "adcode": 210200,
+    "level": "city",
+    "nameZh": "大连市",
+    "nameEn": "Da Lian Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      122.190893,
+      39.593378
+    ],
+    "center": [
+      121.618622,
+      38.91459
+    ]
+  },
+  "cn-210300": {
+    "id": "cn-210300",
+    "adcode": 210300,
+    "level": "city",
+    "nameZh": "鞍山市",
+    "nameEn": "An Shan Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      123.016394,
+      40.718251
+    ],
+    "center": [
+      122.995632,
+      41.110626
+    ]
+  },
+  "cn-210400": {
+    "id": "cn-210400",
+    "adcode": 210400,
+    "level": "city",
+    "nameZh": "抚顺市",
+    "nameEn": "Fu Shun Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      124.662356,
+      41.837685
+    ],
+    "center": [
+      123.921109,
+      41.875956
+    ]
+  },
+  "cn-210500": {
+    "id": "cn-210500",
+    "adcode": 210500,
+    "level": "city",
+    "nameZh": "本溪市",
+    "nameEn": "Ben Xi Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      124.574237,
+      41.231499
+    ],
+    "center": [
+      123.770519,
+      41.297909
+    ]
+  },
+  "cn-210600": {
+    "id": "cn-210600",
+    "adcode": 210600,
+    "level": "city",
+    "nameZh": "丹东市",
+    "nameEn": "Dan Dong Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      124.40518,
+      40.544775
+    ],
+    "center": [
+      124.383044,
+      40.124296
+    ]
+  },
+  "cn-210700": {
+    "id": "cn-210700",
+    "adcode": 210700,
+    "level": "city",
+    "nameZh": "锦州市",
+    "nameEn": "Jin Zhou Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      121.618541,
+      41.461822
+    ],
+    "center": [
+      121.135742,
+      41.119269
+    ]
+  },
+  "cn-210800": {
+    "id": "cn-210800",
+    "adcode": 210800,
+    "level": "city",
+    "nameZh": "营口市",
+    "nameEn": "Ying Kou Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      122.456202,
+      40.391795
+    ],
+    "center": [
+      122.235151,
+      40.667432
+    ]
+  },
+  "cn-210900": {
+    "id": "cn-210900",
+    "adcode": 210900,
+    "level": "city",
+    "nameZh": "阜新市",
+    "nameEn": "Fu Xin Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      121.961888,
+      42.282968
+    ],
+    "center": [
+      121.648962,
+      42.011796
+    ]
+  },
+  "cn-211000": {
+    "id": "cn-211000",
+    "adcode": 211000,
+    "level": "city",
+    "nameZh": "辽阳市",
+    "nameEn": "Liao Yang Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      123.251133,
+      41.184819
+    ],
+    "center": [
+      123.18152,
+      41.269402
+    ]
+  },
+  "cn-211100": {
+    "id": "cn-211100",
+    "adcode": 211100,
+    "level": "city",
+    "nameZh": "盘锦市",
+    "nameEn": "Pan Jin Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      121.999309,
+      41.06851
+    ],
+    "center": [
+      122.06957,
+      41.124484
+    ]
+  },
+  "cn-211200": {
+    "id": "cn-211200",
+    "adcode": 211200,
+    "level": "city",
+    "nameZh": "铁岭市",
+    "nameEn": "Tie Ling Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      124.176584,
+      42.648938
+    ],
+    "center": [
+      123.844279,
+      42.290585
+    ]
+  },
+  "cn-211300": {
+    "id": "cn-211300",
+    "adcode": 211300,
+    "level": "city",
+    "nameZh": "朝阳市",
+    "nameEn": "Chao Yang Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      120.021858,
+      41.516568
+    ],
+    "center": [
+      120.451176,
+      41.576758
+    ]
+  },
+  "cn-211400": {
+    "id": "cn-211400",
+    "adcode": 211400,
+    "level": "city",
+    "nameZh": "葫芦岛市",
+    "nameEn": "Hu Lu Dao Shi",
+    "parentAdcode": 210000,
+    "parentNameZh": "辽宁省",
+    "parentNameEn": "Liao Ning Sheng",
+    "centroid": [
+      120.21031,
+      40.620597
+    ],
+    "center": [
+      120.856394,
+      40.755572
+    ]
+  },
+  "cn-220100": {
+    "id": "cn-220100",
+    "adcode": 220100,
+    "level": "city",
+    "nameZh": "长春市",
+    "nameEn": "Chang Chun Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      125.593273,
+      44.290795
+    ],
+    "center": [
+      125.3245,
+      43.886841
+    ]
+  },
+  "cn-220200": {
+    "id": "cn-220200",
+    "adcode": 220200,
+    "level": "city",
+    "nameZh": "吉林市",
+    "nameEn": "Ji Lin Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      126.849983,
+      43.588212
+    ],
+    "center": [
+      126.55302,
+      43.843577
+    ]
+  },
+  "cn-220300": {
+    "id": "cn-220300",
+    "adcode": 220300,
+    "level": "city",
+    "nameZh": "四平市",
+    "nameEn": "Si Ping Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      124.388756,
+      43.487587
+    ],
+    "center": [
+      124.370785,
+      43.170344
+    ]
+  },
+  "cn-220400": {
+    "id": "cn-220400",
+    "adcode": 220400,
+    "level": "city",
+    "nameZh": "辽源市",
+    "nameEn": "Liao Yuan Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      125.311392,
+      42.814462
+    ],
+    "center": [
+      125.145349,
+      42.902692
+    ]
+  },
+  "cn-220500": {
+    "id": "cn-220500",
+    "adcode": 220500,
+    "level": "city",
+    "nameZh": "通化市",
+    "nameEn": "Tong Hua Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      125.955377,
+      41.964388
+    ],
+    "center": [
+      125.936501,
+      41.721177
+    ]
+  },
+  "cn-220600": {
+    "id": "cn-220600",
+    "adcode": 220600,
+    "level": "city",
+    "nameZh": "白山市",
+    "nameEn": "Bai Shan Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      127.290795,
+      42.074968
+    ],
+    "center": [
+      126.427839,
+      41.942505
+    ]
+  },
+  "cn-220700": {
+    "id": "cn-220700",
+    "adcode": 220700,
+    "level": "city",
+    "nameZh": "松原市",
+    "nameEn": "Song Yuan Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      124.48612,
+      44.807335
+    ],
+    "center": [
+      124.823608,
+      45.118243
+    ]
+  },
+  "cn-220800": {
+    "id": "cn-220800",
+    "adcode": 220800,
+    "level": "city",
+    "nameZh": "白城市",
+    "nameEn": "Bai Cheng Shi",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      123.019642,
+      45.354625
+    ],
+    "center": [
+      122.841114,
+      45.619026
+    ]
+  },
+  "cn-222400": {
+    "id": "cn-222400",
+    "adcode": 222400,
+    "level": "city",
+    "nameZh": "延边朝鲜族自治州",
+    "nameEn": "Yan Bian Chao Xian Zu Zi Zhi Zhou",
+    "parentAdcode": 220000,
+    "parentNameZh": "吉林省",
+    "parentNameEn": "Ji Lin Sheng",
+    "centroid": [
+      129.13087,
+      43.15089
+    ],
+    "center": [
+      129.513228,
+      42.904823
+    ]
+  },
+  "cn-230100": {
+    "id": "cn-230100",
+    "adcode": 230100,
+    "level": "city",
+    "nameZh": "哈尔滨市",
+    "nameEn": "Ha Er Bin Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      127.966759,
+      45.648633
+    ],
+    "center": [
+      126.642464,
+      45.756967
+    ]
+  },
+  "cn-230200": {
+    "id": "cn-230200",
+    "adcode": 230200,
+    "level": "city",
+    "nameZh": "齐齐哈尔市",
+    "nameEn": "Qi Qi Ha Er Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      124.557904,
+      47.710767
+    ],
+    "center": [
+      123.95792,
+      47.342081
+    ]
+  },
+  "cn-230300": {
+    "id": "cn-230300",
+    "adcode": 230300,
+    "level": "city",
+    "nameZh": "鸡西市",
+    "nameEn": "Ji Xi Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      132.297639,
+      45.635227
+    ],
+    "center": [
+      130.975966,
+      45.300046
+    ]
+  },
+  "cn-230400": {
+    "id": "cn-230400",
+    "adcode": 230400,
+    "level": "city",
+    "nameZh": "鹤岗市",
+    "nameEn": "He Gang Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      130.807059,
+      47.644529
+    ],
+    "center": [
+      130.277487,
+      47.332085
+    ]
+  },
+  "cn-230500": {
+    "id": "cn-230500",
+    "adcode": 230500,
+    "level": "city",
+    "nameZh": "双鸭山市",
+    "nameEn": "Shuang Ya Shan Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      132.623042,
+      46.721849
+    ],
+    "center": [
+      131.157304,
+      46.643442
+    ]
+  },
+  "cn-230600": {
+    "id": "cn-230600",
+    "adcode": 230600,
+    "level": "city",
+    "nameZh": "大庆市",
+    "nameEn": "Da Qing Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      124.705742,
+      46.357625
+    ],
+    "center": [
+      125.11272,
+      46.590734
+    ]
+  },
+  "cn-230700": {
+    "id": "cn-230700",
+    "adcode": 230700,
+    "level": "city",
+    "nameZh": "伊春市",
+    "nameEn": "Yi Chun Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      129.224747,
+      47.830729
+    ],
+    "center": [
+      128.899396,
+      47.724775
+    ]
+  },
+  "cn-230800": {
+    "id": "cn-230800",
+    "adcode": 230800,
+    "level": "city",
+    "nameZh": "佳木斯市",
+    "nameEn": "Jia Mu Si Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      132.204856,
+      47.248466
+    ],
+    "center": [
+      130.361634,
+      46.809606
+    ]
+  },
+  "cn-230900": {
+    "id": "cn-230900",
+    "adcode": 230900,
+    "level": "city",
+    "nameZh": "七台河市",
+    "nameEn": "Qi Tai He Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      130.943937,
+      45.881675
+    ],
+    "center": [
+      131.015584,
+      45.771266
+    ]
+  },
+  "cn-231000": {
+    "id": "cn-231000",
+    "adcode": 231000,
+    "level": "city",
+    "nameZh": "牡丹江市",
+    "nameEn": "Mu Dan Jiang Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      129.895544,
+      44.607512
+    ],
+    "center": [
+      129.618602,
+      44.582962
+    ]
+  },
+  "cn-231100": {
+    "id": "cn-231100",
+    "adcode": 231100,
+    "level": "city",
+    "nameZh": "黑河市",
+    "nameEn": "Hei He Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      126.988643,
+      49.282601
+    ],
+    "center": [
+      127.499023,
+      50.249585
+    ]
+  },
+  "cn-231200": {
+    "id": "cn-231200",
+    "adcode": 231200,
+    "level": "city",
+    "nameZh": "绥化市",
+    "nameEn": "Sui Hua Shi",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      126.658429,
+      46.904079
+    ],
+    "center": [
+      126.99293,
+      46.637393
+    ]
+  },
+  "cn-232700": {
+    "id": "cn-232700",
+    "adcode": 232700,
+    "level": "city",
+    "nameZh": "大兴安岭地区",
+    "nameEn": "Da Xing An Ling Di Qu",
+    "parentAdcode": 230000,
+    "parentNameZh": "黑龙江省",
+    "parentNameEn": "Hei Long Jiang Sheng",
+    "centroid": [
+      124.201147,
+      52.341079
+    ],
+    "center": [
+      124.711526,
+      52.335262
+    ]
+  },
+  "cn-310000": {
+    "id": "cn-310000",
+    "adcode": 310000,
+    "level": "special",
+    "nameZh": "上海市",
+    "nameEn": "Shanghai",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      121.438737,
+      31.072559
+    ],
+    "center": [
+      121.472644,
+      31.231706
+    ]
+  },
+  "cn-320100": {
+    "id": "cn-320100",
+    "adcode": 320100,
+    "level": "city",
+    "nameZh": "南京市",
+    "nameEn": "Nan Jing Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      118.847868,
+      31.927726
+    ],
+    "center": [
+      118.767413,
+      32.041544
+    ]
+  },
+  "cn-320200": {
+    "id": "cn-320200",
+    "adcode": 320200,
+    "level": "city",
+    "nameZh": "无锡市",
+    "nameEn": "Wu Xi Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      120.301663,
+      31.574729
+    ],
+    "center": [
+      120.301663,
+      31.574729
+    ]
+  },
+  "cn-320300": {
+    "id": "cn-320300",
+    "adcode": 320300,
+    "level": "city",
+    "nameZh": "徐州市",
+    "nameEn": "Xu Zhou Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      117.521565,
+      34.355594
+    ],
+    "center": [
+      117.184811,
+      34.261792
+    ]
+  },
+  "cn-320400": {
+    "id": "cn-320400",
+    "adcode": 320400,
+    "level": "city",
+    "nameZh": "常州市",
+    "nameEn": "Chang Zhou Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      119.641979,
+      31.623547
+    ],
+    "center": [
+      119.946973,
+      31.772752
+    ]
+  },
+  "cn-320500": {
+    "id": "cn-320500",
+    "adcode": 320500,
+    "level": "city",
+    "nameZh": "苏州市",
+    "nameEn": "Su Zhou Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      120.660806,
+      31.382865
+    ],
+    "center": [
+      120.619585,
+      31.299379
+    ]
+  },
+  "cn-320600": {
+    "id": "cn-320600",
+    "adcode": 320600,
+    "level": "city",
+    "nameZh": "南通市",
+    "nameEn": "Nan Tong Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      121.047928,
+      32.182334
+    ],
+    "center": [
+      120.864608,
+      32.016212
+    ]
+  },
+  "cn-320700": {
+    "id": "cn-320700",
+    "adcode": 320700,
+    "level": "city",
+    "nameZh": "连云港市",
+    "nameEn": "Lian Yun Gang Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      119.144784,
+      34.536075
+    ],
+    "center": [
+      119.178821,
+      34.600018
+    ]
+  },
+  "cn-320800": {
+    "id": "cn-320800",
+    "adcode": 320800,
+    "level": "city",
+    "nameZh": "淮安市",
+    "nameEn": "Huai An Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      118.971034,
+      33.352326
+    ],
+    "center": [
+      119.021265,
+      33.597506
+    ]
+  },
+  "cn-320900": {
+    "id": "cn-320900",
+    "adcode": 320900,
+    "level": "city",
+    "nameZh": "盐城市",
+    "nameEn": "Yan Cheng Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      120.19868,
+      33.516581
+    ],
+    "center": [
+      120.139998,
+      33.377631
+    ]
+  },
+  "cn-321000": {
+    "id": "cn-321000",
+    "adcode": 321000,
+    "level": "city",
+    "nameZh": "扬州市",
+    "nameEn": "Yang Zhou Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      119.479719,
+      32.737224
+    ],
+    "center": [
+      119.421003,
+      32.393159
+    ]
+  },
+  "cn-321100": {
+    "id": "cn-321100",
+    "adcode": 321100,
+    "level": "city",
+    "nameZh": "镇江市",
+    "nameEn": "Zhen Jiang Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      119.458183,
+      32.014028
+    ],
+    "center": [
+      119.452753,
+      32.204402
+    ]
+  },
+  "cn-321200": {
+    "id": "cn-321200",
+    "adcode": 321200,
+    "level": "city",
+    "nameZh": "泰州市",
+    "nameEn": "Tai Zhou Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      120.060841,
+      32.571433
+    ],
+    "center": [
+      119.915176,
+      32.484882
+    ]
+  },
+  "cn-321300": {
+    "id": "cn-321300",
+    "adcode": 321300,
+    "level": "city",
+    "nameZh": "宿迁市",
+    "nameEn": "Su Qian Shi",
+    "parentAdcode": 320000,
+    "parentNameZh": "江苏省",
+    "parentNameEn": "Jiang Su Sheng",
+    "centroid": [
+      118.526352,
+      33.784713
+    ],
+    "center": [
+      118.275162,
+      33.963008
+    ]
+  },
+  "cn-330100": {
+    "id": "cn-330100",
+    "adcode": 330100,
+    "level": "city",
+    "nameZh": "杭州市",
+    "nameEn": "Hang Zhou Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      119.476498,
+      29.898918
+    ],
+    "center": [
+      120.153576,
+      30.287459
+    ]
+  },
+  "cn-330200": {
+    "id": "cn-330200",
+    "adcode": 330200,
+    "level": "city",
+    "nameZh": "宁波市",
+    "nameEn": "Ning Bo Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      121.479174,
+      29.733017
+    ],
+    "center": [
+      121.549792,
+      29.868388
+    ]
+  },
+  "cn-330300": {
+    "id": "cn-330300",
+    "adcode": 330300,
+    "level": "city",
+    "nameZh": "温州市",
+    "nameEn": "Wen Zhou Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      120.463912,
+      27.894726
+    ],
+    "center": [
+      120.672111,
+      28.000575
+    ]
+  },
+  "cn-330400": {
+    "id": "cn-330400",
+    "adcode": 330400,
+    "level": "city",
+    "nameZh": "嘉兴市",
+    "nameEn": "Jia Xing Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      120.783487,
+      30.620063
+    ],
+    "center": [
+      120.750865,
+      30.762653
+    ]
+  },
+  "cn-330500": {
+    "id": "cn-330500",
+    "adcode": 330500,
+    "level": "city",
+    "nameZh": "湖州市",
+    "nameEn": "Hu Zhou Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      119.873663,
+      30.743058
+    ],
+    "center": [
+      120.102398,
+      30.867198
+    ]
+  },
+  "cn-330600": {
+    "id": "cn-330600",
+    "adcode": 330600,
+    "level": "city",
+    "nameZh": "绍兴市",
+    "nameEn": "Shao Xing Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      120.640933,
+      29.732893
+    ],
+    "center": [
+      120.582112,
+      29.997117
+    ]
+  },
+  "cn-330700": {
+    "id": "cn-330700",
+    "adcode": 330700,
+    "level": "city",
+    "nameZh": "金华市",
+    "nameEn": "Jin Hua Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      119.957007,
+      29.115117
+    ],
+    "center": [
+      119.649506,
+      29.089524
+    ]
+  },
+  "cn-330800": {
+    "id": "cn-330800",
+    "adcode": 330800,
+    "level": "city",
+    "nameZh": "衢州市",
+    "nameEn": "Qu Zhou Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      118.679569,
+      28.932446
+    ],
+    "center": [
+      118.87263,
+      28.941708
+    ]
+  },
+  "cn-330900": {
+    "id": "cn-330900",
+    "adcode": 330900,
+    "level": "city",
+    "nameZh": "舟山市",
+    "nameEn": "Zhou Shan Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      122.146805,
+      30.056563
+    ],
+    "center": [
+      122.106863,
+      30.016028
+    ]
+  },
+  "cn-331000": {
+    "id": "cn-331000",
+    "adcode": 331000,
+    "level": "city",
+    "nameZh": "台州市",
+    "nameEn": "Tai Zhou Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      121.136679,
+      28.757098
+    ],
+    "center": [
+      121.428599,
+      28.661378
+    ]
+  },
+  "cn-331100": {
+    "id": "cn-331100",
+    "adcode": 331100,
+    "level": "city",
+    "nameZh": "丽水市",
+    "nameEn": "Li Shui Shi",
+    "parentAdcode": 330000,
+    "parentNameZh": "浙江省",
+    "parentNameEn": "Zhe Jiang Sheng",
+    "centroid": [
+      119.517145,
+      28.197644
+    ],
+    "center": [
+      119.921786,
+      28.451993
+    ]
+  },
+  "cn-340100": {
+    "id": "cn-340100",
+    "adcode": 340100,
+    "level": "city",
+    "nameZh": "合肥市",
+    "nameEn": "He Fei Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      117.360447,
+      31.762594
+    ],
+    "center": [
+      117.283042,
+      31.86119
+    ]
+  },
+  "cn-340200": {
+    "id": "cn-340200",
+    "adcode": 340200,
+    "level": "city",
+    "nameZh": "芜湖市",
+    "nameEn": "Wu Hu Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      118.13997,
+      31.160935
+    ],
+    "center": [
+      118.376451,
+      31.326319
+    ]
+  },
+  "cn-340300": {
+    "id": "cn-340300",
+    "adcode": 340300,
+    "level": "city",
+    "nameZh": "蚌埠市",
+    "nameEn": "Beng Bu Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      117.330324,
+      33.107951
+    ],
+    "center": [
+      117.363228,
+      32.939667
+    ]
+  },
+  "cn-340400": {
+    "id": "cn-340400",
+    "adcode": 340400,
+    "level": "city",
+    "nameZh": "淮南市",
+    "nameEn": "Huai Nan Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      116.773391,
+      32.47172
+    ],
+    "center": [
+      117.018329,
+      32.647574
+    ]
+  },
+  "cn-340500": {
+    "id": "cn-340500",
+    "adcode": 340500,
+    "level": "city",
+    "nameZh": "马鞍山市",
+    "nameEn": "Ma An Shan Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      118.369758,
+      31.637138
+    ],
+    "center": [
+      118.507906,
+      31.689362
+    ]
+  },
+  "cn-340600": {
+    "id": "cn-340600",
+    "adcode": 340600,
+    "level": "city",
+    "nameZh": "淮北市",
+    "nameEn": "Huai Bei Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      116.74441,
+      33.720047
+    ],
+    "center": [
+      116.794664,
+      33.971707
+    ]
+  },
+  "cn-340700": {
+    "id": "cn-340700",
+    "adcode": 340700,
+    "level": "city",
+    "nameZh": "铜陵市",
+    "nameEn": "Tong Ling Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      117.566978,
+      30.888245
+    ],
+    "center": [
+      117.816576,
+      30.929935
+    ]
+  },
+  "cn-340800": {
+    "id": "cn-340800",
+    "adcode": 340800,
+    "level": "city",
+    "nameZh": "安庆市",
+    "nameEn": "An Qing Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      116.451502,
+      30.574825
+    ],
+    "center": [
+      117.043551,
+      30.50883
+    ]
+  },
+  "cn-341000": {
+    "id": "cn-341000",
+    "adcode": 341000,
+    "level": "city",
+    "nameZh": "黄山市",
+    "nameEn": "Huang Shan Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      118.076088,
+      29.904836
+    ],
+    "center": [
+      118.317325,
+      29.709239
+    ]
+  },
+  "cn-341100": {
+    "id": "cn-341100",
+    "adcode": 341100,
+    "level": "city",
+    "nameZh": "滁州市",
+    "nameEn": "Chu Zhou Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      118.107896,
+      32.543514
+    ],
+    "center": [
+      118.316264,
+      32.303627
+    ]
+  },
+  "cn-341200": {
+    "id": "cn-341200",
+    "adcode": 341200,
+    "level": "city",
+    "nameZh": "阜阳市",
+    "nameEn": "Fu Yang Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      115.709049,
+      32.916536
+    ],
+    "center": [
+      115.819729,
+      32.896969
+    ]
+  },
+  "cn-341300": {
+    "id": "cn-341300",
+    "adcode": 341300,
+    "level": "city",
+    "nameZh": "宿州市",
+    "nameEn": "Su Zhou Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      117.213919,
+      33.860274
+    ],
+    "center": [
+      116.984084,
+      33.633891
+    ]
+  },
+  "cn-341500": {
+    "id": "cn-341500",
+    "adcode": 341500,
+    "level": "city",
+    "nameZh": "六安市",
+    "nameEn": "Lu An Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      116.23409,
+      31.659225
+    ],
+    "center": [
+      116.507676,
+      31.752889
+    ]
+  },
+  "cn-341600": {
+    "id": "cn-341600",
+    "adcode": 341600,
+    "level": "city",
+    "nameZh": "亳州市",
+    "nameEn": "Bo Zhou Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      116.185025,
+      33.435253
+    ],
+    "center": [
+      115.782939,
+      33.869338
+    ]
+  },
+  "cn-341700": {
+    "id": "cn-341700",
+    "adcode": 341700,
+    "level": "city",
+    "nameZh": "池州市",
+    "nameEn": "Chi Zhou Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      117.371465,
+      30.282082
+    ],
+    "center": [
+      117.489157,
+      30.656037
+    ]
+  },
+  "cn-341800": {
+    "id": "cn-341800",
+    "adcode": 341800,
+    "level": "city",
+    "nameZh": "宣城市",
+    "nameEn": "Xuan Cheng Shi",
+    "parentAdcode": 340000,
+    "parentNameZh": "安徽省",
+    "parentNameEn": "An Hui Sheng",
+    "centroid": [
+      118.857477,
+      30.684955
+    ],
+    "center": [
+      118.757995,
+      30.945667
+    ]
+  },
+  "cn-350100": {
+    "id": "cn-350100",
+    "adcode": 350100,
+    "level": "city",
+    "nameZh": "福州市",
+    "nameEn": "Fu Zhou Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      119.200519,
+      26.047886
+    ],
+    "center": [
+      119.306239,
+      26.075302
+    ]
+  },
+  "cn-350200": {
+    "id": "cn-350200",
+    "adcode": 350200,
+    "level": "city",
+    "nameZh": "厦门市",
+    "nameEn": "Xia Men Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      118.123854,
+      24.676398
+    ],
+    "center": [
+      118.11022,
+      24.490474
+    ]
+  },
+  "cn-350300": {
+    "id": "cn-350300",
+    "adcode": 350300,
+    "level": "city",
+    "nameZh": "莆田市",
+    "nameEn": "Pu Tian Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      118.894712,
+      25.445304
+    ],
+    "center": [
+      119.007558,
+      25.431011
+    ]
+  },
+  "cn-350400": {
+    "id": "cn-350400",
+    "adcode": 350400,
+    "level": "city",
+    "nameZh": "三明市",
+    "nameEn": "San Ming Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      117.400007,
+      26.298093
+    ],
+    "center": [
+      117.635001,
+      26.265444
+    ]
+  },
+  "cn-350500": {
+    "id": "cn-350500",
+    "adcode": 350500,
+    "level": "city",
+    "nameZh": "泉州市",
+    "nameEn": "Quan Zhou Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      118.267651,
+      25.202187
+    ],
+    "center": [
+      118.589421,
+      24.908853
+    ]
+  },
+  "cn-350600": {
+    "id": "cn-350600",
+    "adcode": 350600,
+    "level": "city",
+    "nameZh": "漳州市",
+    "nameEn": "Zhang Zhou Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      117.458578,
+      24.330766
+    ],
+    "center": [
+      117.661801,
+      24.510897
+    ]
+  },
+  "cn-350700": {
+    "id": "cn-350700",
+    "adcode": 350700,
+    "level": "city",
+    "nameZh": "南平市",
+    "nameEn": "Nan Ping Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      118.147051,
+      27.338631
+    ],
+    "center": [
+      118.178459,
+      26.635627
+    ]
+  },
+  "cn-350800": {
+    "id": "cn-350800",
+    "adcode": 350800,
+    "level": "city",
+    "nameZh": "龙岩市",
+    "nameEn": "Long Yan Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      116.74379,
+      25.291574
+    ],
+    "center": [
+      117.02978,
+      25.091603
+    ]
+  },
+  "cn-350900": {
+    "id": "cn-350900",
+    "adcode": 350900,
+    "level": "city",
+    "nameZh": "宁德市",
+    "nameEn": "Ning De Shi",
+    "parentAdcode": 350000,
+    "parentNameZh": "福建省",
+    "parentNameEn": "Fu Jian Sheng",
+    "centroid": [
+      119.489399,
+      26.971518
+    ],
+    "center": [
+      119.527082,
+      26.65924
+    ]
+  },
+  "cn-360100": {
+    "id": "cn-360100",
+    "adcode": 360100,
+    "level": "city",
+    "nameZh": "南昌市",
+    "nameEn": "Nan Chang Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      116.023468,
+      28.647424
+    ],
+    "center": [
+      115.892151,
+      28.676493
+    ]
+  },
+  "cn-360200": {
+    "id": "cn-360200",
+    "adcode": 360200,
+    "level": "city",
+    "nameZh": "景德镇市",
+    "nameEn": "Jing De Zhen Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      117.27529,
+      29.305934
+    ],
+    "center": [
+      117.214664,
+      29.29256
+    ]
+  },
+  "cn-360300": {
+    "id": "cn-360300",
+    "adcode": 360300,
+    "level": "city",
+    "nameZh": "萍乡市",
+    "nameEn": "Ping Xiang Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      113.908082,
+      27.509931
+    ],
+    "center": [
+      113.852186,
+      27.622946
+    ]
+  },
+  "cn-360400": {
+    "id": "cn-360400",
+    "adcode": 360400,
+    "level": "city",
+    "nameZh": "九江市",
+    "nameEn": "Jiu Jiang Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      115.458122,
+      29.320395
+    ],
+    "center": [
+      115.992811,
+      29.712034
+    ]
+  },
+  "cn-360500": {
+    "id": "cn-360500",
+    "adcode": 360500,
+    "level": "city",
+    "nameZh": "新余市",
+    "nameEn": "Xin Yu Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      114.857327,
+      27.842246
+    ],
+    "center": [
+      114.930835,
+      27.810834
+    ]
+  },
+  "cn-360600": {
+    "id": "cn-360600",
+    "adcode": 360600,
+    "level": "city",
+    "nameZh": "鹰潭市",
+    "nameEn": "Ying Tan Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      117.112472,
+      28.221953
+    ],
+    "center": [
+      117.033838,
+      28.238638
+    ]
+  },
+  "cn-360700": {
+    "id": "cn-360700",
+    "adcode": 360700,
+    "level": "city",
+    "nameZh": "赣州市",
+    "nameEn": "Gan Zhou Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      115.279217,
+      25.710043
+    ],
+    "center": [
+      114.940278,
+      25.85097
+    ]
+  },
+  "cn-360800": {
+    "id": "cn-360800",
+    "adcode": 360800,
+    "level": "city",
+    "nameZh": "吉安市",
+    "nameEn": "Ji An Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      114.830492,
+      26.972536
+    ],
+    "center": [
+      114.986373,
+      27.111699
+    ]
+  },
+  "cn-360900": {
+    "id": "cn-360900",
+    "adcode": 360900,
+    "level": "city",
+    "nameZh": "宜春市",
+    "nameEn": "Yi Chun Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      114.978015,
+      28.304641
+    ],
+    "center": [
+      114.391136,
+      27.8043
+    ]
+  },
+  "cn-361000": {
+    "id": "cn-361000",
+    "adcode": 361000,
+    "level": "city",
+    "nameZh": "抚州市",
+    "nameEn": "Fu Zhou Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      116.439325,
+      27.509083
+    ],
+    "center": [
+      116.358351,
+      27.98385
+    ]
+  },
+  "cn-361100": {
+    "id": "cn-361100",
+    "adcode": 361100,
+    "level": "city",
+    "nameZh": "上饶市",
+    "nameEn": "Shang Rao Shi",
+    "parentAdcode": 360000,
+    "parentNameZh": "江西省",
+    "parentNameEn": "Jiang Xi Sheng",
+    "centroid": [
+      117.476403,
+      28.772739
+    ],
+    "center": [
+      117.971185,
+      28.44442
+    ]
+  },
+  "cn-370100": {
+    "id": "cn-370100",
+    "adcode": 370100,
+    "level": "city",
+    "nameZh": "济南市",
+    "nameEn": "Ji Nan Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      117.221211,
+      36.640013
+    ],
+    "center": [
+      117.000923,
+      36.675807
+    ]
+  },
+  "cn-370200": {
+    "id": "cn-370200",
+    "adcode": 370200,
+    "level": "city",
+    "nameZh": "青岛市",
+    "nameEn": "Qing Dao Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      120.150883,
+      36.451227
+    ],
+    "center": [
+      120.355173,
+      36.082982
+    ]
+  },
+  "cn-370300": {
+    "id": "cn-370300",
+    "adcode": 370300,
+    "level": "city",
+    "nameZh": "淄博市",
+    "nameEn": "Zi Bo Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      118.058673,
+      36.610971
+    ],
+    "center": [
+      118.047648,
+      36.814939
+    ]
+  },
+  "cn-370400": {
+    "id": "cn-370400",
+    "adcode": 370400,
+    "level": "city",
+    "nameZh": "枣庄市",
+    "nameEn": "Zao Zhuang Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      117.39817,
+      34.916234
+    ],
+    "center": [
+      117.557964,
+      34.856424
+    ]
+  },
+  "cn-370500": {
+    "id": "cn-370500",
+    "adcode": 370500,
+    "level": "city",
+    "nameZh": "东营市",
+    "nameEn": "Dong Ying Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      118.64357,
+      37.639575
+    ],
+    "center": [
+      118.66471,
+      37.434564
+    ]
+  },
+  "cn-370600": {
+    "id": "cn-370600",
+    "adcode": 370600,
+    "level": "city",
+    "nameZh": "烟台市",
+    "nameEn": "Yan Tai Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      120.804685,
+      37.241819
+    ],
+    "center": [
+      121.391382,
+      37.539297
+    ]
+  },
+  "cn-370700": {
+    "id": "cn-370700",
+    "adcode": 370700,
+    "level": "city",
+    "nameZh": "潍坊市",
+    "nameEn": "Wei Fang Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      119.077723,
+      36.554349
+    ],
+    "center": [
+      119.107078,
+      36.70925
+    ]
+  },
+  "cn-370800": {
+    "id": "cn-370800",
+    "adcode": 370800,
+    "level": "city",
+    "nameZh": "济宁市",
+    "nameEn": "Ji Ning Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      116.740918,
+      35.371173
+    ],
+    "center": [
+      116.587245,
+      35.415393
+    ]
+  },
+  "cn-370900": {
+    "id": "cn-370900",
+    "adcode": 370900,
+    "level": "city",
+    "nameZh": "泰安市",
+    "nameEn": "Tai An Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      117.030841,
+      36.002274
+    ],
+    "center": [
+      117.129063,
+      36.194968
+    ]
+  },
+  "cn-371000": {
+    "id": "cn-371000",
+    "adcode": 371000,
+    "level": "city",
+    "nameZh": "威海市",
+    "nameEn": "Wei Hai Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      122.000805,
+      37.118677
+    ],
+    "center": [
+      122.116394,
+      37.509691
+    ]
+  },
+  "cn-371100": {
+    "id": "cn-371100",
+    "adcode": 371100,
+    "level": "city",
+    "nameZh": "日照市",
+    "nameEn": "Ri Zhao Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      119.146546,
+      35.57855
+    ],
+    "center": [
+      119.461208,
+      35.428588
+    ]
+  },
+  "cn-371300": {
+    "id": "cn-371300",
+    "adcode": 371300,
+    "level": "city",
+    "nameZh": "临沂市",
+    "nameEn": "Lin Yi Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      118.286421,
+      35.311899
+    ],
+    "center": [
+      118.326443,
+      35.065282
+    ]
+  },
+  "cn-371400": {
+    "id": "cn-371400",
+    "adcode": 371400,
+    "level": "city",
+    "nameZh": "德州市",
+    "nameEn": "De Zhou Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      116.653941,
+      37.251267
+    ],
+    "center": [
+      116.307428,
+      37.453968
+    ]
+  },
+  "cn-371500": {
+    "id": "cn-371500",
+    "adcode": 371500,
+    "level": "city",
+    "nameZh": "聊城市",
+    "nameEn": "Liao Cheng Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      115.887682,
+      36.460117
+    ],
+    "center": [
+      115.980367,
+      36.456013
+    ]
+  },
+  "cn-371600": {
+    "id": "cn-371600",
+    "adcode": 371600,
+    "level": "city",
+    "nameZh": "滨州市",
+    "nameEn": "Bin Zhou Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      117.847293,
+      37.542609
+    ],
+    "center": [
+      118.016974,
+      37.383542
+    ]
+  },
+  "cn-371700": {
+    "id": "cn-371700",
+    "adcode": 371700,
+    "level": "city",
+    "nameZh": "菏泽市",
+    "nameEn": "He Ze Shi",
+    "parentAdcode": 370000,
+    "parentNameZh": "山东省",
+    "parentNameEn": "Shan Dong Sheng",
+    "centroid": [
+      115.698213,
+      35.152257
+    ],
+    "center": [
+      115.469381,
+      35.246531
+    ]
+  },
+  "cn-410100": {
+    "id": "cn-410100",
+    "adcode": 410100,
+    "level": "city",
+    "nameZh": "郑州市",
+    "nameEn": "Zheng Zhou Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      113.477391,
+      34.626256
+    ],
+    "center": [
+      113.665412,
+      34.757975
+    ]
+  },
+  "cn-410200": {
+    "id": "cn-410200",
+    "adcode": 410200,
+    "level": "city",
+    "nameZh": "开封市",
+    "nameEn": "Kai Feng Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.541763,
+      34.604497
+    ],
+    "center": [
+      114.341447,
+      34.797049
+    ]
+  },
+  "cn-410300": {
+    "id": "cn-410300",
+    "adcode": 410300,
+    "level": "city",
+    "nameZh": "洛阳市",
+    "nameEn": "Luo Yang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      112.038509,
+      34.293198
+    ],
+    "center": [
+      112.434468,
+      34.663041
+    ]
+  },
+  "cn-410400": {
+    "id": "cn-410400",
+    "adcode": 410400,
+    "level": "city",
+    "nameZh": "平顶山市",
+    "nameEn": "Ping Ding Shan Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      113.016514,
+      33.795715
+    ],
+    "center": [
+      113.307718,
+      33.735241
+    ]
+  },
+  "cn-410500": {
+    "id": "cn-410500",
+    "adcode": 410500,
+    "level": "city",
+    "nameZh": "安阳市",
+    "nameEn": "An Yang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.358257,
+      35.878529
+    ],
+    "center": [
+      114.352482,
+      36.103442
+    ]
+  },
+  "cn-410600": {
+    "id": "cn-410600",
+    "adcode": 410600,
+    "level": "city",
+    "nameZh": "鹤壁市",
+    "nameEn": "He Bi Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.31602,
+      35.721499
+    ],
+    "center": [
+      114.295444,
+      35.748236
+    ]
+  },
+  "cn-410700": {
+    "id": "cn-410700",
+    "adcode": 410700,
+    "level": "city",
+    "nameZh": "新乡市",
+    "nameEn": "Xin Xiang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.095247,
+      35.263966
+    ],
+    "center": [
+      113.883991,
+      35.302616
+    ]
+  },
+  "cn-410800": {
+    "id": "cn-410800",
+    "adcode": 410800,
+    "level": "city",
+    "nameZh": "焦作市",
+    "nameEn": "Jiao Zuo Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      113.137719,
+      35.114644
+    ],
+    "center": [
+      113.238266,
+      35.23904
+    ]
+  },
+  "cn-410900": {
+    "id": "cn-410900",
+    "adcode": 410900,
+    "level": "city",
+    "nameZh": "濮阳市",
+    "nameEn": "Pu Yang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      115.287416,
+      35.809288
+    ],
+    "center": [
+      115.041299,
+      35.768234
+    ]
+  },
+  "cn-411000": {
+    "id": "cn-411000",
+    "adcode": 411000,
+    "level": "city",
+    "nameZh": "许昌市",
+    "nameEn": "Xu Chang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      113.715606,
+      34.071457
+    ],
+    "center": [
+      113.826063,
+      34.022956
+    ]
+  },
+  "cn-411100": {
+    "id": "cn-411100",
+    "adcode": 411100,
+    "level": "city",
+    "nameZh": "漯河市",
+    "nameEn": "Luo He Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      113.905678,
+      33.65448
+    ],
+    "center": [
+      114.026405,
+      33.575855
+    ]
+  },
+  "cn-411200": {
+    "id": "cn-411200",
+    "adcode": 411200,
+    "level": "city",
+    "nameZh": "三门峡市",
+    "nameEn": "San Men Xia Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      111.112608,
+      34.36205
+    ],
+    "center": [
+      111.194099,
+      34.777338
+    ]
+  },
+  "cn-411300": {
+    "id": "cn-411300",
+    "adcode": 411300,
+    "level": "city",
+    "nameZh": "南阳市",
+    "nameEn": "Nan Yang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      112.288385,
+      33.044723
+    ],
+    "center": [
+      112.540918,
+      32.999082
+    ]
+  },
+  "cn-411400": {
+    "id": "cn-411400",
+    "adcode": 411400,
+    "level": "city",
+    "nameZh": "商丘市",
+    "nameEn": "Shang Qiu Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      115.702245,
+      34.28898
+    ],
+    "center": [
+      115.650497,
+      34.437054
+    ]
+  },
+  "cn-411500": {
+    "id": "cn-411500",
+    "adcode": 411500,
+    "level": "city",
+    "nameZh": "信阳市",
+    "nameEn": "Xin Yang Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.889128,
+      32.080437
+    ],
+    "center": [
+      114.075031,
+      32.123274
+    ]
+  },
+  "cn-411600": {
+    "id": "cn-411600",
+    "adcode": 411600,
+    "level": "city",
+    "nameZh": "周口市",
+    "nameEn": "Zhou Kou Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.883192,
+      33.721762
+    ],
+    "center": [
+      114.649653,
+      33.620357
+    ]
+  },
+  "cn-411700": {
+    "id": "cn-411700",
+    "adcode": 411700,
+    "level": "city",
+    "nameZh": "驻马店市",
+    "nameEn": "Zhu Ma Dian Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      114.156353,
+      32.922684
+    ],
+    "center": [
+      114.024736,
+      32.980169
+    ]
+  },
+  "cn-419001": {
+    "id": "cn-419001",
+    "adcode": 419001,
+    "level": "city",
+    "nameZh": "济源市",
+    "nameEn": "Ji Yuan Shi",
+    "parentAdcode": 410000,
+    "parentNameZh": "河南省",
+    "parentNameEn": "He Nan Sheng",
+    "centroid": [
+      112.398673,
+      35.099131
+    ],
+    "center": [
+      112.590047,
+      35.090378
+    ]
+  },
+  "cn-420100": {
+    "id": "cn-420100",
+    "adcode": 420100,
+    "level": "city",
+    "nameZh": "武汉市",
+    "nameEn": "Wu Han Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      114.348204,
+      30.623025
+    ],
+    "center": [
+      114.298572,
+      30.584355
+    ]
+  },
+  "cn-420200": {
+    "id": "cn-420200",
+    "adcode": 420200,
+    "level": "city",
+    "nameZh": "黄石市",
+    "nameEn": "Huang Shi Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      115.02984,
+      29.925181
+    ],
+    "center": [
+      115.077048,
+      30.220074
+    ]
+  },
+  "cn-420300": {
+    "id": "cn-420300",
+    "adcode": 420300,
+    "level": "city",
+    "nameZh": "十堰市",
+    "nameEn": "Shi Yan Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      110.446495,
+      32.45798
+    ],
+    "center": [
+      110.787916,
+      32.646907
+    ]
+  },
+  "cn-420500": {
+    "id": "cn-420500",
+    "adcode": 420500,
+    "level": "city",
+    "nameZh": "宜昌市",
+    "nameEn": "Yi Chang Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      111.140801,
+      30.747312
+    ],
+    "center": [
+      111.290843,
+      30.702636
+    ]
+  },
+  "cn-420600": {
+    "id": "cn-420600",
+    "adcode": 420600,
+    "level": "city",
+    "nameZh": "襄阳市",
+    "nameEn": "Xiang Yang Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      111.944787,
+      31.930988
+    ],
+    "center": [
+      112.144146,
+      32.042426
+    ]
+  },
+  "cn-420700": {
+    "id": "cn-420700",
+    "adcode": 420700,
+    "level": "city",
+    "nameZh": "鄂州市",
+    "nameEn": "E Zhou Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      114.759738,
+      30.326618
+    ],
+    "center": [
+      114.890593,
+      30.396536
+    ]
+  },
+  "cn-420800": {
+    "id": "cn-420800",
+    "adcode": 420800,
+    "level": "city",
+    "nameZh": "荆门市",
+    "nameEn": "Jing Men Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      112.614753,
+      31.06948
+    ],
+    "center": [
+      112.204251,
+      31.03542
+    ]
+  },
+  "cn-420900": {
+    "id": "cn-420900",
+    "adcode": 420900,
+    "level": "city",
+    "nameZh": "孝感市",
+    "nameEn": "Xiao Gan Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      113.885608,
+      31.118116
+    ],
+    "center": [
+      113.926655,
+      30.926423
+    ]
+  },
+  "cn-421000": {
+    "id": "cn-421000",
+    "adcode": 421000,
+    "level": "city",
+    "nameZh": "荆州市",
+    "nameEn": "Jing Zhou Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      112.574526,
+      29.995051
+    ],
+    "center": [
+      112.23813,
+      30.326857
+    ]
+  },
+  "cn-421100": {
+    "id": "cn-421100",
+    "adcode": 421100,
+    "level": "city",
+    "nameZh": "黄冈市",
+    "nameEn": "Huang Gang Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      115.343867,
+      30.717343
+    ],
+    "center": [
+      114.879365,
+      30.447711
+    ]
+  },
+  "cn-421200": {
+    "id": "cn-421200",
+    "adcode": 421200,
+    "level": "city",
+    "nameZh": "咸宁市",
+    "nameEn": "Xian Ning Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      114.180828,
+      29.622169
+    ],
+    "center": [
+      114.328963,
+      29.832798
+    ]
+  },
+  "cn-421300": {
+    "id": "cn-421300",
+    "adcode": 421300,
+    "level": "city",
+    "nameZh": "随州市",
+    "nameEn": "Sui Zhou Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      113.429995,
+      31.828026
+    ],
+    "center": [
+      113.37377,
+      31.717497
+    ]
+  },
+  "cn-422800": {
+    "id": "cn-422800",
+    "adcode": 422800,
+    "level": "city",
+    "nameZh": "恩施土家族苗族自治州",
+    "nameEn": "En Shi Tu Jia Zu Miao Zu Zi Zhi Zhou",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      109.555117,
+      30.191808
+    ],
+    "center": [
+      109.48699,
+      30.283114
+    ]
+  },
+  "cn-429004": {
+    "id": "cn-429004",
+    "adcode": 429004,
+    "level": "city",
+    "nameZh": "仙桃市",
+    "nameEn": "Xian Tao Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      113.381345,
+      30.287564
+    ],
+    "center": [
+      113.453974,
+      30.364953
+    ]
+  },
+  "cn-429005": {
+    "id": "cn-429005",
+    "adcode": 429005,
+    "level": "city",
+    "nameZh": "潜江市",
+    "nameEn": "Qian Jiang Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      112.762642,
+      30.336071
+    ],
+    "center": [
+      112.896866,
+      30.421215
+    ]
+  },
+  "cn-429006": {
+    "id": "cn-429006",
+    "adcode": 429006,
+    "level": "city",
+    "nameZh": "天门市",
+    "nameEn": "Tian Men Shi",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      113.114735,
+      30.642494
+    ],
+    "center": [
+      113.165862,
+      30.653061
+    ]
+  },
+  "cn-429021": {
+    "id": "cn-429021",
+    "adcode": 429021,
+    "level": "city",
+    "nameZh": "神农架林区",
+    "nameEn": "Shen Nong Jia Lin Qu",
+    "parentAdcode": 420000,
+    "parentNameZh": "湖北省",
+    "parentNameEn": "Hu Bei Sheng",
+    "centroid": [
+      110.480761,
+      31.589684
+    ],
+    "center": [
+      110.671525,
+      31.744449
+    ]
+  },
+  "cn-430100": {
+    "id": "cn-430100",
+    "adcode": 430100,
+    "level": "city",
+    "nameZh": "长沙市",
+    "nameEn": "Chang Sha Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      113.158697,
+      28.224232
+    ],
+    "center": [
+      112.982279,
+      28.19409
+    ]
+  },
+  "cn-430200": {
+    "id": "cn-430200",
+    "adcode": 430200,
+    "level": "city",
+    "nameZh": "株洲市",
+    "nameEn": "Zhu Zhou Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      113.522078,
+      27.11883
+    ],
+    "center": [
+      113.151737,
+      27.835806
+    ]
+  },
+  "cn-430300": {
+    "id": "cn-430300",
+    "adcode": 430300,
+    "level": "city",
+    "nameZh": "湘潭市",
+    "nameEn": "Xiang Tan Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      112.608495,
+      27.72863
+    ],
+    "center": [
+      112.944052,
+      27.82973
+    ]
+  },
+  "cn-430400": {
+    "id": "cn-430400",
+    "adcode": 430400,
+    "level": "city",
+    "nameZh": "衡阳市",
+    "nameEn": "Heng Yang Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      112.579689,
+      26.792402
+    ],
+    "center": [
+      112.607693,
+      26.900358
+    ]
+  },
+  "cn-430500": {
+    "id": "cn-430500",
+    "adcode": 430500,
+    "level": "city",
+    "nameZh": "邵阳市",
+    "nameEn": "Shao Yang Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      110.880659,
+      26.912035
+    ],
+    "center": [
+      111.46923,
+      27.237842
+    ]
+  },
+  "cn-430600": {
+    "id": "cn-430600",
+    "adcode": 430600,
+    "level": "city",
+    "nameZh": "岳阳市",
+    "nameEn": "Yue Yang Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      113.259661,
+      29.064701
+    ],
+    "center": [
+      113.132855,
+      29.37029
+    ]
+  },
+  "cn-430700": {
+    "id": "cn-430700",
+    "adcode": 430700,
+    "level": "city",
+    "nameZh": "常德市",
+    "nameEn": "Chang De Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      111.524565,
+      29.299744
+    ],
+    "center": [
+      111.691347,
+      29.040225
+    ]
+  },
+  "cn-430800": {
+    "id": "cn-430800",
+    "adcode": 430800,
+    "level": "city",
+    "nameZh": "张家界市",
+    "nameEn": "Zhang Jia Jie Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      110.531625,
+      29.390312
+    ],
+    "center": [
+      110.479921,
+      29.127401
+    ]
+  },
+  "cn-430900": {
+    "id": "cn-430900",
+    "adcode": 430900,
+    "level": "city",
+    "nameZh": "益阳市",
+    "nameEn": "Yi Yang Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      111.958046,
+      28.573867
+    ],
+    "center": [
+      112.355042,
+      28.570066
+    ]
+  },
+  "cn-431000": {
+    "id": "cn-431000",
+    "adcode": 431000,
+    "level": "city",
+    "nameZh": "郴州市",
+    "nameEn": "Chen Zhou Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      113.142071,
+      25.813202
+    ],
+    "center": [
+      113.032067,
+      25.793589
+    ]
+  },
+  "cn-431100": {
+    "id": "cn-431100",
+    "adcode": 431100,
+    "level": "city",
+    "nameZh": "永州市",
+    "nameEn": "Yong Zhou Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      111.734581,
+      25.774386
+    ],
+    "center": [
+      111.608019,
+      26.434516
+    ]
+  },
+  "cn-431200": {
+    "id": "cn-431200",
+    "adcode": 431200,
+    "level": "city",
+    "nameZh": "怀化市",
+    "nameEn": "Huai Hua Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      110.082325,
+      27.552517
+    ],
+    "center": [
+      109.97824,
+      27.550082
+    ]
+  },
+  "cn-431300": {
+    "id": "cn-431300",
+    "adcode": 431300,
+    "level": "city",
+    "nameZh": "娄底市",
+    "nameEn": "Lou Di Shi",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      111.617993,
+      27.73631
+    ],
+    "center": [
+      112.008497,
+      27.728136
+    ]
+  },
+  "cn-433100": {
+    "id": "cn-433100",
+    "adcode": 433100,
+    "level": "city",
+    "nameZh": "湘西土家族苗族自治州",
+    "nameEn": "Xiang Xi Tu Jia Zu Miao Zu Zi Zhi Zhou",
+    "parentAdcode": 430000,
+    "parentNameZh": "湖南省",
+    "parentNameEn": "Hu Nan Sheng",
+    "centroid": [
+      109.731854,
+      28.694703
+    ],
+    "center": [
+      109.739735,
+      28.314296
+    ]
+  },
+  "cn-440100": {
+    "id": "cn-440100",
+    "adcode": 440100,
+    "level": "city",
+    "nameZh": "广州市",
+    "nameEn": "Guang Zhou Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      113.544372,
+      23.329249
+    ],
+    "center": [
+      113.280637,
+      23.125178
+    ]
+  },
+  "cn-440200": {
+    "id": "cn-440200",
+    "adcode": 440200,
+    "level": "city",
+    "nameZh": "韶关市",
+    "nameEn": "Shao Guan Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      113.779323,
+      24.81941
+    ],
+    "center": [
+      113.591544,
+      24.801322
+    ]
+  },
+  "cn-440300": {
+    "id": "cn-440300",
+    "adcode": 440300,
+    "level": "city",
+    "nameZh": "深圳市",
+    "nameEn": "Shen Zhen Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      114.143142,
+      22.643377
+    ],
+    "center": [
+      114.085947,
+      22.547
+    ]
+  },
+  "cn-440400": {
+    "id": "cn-440400",
+    "adcode": 440400,
+    "level": "city",
+    "nameZh": "珠海市",
+    "nameEn": "Zhu Hai Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      113.337286,
+      22.160135
+    ],
+    "center": [
+      113.553986,
+      22.224979
+    ]
+  },
+  "cn-440500": {
+    "id": "cn-440500",
+    "adcode": 440500,
+    "level": "city",
+    "nameZh": "汕头市",
+    "nameEn": "Shan Tou Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      116.575361,
+      23.322231
+    ],
+    "center": [
+      116.708463,
+      23.37102
+    ]
+  },
+  "cn-440600": {
+    "id": "cn-440600",
+    "adcode": 440600,
+    "level": "city",
+    "nameZh": "佛山市",
+    "nameEn": "Fo Shan Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      112.949778,
+      23.004314
+    ],
+    "center": [
+      113.122717,
+      23.028762
+    ]
+  },
+  "cn-440700": {
+    "id": "cn-440700",
+    "adcode": 440700,
+    "level": "city",
+    "nameZh": "江门市",
+    "nameEn": "Jiang Men Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      112.676451,
+      22.284348
+    ],
+    "center": [
+      113.094942,
+      22.590431
+    ]
+  },
+  "cn-440800": {
+    "id": "cn-440800",
+    "adcode": 440800,
+    "level": "city",
+    "nameZh": "湛江市",
+    "nameEn": "Zhan Jiang Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      110.109828,
+      21.047893
+    ],
+    "center": [
+      110.364977,
+      21.274898
+    ]
+  },
+  "cn-440900": {
+    "id": "cn-440900",
+    "adcode": 440900,
+    "level": "city",
+    "nameZh": "茂名市",
+    "nameEn": "Mao Ming Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      110.958736,
+      22.008884
+    ],
+    "center": [
+      110.919229,
+      21.659751
+    ]
+  },
+  "cn-441200": {
+    "id": "cn-441200",
+    "adcode": 441200,
+    "level": "city",
+    "nameZh": "肇庆市",
+    "nameEn": "Zhao Qing Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      112.210411,
+      23.536359
+    ],
+    "center": [
+      112.472529,
+      23.051546
+    ]
+  },
+  "cn-441300": {
+    "id": "cn-441300",
+    "adcode": 441300,
+    "level": "city",
+    "nameZh": "惠州市",
+    "nameEn": "Hui Zhou Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      114.507032,
+      23.234461
+    ],
+    "center": [
+      114.412599,
+      23.079404
+    ]
+  },
+  "cn-441400": {
+    "id": "cn-441400",
+    "adcode": 441400,
+    "level": "city",
+    "nameZh": "梅州市",
+    "nameEn": "Mei Zhou Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      116.084478,
+      24.201791
+    ],
+    "center": [
+      116.117582,
+      24.299112
+    ]
+  },
+  "cn-441500": {
+    "id": "cn-441500",
+    "adcode": 441500,
+    "level": "city",
+    "nameZh": "汕尾市",
+    "nameEn": "Shan Wei Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      115.53778,
+      23.004558
+    ],
+    "center": [
+      115.364238,
+      22.774485
+    ]
+  },
+  "cn-441600": {
+    "id": "cn-441600",
+    "adcode": 441600,
+    "level": "city",
+    "nameZh": "河源市",
+    "nameEn": "He Yuan Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      114.962729,
+      24.043541
+    ],
+    "center": [
+      114.697802,
+      23.746266
+    ]
+  },
+  "cn-441700": {
+    "id": "cn-441700",
+    "adcode": 441700,
+    "level": "city",
+    "nameZh": "阳江市",
+    "nameEn": "Yang Jiang Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      111.779569,
+      22.02617
+    ],
+    "center": [
+      111.975107,
+      21.859222
+    ]
+  },
+  "cn-441800": {
+    "id": "cn-441800",
+    "adcode": 441800,
+    "level": "city",
+    "nameZh": "清远市",
+    "nameEn": "Qing Yuan Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      112.879397,
+      24.313361
+    ],
+    "center": [
+      113.051227,
+      23.685022
+    ]
+  },
+  "cn-441900": {
+    "id": "cn-441900",
+    "adcode": 441900,
+    "level": "city",
+    "nameZh": "东莞市",
+    "nameEn": "Dong Guan Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      113.879966,
+      22.931879
+    ],
+    "center": [
+      113.746262,
+      23.046237
+    ]
+  },
+  "cn-442000": {
+    "id": "cn-442000",
+    "adcode": 442000,
+    "level": "city",
+    "nameZh": "中山市",
+    "nameEn": "Zhong Shan Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      113.398784,
+      22.517323
+    ],
+    "center": [
+      113.382391,
+      22.521113
+    ]
+  },
+  "cn-445100": {
+    "id": "cn-445100",
+    "adcode": 445100,
+    "level": "city",
+    "nameZh": "潮州市",
+    "nameEn": "Chao Zhou Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      116.790217,
+      23.783155
+    ],
+    "center": [
+      116.632301,
+      23.661701
+    ]
+  },
+  "cn-445200": {
+    "id": "cn-445200",
+    "adcode": 445200,
+    "level": "city",
+    "nameZh": "揭阳市",
+    "nameEn": "Jie Yang Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      116.124317,
+      23.334057
+    ],
+    "center": [
+      116.355733,
+      23.543778
+    ]
+  },
+  "cn-445300": {
+    "id": "cn-445300",
+    "adcode": 445300,
+    "level": "city",
+    "nameZh": "云浮市",
+    "nameEn": "Yun Fu Shi",
+    "parentAdcode": 440000,
+    "parentNameZh": "广东省",
+    "parentNameEn": "Guang Dong Sheng",
+    "centroid": [
+      111.798791,
+      22.813664
+    ],
+    "center": [
+      112.044439,
+      22.929801
+    ]
+  },
+  "cn-450100": {
+    "id": "cn-450100",
+    "adcode": 450100,
+    "level": "city",
+    "nameZh": "南宁市",
+    "nameEn": "Nan Ning Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      108.467546,
+      23.055985
+    ],
+    "center": [
+      108.320004,
+      22.82402
+    ]
+  },
+  "cn-450200": {
+    "id": "cn-450200",
+    "adcode": 450200,
+    "level": "city",
+    "nameZh": "柳州市",
+    "nameEn": "Liu Zhou Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      109.374902,
+      24.94791
+    ],
+    "center": [
+      109.411703,
+      24.314617
+    ]
+  },
+  "cn-450300": {
+    "id": "cn-450300",
+    "adcode": 450300,
+    "level": "city",
+    "nameZh": "桂林市",
+    "nameEn": "Gui Lin Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      110.518333,
+      25.35549
+    ],
+    "center": [
+      110.299121,
+      25.274215
+    ]
+  },
+  "cn-450400": {
+    "id": "cn-450400",
+    "adcode": 450400,
+    "level": "city",
+    "nameZh": "梧州市",
+    "nameEn": "Wu Zhou Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      110.99512,
+      23.479776
+    ],
+    "center": [
+      111.297604,
+      23.474803
+    ]
+  },
+  "cn-450500": {
+    "id": "cn-450500",
+    "adcode": 450500,
+    "level": "city",
+    "nameZh": "北海市",
+    "nameEn": "Bei Hai Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      109.343711,
+      21.665234
+    ],
+    "center": [
+      109.119254,
+      21.473343
+    ]
+  },
+  "cn-450600": {
+    "id": "cn-450600",
+    "adcode": 450600,
+    "level": "city",
+    "nameZh": "防城港市",
+    "nameEn": "Fang Cheng Gang Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      108.016067,
+      21.869663
+    ],
+    "center": [
+      108.345478,
+      21.614631
+    ]
+  },
+  "cn-450700": {
+    "id": "cn-450700",
+    "adcode": 450700,
+    "level": "city",
+    "nameZh": "钦州市",
+    "nameEn": "Qin Zhou Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      109.020264,
+      22.171739
+    ],
+    "center": [
+      108.624175,
+      21.967127
+    ]
+  },
+  "cn-450800": {
+    "id": "cn-450800",
+    "adcode": 450800,
+    "level": "city",
+    "nameZh": "贵港市",
+    "nameEn": "Gui Gang Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      110.00316,
+      23.307229
+    ],
+    "center": [
+      109.602146,
+      23.0936
+    ]
+  },
+  "cn-450900": {
+    "id": "cn-450900",
+    "adcode": 450900,
+    "level": "city",
+    "nameZh": "玉林市",
+    "nameEn": "Yu Lin Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      110.187226,
+      22.440758
+    ],
+    "center": [
+      110.154393,
+      22.63136
+    ]
+  },
+  "cn-451000": {
+    "id": "cn-451000",
+    "adcode": 451000,
+    "level": "city",
+    "nameZh": "百色市",
+    "nameEn": "Bai Se Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      106.289767,
+      23.986179
+    ],
+    "center": [
+      106.616285,
+      23.897742
+    ]
+  },
+  "cn-451100": {
+    "id": "cn-451100",
+    "adcode": 451100,
+    "level": "city",
+    "nameZh": "贺州市",
+    "nameEn": "He Zhou Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      111.366008,
+      24.358064
+    ],
+    "center": [
+      111.552056,
+      24.414141
+    ]
+  },
+  "cn-451200": {
+    "id": "cn-451200",
+    "adcode": 451200,
+    "level": "city",
+    "nameZh": "河池市",
+    "nameEn": "He Chi Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      107.845852,
+      24.642393
+    ],
+    "center": [
+      108.062105,
+      24.695899
+    ]
+  },
+  "cn-451300": {
+    "id": "cn-451300",
+    "adcode": 451300,
+    "level": "city",
+    "nameZh": "来宾市",
+    "nameEn": "Lai Bin Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      109.416662,
+      23.851919
+    ],
+    "center": [
+      109.229772,
+      23.733766
+    ]
+  },
+  "cn-451400": {
+    "id": "cn-451400",
+    "adcode": 451400,
+    "level": "city",
+    "nameZh": "崇左市",
+    "nameEn": "Chong Zuo Shi",
+    "parentAdcode": 450000,
+    "parentNameZh": "广西壮族自治区",
+    "parentNameEn": "Guang Xi Zhuang Zu Zi Zhi Qu",
+    "centroid": [
+      107.277353,
+      22.502179
+    ],
+    "center": [
+      107.353926,
+      22.404108
+    ]
+  },
+  "cn-460100": {
+    "id": "cn-460100",
+    "adcode": 460100,
+    "level": "city",
+    "nameZh": "海口市",
+    "nameEn": "Hai Kou Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      110.422966,
+      19.852113
+    ],
+    "center": [
+      110.33119,
+      20.031971
+    ]
+  },
+  "cn-460200": {
+    "id": "cn-460200",
+    "adcode": 460200,
+    "level": "city",
+    "nameZh": "三亚市",
+    "nameEn": "San Ya Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.421656,
+      18.362263
+    ],
+    "center": [
+      109.508268,
+      18.247872
+    ]
+  },
+  "cn-460300": {
+    "id": "cn-460300",
+    "adcode": 460300,
+    "level": "city",
+    "nameZh": "三沙市",
+    "nameEn": "San Sha Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      113.343872,
+      8.21455
+    ],
+    "center": [
+      112.34882,
+      16.831039
+    ]
+  },
+  "cn-460400": {
+    "id": "cn-460400",
+    "adcode": 460400,
+    "level": "city",
+    "nameZh": "儋州市",
+    "nameEn": "Dan Zhou Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.390059,
+      19.579264
+    ],
+    "center": [
+      109.576782,
+      19.517486
+    ]
+  },
+  "cn-469001": {
+    "id": "cn-469001",
+    "adcode": 469001,
+    "level": "city",
+    "nameZh": "五指山市",
+    "nameEn": "Wu Zhi Shan Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.511892,
+      18.824035
+    ],
+    "center": [
+      109.516662,
+      18.776921
+    ]
+  },
+  "cn-469002": {
+    "id": "cn-469002",
+    "adcode": 469002,
+    "level": "city",
+    "nameZh": "琼海市",
+    "nameEn": "Qiong Hai Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      110.421962,
+      19.210377
+    ],
+    "center": [
+      110.466785,
+      19.246011
+    ]
+  },
+  "cn-469005": {
+    "id": "cn-469005",
+    "adcode": 469005,
+    "level": "city",
+    "nameZh": "文昌市",
+    "nameEn": "Wen Chang Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      110.788535,
+      19.747363
+    ],
+    "center": [
+      110.753975,
+      19.612986
+    ]
+  },
+  "cn-469006": {
+    "id": "cn-469006",
+    "adcode": 469006,
+    "level": "city",
+    "nameZh": "万宁市",
+    "nameEn": "Wan Ning Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      110.324496,
+      18.830445
+    ],
+    "center": [
+      110.388793,
+      18.796216
+    ]
+  },
+  "cn-469007": {
+    "id": "cn-469007",
+    "adcode": 469007,
+    "level": "city",
+    "nameZh": "东方市",
+    "nameEn": "Dong Fang Shi",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      108.818801,
+      18.996184
+    ],
+    "center": [
+      108.653789,
+      19.10198
+    ]
+  },
+  "cn-469021": {
+    "id": "cn-469021",
+    "adcode": 469021,
+    "level": "city",
+    "nameZh": "定安县",
+    "nameEn": "Ding An Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      110.312936,
+      19.483405
+    ],
+    "center": [
+      110.349235,
+      19.684966
+    ]
+  },
+  "cn-469022": {
+    "id": "cn-469022",
+    "adcode": 469022,
+    "level": "city",
+    "nameZh": "屯昌县",
+    "nameEn": "Tun Chang Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      110.055723,
+      19.342208
+    ],
+    "center": [
+      110.102773,
+      19.362916
+    ]
+  },
+  "cn-469023": {
+    "id": "cn-469023",
+    "adcode": 469023,
+    "level": "city",
+    "nameZh": "澄迈县",
+    "nameEn": "Cheng Mai Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.990417,
+      19.700201
+    ],
+    "center": [
+      110.007147,
+      19.737095
+    ]
+  },
+  "cn-469024": {
+    "id": "cn-469024",
+    "adcode": 469024,
+    "level": "city",
+    "nameZh": "临高县",
+    "nameEn": "Lin Gao Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.71548,
+      19.809704
+    ],
+    "center": [
+      109.687697,
+      19.908293
+    ]
+  },
+  "cn-469025": {
+    "id": "cn-469025",
+    "adcode": 469025,
+    "level": "city",
+    "nameZh": "白沙黎族自治县",
+    "nameEn": "Bai Sha Li Zu Zi Zhi Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.351743,
+      19.20989
+    ],
+    "center": [
+      109.452606,
+      19.224584
+    ]
+  },
+  "cn-469026": {
+    "id": "cn-469026",
+    "adcode": 469026,
+    "level": "city",
+    "nameZh": "昌江黎族自治县",
+    "nameEn": "Chang Jiang Li Zu Zi Zhi Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      108.993675,
+      19.226048
+    ],
+    "center": [
+      109.053351,
+      19.260968
+    ]
+  },
+  "cn-469027": {
+    "id": "cn-469027",
+    "adcode": 469027,
+    "level": "city",
+    "nameZh": "乐东黎族自治县",
+    "nameEn": "Le Dong Li Zu Zi Zhi Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.029671,
+      18.639822
+    ],
+    "center": [
+      109.175444,
+      18.74758
+    ]
+  },
+  "cn-469028": {
+    "id": "cn-469028",
+    "adcode": 469028,
+    "level": "city",
+    "nameZh": "陵水黎族自治县",
+    "nameEn": "Ling Shui Li Zu Zi Zhi Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.951436,
+      18.549546
+    ],
+    "center": [
+      110.037218,
+      18.505006
+    ]
+  },
+  "cn-469029": {
+    "id": "cn-469029",
+    "adcode": 469029,
+    "level": "city",
+    "nameZh": "保亭黎族苗族自治县",
+    "nameEn": "Bao Ting Li Zu Miao Zu Zi Zhi Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.650759,
+      18.589686
+    ],
+    "center": [
+      109.70245,
+      18.636371
+    ]
+  },
+  "cn-469030": {
+    "id": "cn-469030",
+    "adcode": 469030,
+    "level": "city",
+    "nameZh": "琼中黎族苗族自治县",
+    "nameEn": "Qiong Zhong Li Zu Miao Zu Zi Zhi Xian",
+    "parentAdcode": 460000,
+    "parentNameZh": "海南省",
+    "parentNameEn": "Hai Nan Sheng",
+    "centroid": [
+      109.854584,
+      19.033919
+    ],
+    "center": [
+      109.839996,
+      19.03557
+    ]
+  },
+  "cn-500000": {
+    "id": "cn-500000",
+    "adcode": 500000,
+    "level": "special",
+    "nameZh": "重庆市",
+    "nameEn": "Chongqing",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      107.8839,
+      30.067297
+    ],
+    "center": [
+      106.504962,
+      29.533155
+    ]
+  },
+  "cn-510100": {
+    "id": "cn-510100",
+    "adcode": 510100,
+    "level": "city",
+    "nameZh": "成都市",
+    "nameEn": "Cheng Du Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      103.931804,
+      30.652329
+    ],
+    "center": [
+      104.065735,
+      30.659462
+    ]
+  },
+  "cn-510300": {
+    "id": "cn-510300",
+    "adcode": 510300,
+    "level": "city",
+    "nameZh": "自贡市",
+    "nameEn": "Zi Gong Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      104.685446,
+      29.28421
+    ],
+    "center": [
+      104.773447,
+      29.352765
+    ]
+  },
+  "cn-510400": {
+    "id": "cn-510400",
+    "adcode": 510400,
+    "level": "city",
+    "nameZh": "攀枝花市",
+    "nameEn": "Pan Zhi Hua Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      101.625394,
+      26.755869
+    ],
+    "center": [
+      101.716007,
+      26.580446
+    ]
+  },
+  "cn-510500": {
+    "id": "cn-510500",
+    "adcode": 510500,
+    "level": "city",
+    "nameZh": "泸州市",
+    "nameEn": "Lu Zhou Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      105.443348,
+      28.889138
+    ],
+    "center": [
+      105.443348,
+      28.889138
+    ]
+  },
+  "cn-510600": {
+    "id": "cn-510600",
+    "adcode": 510600,
+    "level": "city",
+    "nameZh": "德阳市",
+    "nameEn": "De Yang Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      104.436756,
+      31.128701
+    ],
+    "center": [
+      104.398651,
+      31.127991
+    ]
+  },
+  "cn-510700": {
+    "id": "cn-510700",
+    "adcode": 510700,
+    "level": "city",
+    "nameZh": "绵阳市",
+    "nameEn": "Mian Yang Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      104.704392,
+      31.850919
+    ],
+    "center": [
+      104.741722,
+      31.46402
+    ]
+  },
+  "cn-510800": {
+    "id": "cn-510800",
+    "adcode": 510800,
+    "level": "city",
+    "nameZh": "广元市",
+    "nameEn": "Guang Yuan Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      105.78583,
+      32.26157
+    ],
+    "center": [
+      105.829757,
+      32.433668
+    ]
+  },
+  "cn-510900": {
+    "id": "cn-510900",
+    "adcode": 510900,
+    "level": "city",
+    "nameZh": "遂宁市",
+    "nameEn": "Sui Ning Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      105.475016,
+      30.630107
+    ],
+    "center": [
+      105.571331,
+      30.513311
+    ]
+  },
+  "cn-511000": {
+    "id": "cn-511000",
+    "adcode": 511000,
+    "level": "city",
+    "nameZh": "内江市",
+    "nameEn": "Nei Jiang Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      104.913978,
+      29.638381
+    ],
+    "center": [
+      105.066138,
+      29.58708
+    ]
+  },
+  "cn-511100": {
+    "id": "cn-511100",
+    "adcode": 511100,
+    "level": "city",
+    "nameZh": "乐山市",
+    "nameEn": "Le Shan Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      103.571823,
+      29.214311
+    ],
+    "center": [
+      103.761263,
+      29.582024
+    ]
+  },
+  "cn-511300": {
+    "id": "cn-511300",
+    "adcode": 511300,
+    "level": "city",
+    "nameZh": "南充市",
+    "nameEn": "Nan Chong Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      106.207711,
+      31.195136
+    ],
+    "center": [
+      106.082974,
+      30.795281
+    ]
+  },
+  "cn-511400": {
+    "id": "cn-511400",
+    "adcode": 511400,
+    "level": "city",
+    "nameZh": "眉山市",
+    "nameEn": "Mei Shan Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      103.754827,
+      29.924767
+    ],
+    "center": [
+      103.831788,
+      30.048318
+    ]
+  },
+  "cn-511500": {
+    "id": "cn-511500",
+    "adcode": 511500,
+    "level": "city",
+    "nameZh": "宜宾市",
+    "nameEn": "Yi Bin Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      104.637629,
+      28.572053
+    ],
+    "center": [
+      104.630825,
+      28.760189
+    ]
+  },
+  "cn-511600": {
+    "id": "cn-511600",
+    "adcode": 511600,
+    "level": "city",
+    "nameZh": "广安市",
+    "nameEn": "Guang An Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      106.666151,
+      30.42449
+    ],
+    "center": [
+      106.633369,
+      30.456398
+    ]
+  },
+  "cn-511700": {
+    "id": "cn-511700",
+    "adcode": 511700,
+    "level": "city",
+    "nameZh": "达州市",
+    "nameEn": "Da Zhou Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      107.650611,
+      31.367469
+    ],
+    "center": [
+      107.502262,
+      31.209484
+    ]
+  },
+  "cn-511800": {
+    "id": "cn-511800",
+    "adcode": 511800,
+    "level": "city",
+    "nameZh": "雅安市",
+    "nameEn": "Ya An Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      102.665156,
+      29.914326
+    ],
+    "center": [
+      103.001033,
+      29.987722
+    ]
+  },
+  "cn-511900": {
+    "id": "cn-511900",
+    "adcode": 511900,
+    "level": "city",
+    "nameZh": "巴中市",
+    "nameEn": "Ba Zhong Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      107.041958,
+      32.016794
+    ],
+    "center": [
+      106.753669,
+      31.858809
+    ]
+  },
+  "cn-512000": {
+    "id": "cn-512000",
+    "adcode": 512000,
+    "level": "city",
+    "nameZh": "资阳市",
+    "nameEn": "Zi Yang Shi",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      105.118328,
+      30.098408
+    ],
+    "center": [
+      104.641917,
+      30.122211
+    ]
+  },
+  "cn-513200": {
+    "id": "cn-513200",
+    "adcode": 513200,
+    "level": "city",
+    "nameZh": "阿坝藏族羌族自治州",
+    "nameEn": "A Ba Zang Zu Qiang Zu Zi Zhi Zhou",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      102.612554,
+      32.409135
+    ],
+    "center": [
+      102.221374,
+      31.899792
+    ]
+  },
+  "cn-513300": {
+    "id": "cn-513300",
+    "adcode": 513300,
+    "level": "city",
+    "nameZh": "甘孜藏族自治州",
+    "nameEn": "Gan Zi Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      99.98712,
+      30.97906
+    ],
+    "center": [
+      101.963815,
+      30.050663
+    ]
+  },
+  "cn-513400": {
+    "id": "cn-513400",
+    "adcode": 513400,
+    "level": "city",
+    "nameZh": "凉山彝族自治州",
+    "nameEn": "Liang Shan Yi Zu Zi Zhi Zhou",
+    "parentAdcode": 510000,
+    "parentNameZh": "四川省",
+    "parentNameEn": "Si Chuan Sheng",
+    "centroid": [
+      102.08054,
+      27.889541
+    ],
+    "center": [
+      102.258746,
+      27.886762
+    ]
+  },
+  "cn-520100": {
+    "id": "cn-520100",
+    "adcode": 520100,
+    "level": "city",
+    "nameZh": "贵阳市",
+    "nameEn": "Gui Yang Shi",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      106.711127,
+      26.84011
+    ],
+    "center": [
+      106.713478,
+      26.578343
+    ]
+  },
+  "cn-520200": {
+    "id": "cn-520200",
+    "adcode": 520200,
+    "level": "city",
+    "nameZh": "六盘水市",
+    "nameEn": "Liu Pan Shui Shi",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      104.89694,
+      26.128029
+    ],
+    "center": [
+      104.846743,
+      26.584643
+    ]
+  },
+  "cn-520300": {
+    "id": "cn-520300",
+    "adcode": 520300,
+    "level": "city",
+    "nameZh": "遵义市",
+    "nameEn": "Zun Yi Shi",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      107.089441,
+      28.168743
+    ],
+    "center": [
+      106.937265,
+      27.706626
+    ]
+  },
+  "cn-520400": {
+    "id": "cn-520400",
+    "adcode": 520400,
+    "level": "city",
+    "nameZh": "安顺市",
+    "nameEn": "An Shun Shi",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      105.952866,
+      25.993386
+    ],
+    "center": [
+      105.932188,
+      26.245544
+    ]
+  },
+  "cn-520500": {
+    "id": "cn-520500",
+    "adcode": 520500,
+    "level": "city",
+    "nameZh": "毕节市",
+    "nameEn": "Bi Jie Shi",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      105.550244,
+      27.113787
+    ],
+    "center": [
+      105.28501,
+      27.301693
+    ]
+  },
+  "cn-520600": {
+    "id": "cn-520600",
+    "adcode": 520600,
+    "level": "city",
+    "nameZh": "铜仁市",
+    "nameEn": "Tong Ren Shi",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      108.546322,
+      27.969966
+    ],
+    "center": [
+      109.191555,
+      27.718346
+    ]
+  },
+  "cn-522300": {
+    "id": "cn-522300",
+    "adcode": 522300,
+    "level": "city",
+    "nameZh": "黔西南布依族苗族自治州",
+    "nameEn": "Qian Xi Nan Bu Yi Zu Miao Zu Zi Zhi Zhou",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      105.466954,
+      25.263792
+    ],
+    "center": [
+      104.897971,
+      25.08812
+    ]
+  },
+  "cn-522600": {
+    "id": "cn-522600",
+    "adcode": 522600,
+    "level": "city",
+    "nameZh": "黔东南苗族侗族自治州",
+    "nameEn": "Qian Dong Nan Miao Zu Dong Zu Zi Zhi Zhou",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      108.560041,
+      26.50434
+    ],
+    "center": [
+      107.977488,
+      26.583352
+    ]
+  },
+  "cn-522700": {
+    "id": "cn-522700",
+    "adcode": 522700,
+    "level": "city",
+    "nameZh": "黔南布依族苗族自治州",
+    "nameEn": "Qian Nan Bu Yi Zu Miao Zu Zi Zhi Zhou",
+    "parentAdcode": 520000,
+    "parentNameZh": "贵州省",
+    "parentNameEn": "Gui Zhou Sheng",
+    "centroid": [
+      107.254401,
+      26.014436
+    ],
+    "center": [
+      107.517156,
+      26.258219
+    ]
+  },
+  "cn-530100": {
+    "id": "cn-530100",
+    "adcode": 530100,
+    "level": "city",
+    "nameZh": "昆明市",
+    "nameEn": "Kun Ming Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      102.87442,
+      25.387092
+    ],
+    "center": [
+      102.712251,
+      25.040609
+    ]
+  },
+  "cn-530300": {
+    "id": "cn-530300",
+    "adcode": 530300,
+    "level": "city",
+    "nameZh": "曲靖市",
+    "nameEn": "Qu Jing Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      103.939179,
+      25.705863
+    ],
+    "center": [
+      103.797851,
+      25.501557
+    ]
+  },
+  "cn-530400": {
+    "id": "cn-530400",
+    "adcode": 530400,
+    "level": "city",
+    "nameZh": "玉溪市",
+    "nameEn": "Yu Xi Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      102.204123,
+      24.138434
+    ],
+    "center": [
+      102.543907,
+      24.350461
+    ]
+  },
+  "cn-530500": {
+    "id": "cn-530500",
+    "adcode": 530500,
+    "level": "city",
+    "nameZh": "保山市",
+    "nameEn": "Bao Shan Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      98.971932,
+      24.97507
+    ],
+    "center": [
+      99.167133,
+      25.111802
+    ]
+  },
+  "cn-530600": {
+    "id": "cn-530600",
+    "adcode": 530600,
+    "level": "city",
+    "nameZh": "昭通市",
+    "nameEn": "Zhao Tong Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      104.00534,
+      27.652533
+    ],
+    "center": [
+      103.717216,
+      27.336999
+    ]
+  },
+  "cn-530700": {
+    "id": "cn-530700",
+    "adcode": 530700,
+    "level": "city",
+    "nameZh": "丽江市",
+    "nameEn": "Li Jiang Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      100.524919,
+      26.939309
+    ],
+    "center": [
+      100.233026,
+      26.872108
+    ]
+  },
+  "cn-530800": {
+    "id": "cn-530800",
+    "adcode": 530800,
+    "level": "city",
+    "nameZh": "普洱市",
+    "nameEn": "Pu Er Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      100.722321,
+      23.188037
+    ],
+    "center": [
+      100.972344,
+      22.777321
+    ]
+  },
+  "cn-530900": {
+    "id": "cn-530900",
+    "adcode": 530900,
+    "level": "city",
+    "nameZh": "临沧市",
+    "nameEn": "Lin Cang Shi",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      99.674418,
+      23.938527
+    ],
+    "center": [
+      100.08697,
+      23.886567
+    ]
+  },
+  "cn-532300": {
+    "id": "cn-532300",
+    "adcode": 532300,
+    "level": "city",
+    "nameZh": "楚雄彝族自治州",
+    "nameEn": "Chu Xiong Yi Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      101.569589,
+      25.352508
+    ],
+    "center": [
+      101.546046,
+      25.041988
+    ]
+  },
+  "cn-532500": {
+    "id": "cn-532500",
+    "adcode": 532500,
+    "level": "city",
+    "nameZh": "红河哈尼族彝族自治州",
+    "nameEn": "Hong He Ha Ni Zu Yi Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      103.037257,
+      23.440306
+    ],
+    "center": [
+      103.384182,
+      23.366775
+    ]
+  },
+  "cn-532600": {
+    "id": "cn-532600",
+    "adcode": 532600,
+    "level": "city",
+    "nameZh": "文山壮族苗族自治州",
+    "nameEn": "Wen Shan Zhuang Zu Miao Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      104.716265,
+      23.688656
+    ],
+    "center": [
+      104.24401,
+      23.36951
+    ]
+  },
+  "cn-532800": {
+    "id": "cn-532800",
+    "adcode": 532800,
+    "level": "city",
+    "nameZh": "西双版纳傣族自治州",
+    "nameEn": "Xi Shuang Ban Na Dai Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      100.94391,
+      21.930146
+    ],
+    "center": [
+      100.797941,
+      22.001724
+    ]
+  },
+  "cn-532900": {
+    "id": "cn-532900",
+    "adcode": 532900,
+    "level": "city",
+    "nameZh": "大理白族自治州",
+    "nameEn": "Da Li Bai Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      100.039806,
+      25.7274
+    ],
+    "center": [
+      100.225668,
+      25.589449
+    ]
+  },
+  "cn-533100": {
+    "id": "cn-533100",
+    "adcode": 533100,
+    "level": "city",
+    "nameZh": "德宏傣族景颇族自治州",
+    "nameEn": "De Hong Dai Zu Jing Po Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      98.085143,
+      24.557413
+    ],
+    "center": [
+      98.578363,
+      24.436694
+    ]
+  },
+  "cn-533300": {
+    "id": "cn-533300",
+    "adcode": 533300,
+    "level": "city",
+    "nameZh": "怒江傈僳族自治州",
+    "nameEn": "Nu Jiang Li Su Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      98.868904,
+      26.962444
+    ],
+    "center": [
+      98.854304,
+      25.850949
+    ]
+  },
+  "cn-533400": {
+    "id": "cn-533400",
+    "adcode": 533400,
+    "level": "city",
+    "nameZh": "迪庆藏族自治州",
+    "nameEn": "Di Qing Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 530000,
+    "parentNameZh": "云南省",
+    "parentNameEn": "Yun Nan Sheng",
+    "centroid": [
+      99.440026,
+      27.956929
+    ],
+    "center": [
+      99.706463,
+      27.826853
+    ]
+  },
+  "cn-540100": {
+    "id": "cn-540100",
+    "adcode": 540100,
+    "level": "city",
+    "nameZh": "拉萨市",
+    "nameEn": "La Sa Shi",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      91.091762,
+      30.037072
+    ],
+    "center": [
+      91.132212,
+      29.660361
+    ]
+  },
+  "cn-540200": {
+    "id": "cn-540200",
+    "adcode": 540200,
+    "level": "city",
+    "nameZh": "日喀则市",
+    "nameEn": "Ri Ka Ze Shi",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      86.477854,
+      29.498529
+    ],
+    "center": [
+      88.885148,
+      29.267519
+    ]
+  },
+  "cn-540300": {
+    "id": "cn-540300",
+    "adcode": 540300,
+    "level": "city",
+    "nameZh": "昌都市",
+    "nameEn": "Chang Du Shi",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      97.035183,
+      30.783725
+    ],
+    "center": [
+      97.178452,
+      31.136875
+    ]
+  },
+  "cn-540400": {
+    "id": "cn-540400",
+    "adcode": 540400,
+    "level": "city",
+    "nameZh": "林芝市",
+    "nameEn": "Lin Zhi Shi",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      95.239298,
+      29.198982
+    ],
+    "center": [
+      94.362348,
+      29.654693
+    ]
+  },
+  "cn-540500": {
+    "id": "cn-540500",
+    "adcode": 540500,
+    "level": "city",
+    "nameZh": "山南市",
+    "nameEn": "Shan Nan Shi",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      92.266609,
+      28.303935
+    ],
+    "center": [
+      91.766529,
+      29.236023
+    ]
+  },
+  "cn-540600": {
+    "id": "cn-540600",
+    "adcode": 540600,
+    "level": "city",
+    "nameZh": "那曲市",
+    "nameEn": "Na Qu Shi",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      89.24948,
+      32.783399
+    ],
+    "center": [
+      92.060214,
+      31.476004
+    ]
+  },
+  "cn-542500": {
+    "id": "cn-542500",
+    "adcode": 542500,
+    "level": "city",
+    "nameZh": "阿里地区",
+    "nameEn": "A Li Di Qu",
+    "parentAdcode": 540000,
+    "parentNameZh": "西藏自治区",
+    "parentNameEn": "Xi Zang Zi Zhi Qu",
+    "centroid": [
+      82.564653,
+      33.063726
+    ],
+    "center": [
+      80.105498,
+      32.503187
+    ]
+  },
+  "cn-610100": {
+    "id": "cn-610100",
+    "adcode": 610100,
+    "level": "city",
+    "nameZh": "西安市",
+    "nameEn": "Xi An Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      108.797426,
+      34.10671
+    ],
+    "center": [
+      108.948024,
+      34.263161
+    ]
+  },
+  "cn-610200": {
+    "id": "cn-610200",
+    "adcode": 610200,
+    "level": "city",
+    "nameZh": "铜川市",
+    "nameEn": "Tong Chuan Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      109.038368,
+      35.195996
+    ],
+    "center": [
+      108.979608,
+      34.916582
+    ]
+  },
+  "cn-610300": {
+    "id": "cn-610300",
+    "adcode": 610300,
+    "level": "city",
+    "nameZh": "宝鸡市",
+    "nameEn": "Bao Ji Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      107.205191,
+      34.380063
+    ],
+    "center": [
+      107.14487,
+      34.369315
+    ]
+  },
+  "cn-610400": {
+    "id": "cn-610400",
+    "adcode": 610400,
+    "level": "city",
+    "nameZh": "咸阳市",
+    "nameEn": "Xian Yang Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      108.394642,
+      34.785702
+    ],
+    "center": [
+      108.705117,
+      34.333439
+    ]
+  },
+  "cn-610500": {
+    "id": "cn-610500",
+    "adcode": 610500,
+    "level": "city",
+    "nameZh": "渭南市",
+    "nameEn": "Wei Nan Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      109.856208,
+      34.950969
+    ],
+    "center": [
+      109.502882,
+      34.499381
+    ]
+  },
+  "cn-610600": {
+    "id": "cn-610600",
+    "adcode": 610600,
+    "level": "city",
+    "nameZh": "延安市",
+    "nameEn": "Yan An Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      109.319393,
+      36.442397
+    ],
+    "center": [
+      109.49081,
+      36.596537
+    ]
+  },
+  "cn-610700": {
+    "id": "cn-610700",
+    "adcode": 610700,
+    "level": "city",
+    "nameZh": "汉中市",
+    "nameEn": "Han Zhong Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      107.106739,
+      33.090936
+    ],
+    "center": [
+      107.028621,
+      33.077668
+    ]
+  },
+  "cn-610800": {
+    "id": "cn-610800",
+    "adcode": 610800,
+    "level": "city",
+    "nameZh": "榆林市",
+    "nameEn": "Yu Lin Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      109.577105,
+      38.048207
+    ],
+    "center": [
+      109.741193,
+      38.290162
+    ]
+  },
+  "cn-610900": {
+    "id": "cn-610900",
+    "adcode": 610900,
+    "level": "city",
+    "nameZh": "安康市",
+    "nameEn": "An Kang Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      108.929995,
+      32.759384
+    ],
+    "center": [
+      109.029273,
+      32.6903
+    ]
+  },
+  "cn-611000": {
+    "id": "cn-611000",
+    "adcode": 611000,
+    "level": "city",
+    "nameZh": "商洛市",
+    "nameEn": "Shang Luo Shi",
+    "parentAdcode": 610000,
+    "parentNameZh": "陕西省",
+    "parentNameEn": "Shan Xi Sheng",
+    "centroid": [
+      109.907166,
+      33.647601
+    ],
+    "center": [
+      109.939776,
+      33.868319
+    ]
+  },
+  "cn-620100": {
+    "id": "cn-620100",
+    "adcode": 620100,
+    "level": "city",
+    "nameZh": "兰州市",
+    "nameEn": "Lan Zhou Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      103.644112,
+      36.355083
+    ],
+    "center": [
+      103.823557,
+      36.058039
+    ]
+  },
+  "cn-620200": {
+    "id": "cn-620200",
+    "adcode": 620200,
+    "level": "city",
+    "nameZh": "嘉峪关市",
+    "nameEn": "Jia Yu Guan Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      98.211266,
+      39.829379
+    ],
+    "center": [
+      98.277304,
+      39.786529
+    ]
+  },
+  "cn-620300": {
+    "id": "cn-620300",
+    "adcode": 620300,
+    "level": "city",
+    "nameZh": "金昌市",
+    "nameEn": "Jin Chang Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      102.045658,
+      38.43382
+    ],
+    "center": [
+      102.187888,
+      38.514238
+    ]
+  },
+  "cn-620400": {
+    "id": "cn-620400",
+    "adcode": 620400,
+    "level": "city",
+    "nameZh": "白银市",
+    "nameEn": "Bai Yin Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      104.622687,
+      36.618375
+    ],
+    "center": [
+      104.173606,
+      36.54568
+    ]
+  },
+  "cn-620500": {
+    "id": "cn-620500",
+    "adcode": 620500,
+    "level": "city",
+    "nameZh": "天水市",
+    "nameEn": "Tian Shui Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      105.741074,
+      34.647312
+    ],
+    "center": [
+      105.724998,
+      34.578529
+    ]
+  },
+  "cn-620600": {
+    "id": "cn-620600",
+    "adcode": 620600,
+    "level": "city",
+    "nameZh": "武威市",
+    "nameEn": "Wu Wei Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      103.059993,
+      38.183694
+    ],
+    "center": [
+      102.634697,
+      37.929996
+    ]
+  },
+  "cn-620700": {
+    "id": "cn-620700",
+    "adcode": 620700,
+    "level": "city",
+    "nameZh": "张掖市",
+    "nameEn": "Zhang Ye Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      99.818538,
+      38.961729
+    ],
+    "center": [
+      100.455472,
+      38.932897
+    ]
+  },
+  "cn-620800": {
+    "id": "cn-620800",
+    "adcode": 620800,
+    "level": "city",
+    "nameZh": "平凉市",
+    "nameEn": "Ping Liang Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      106.651661,
+      35.305521
+    ],
+    "center": [
+      106.684691,
+      35.54279
+    ]
+  },
+  "cn-620900": {
+    "id": "cn-620900",
+    "adcode": 620900,
+    "level": "city",
+    "nameZh": "酒泉市",
+    "nameEn": "Jiu Quan Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      96.063265,
+      40.283136
+    ],
+    "center": [
+      98.510795,
+      39.744023
+    ]
+  },
+  "cn-621000": {
+    "id": "cn-621000",
+    "adcode": 621000,
+    "level": "city",
+    "nameZh": "庆阳市",
+    "nameEn": "Qing Yang Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      107.593489,
+      36.166303
+    ],
+    "center": [
+      107.638372,
+      35.734218
+    ]
+  },
+  "cn-621100": {
+    "id": "cn-621100",
+    "adcode": 621100,
+    "level": "city",
+    "nameZh": "定西市",
+    "nameEn": "Ding Xi Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      104.456158,
+      35.122537
+    ],
+    "center": [
+      104.626294,
+      35.579578
+    ]
+  },
+  "cn-621200": {
+    "id": "cn-621200",
+    "adcode": 621200,
+    "level": "city",
+    "nameZh": "陇南市",
+    "nameEn": "Long Nan Shi",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      105.225469,
+      33.598913
+    ],
+    "center": [
+      104.929379,
+      33.388598
+    ]
+  },
+  "cn-622900": {
+    "id": "cn-622900",
+    "adcode": 622900,
+    "level": "city",
+    "nameZh": "临夏回族自治州",
+    "nameEn": "Lin Xia Hui Zu Zi Zhi Zhou",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      103.289177,
+      35.625236
+    ],
+    "center": [
+      103.212006,
+      35.599446
+    ]
+  },
+  "cn-623000": {
+    "id": "cn-623000",
+    "adcode": 623000,
+    "level": "city",
+    "nameZh": "甘南藏族自治州",
+    "nameEn": "Gan Nan Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 620000,
+    "parentNameZh": "甘肃省",
+    "parentNameEn": "Gan Su Sheng",
+    "centroid": [
+      102.766903,
+      34.325574
+    ],
+    "center": [
+      102.911008,
+      34.986354
+    ]
+  },
+  "cn-630100": {
+    "id": "cn-630100",
+    "adcode": 630100,
+    "level": "city",
+    "nameZh": "西宁市",
+    "nameEn": "Xi Ning Shi",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      101.438463,
+      36.827772
+    ],
+    "center": [
+      101.778916,
+      36.623178
+    ]
+  },
+  "cn-630200": {
+    "id": "cn-630200",
+    "adcode": 630200,
+    "level": "city",
+    "nameZh": "海东市",
+    "nameEn": "Hai Dong Shi",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      102.344727,
+      36.335094
+    ],
+    "center": [
+      102.10327,
+      36.502916
+    ]
+  },
+  "cn-632200": {
+    "id": "cn-632200",
+    "adcode": 632200,
+    "level": "city",
+    "nameZh": "海北藏族自治州",
+    "nameEn": "Hai Bei Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      100.299858,
+      37.765164
+    ],
+    "center": [
+      100.901059,
+      36.959435
+    ]
+  },
+  "cn-632300": {
+    "id": "cn-632300",
+    "adcode": 632300,
+    "level": "city",
+    "nameZh": "黄南藏族自治州",
+    "nameEn": "Huang Nan Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      101.484693,
+      34.782539
+    ],
+    "center": [
+      102.019988,
+      35.517744
+    ]
+  },
+  "cn-632500": {
+    "id": "cn-632500",
+    "adcode": 632500,
+    "level": "city",
+    "nameZh": "海南藏族自治州",
+    "nameEn": "Hai Nan Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      100.253142,
+      35.908253
+    ],
+    "center": [
+      100.619542,
+      36.280353
+    ]
+  },
+  "cn-632600": {
+    "id": "cn-632600",
+    "adcode": 632600,
+    "level": "city",
+    "nameZh": "果洛藏族自治州",
+    "nameEn": "Guo Luo Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      99.415532,
+      34.124188
+    ],
+    "center": [
+      100.242143,
+      34.4736
+    ]
+  },
+  "cn-632700": {
+    "id": "cn-632700",
+    "adcode": 632700,
+    "level": "city",
+    "nameZh": "玉树藏族自治州",
+    "nameEn": "Yu Shu Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      94.307972,
+      34.231012
+    ],
+    "center": [
+      97.008522,
+      33.004049
+    ]
+  },
+  "cn-632800": {
+    "id": "cn-632800",
+    "adcode": 632800,
+    "level": "city",
+    "nameZh": "海西蒙古族藏族自治州",
+    "nameEn": "Hai Xi Meng Gu Zu Zang Zu Zi Zhi Zhou",
+    "parentAdcode": 630000,
+    "parentNameZh": "青海省",
+    "parentNameEn": "Qing Hai Sheng",
+    "centroid": [
+      95.116879,
+      37.239284
+    ],
+    "center": [
+      97.370785,
+      37.374663
+    ]
+  },
+  "cn-640100": {
+    "id": "cn-640100",
+    "adcode": 640100,
+    "level": "city",
+    "nameZh": "银川市",
+    "nameEn": "Yin Chuan Shi",
+    "parentAdcode": 640000,
+    "parentNameZh": "宁夏回族自治区",
+    "parentNameEn": "Ning Xia Hui Zu Zi Zhi Qu",
+    "centroid": [
+      106.347233,
+      38.2883
+    ],
+    "center": [
+      106.278179,
+      38.46637
+    ]
+  },
+  "cn-640200": {
+    "id": "cn-640200",
+    "adcode": 640200,
+    "level": "city",
+    "nameZh": "石嘴山市",
+    "nameEn": "Shi Zui Shan Shi",
+    "parentAdcode": 640000,
+    "parentNameZh": "宁夏回族自治区",
+    "parentNameEn": "Ning Xia Hui Zu Zi Zhi Qu",
+    "centroid": [
+      106.517117,
+      39.007544
+    ],
+    "center": [
+      106.376173,
+      39.01333
+    ]
+  },
+  "cn-640300": {
+    "id": "cn-640300",
+    "adcode": 640300,
+    "level": "city",
+    "nameZh": "吴忠市",
+    "nameEn": "Wu Zhong Shi",
+    "parentAdcode": 640000,
+    "parentNameZh": "宁夏回族自治区",
+    "parentNameEn": "Ning Xia Hui Zu Zi Zhi Qu",
+    "centroid": [
+      106.532262,
+      37.465858
+    ],
+    "center": [
+      106.199409,
+      37.986165
+    ]
+  },
+  "cn-640400": {
+    "id": "cn-640400",
+    "adcode": 640400,
+    "level": "city",
+    "nameZh": "固原市",
+    "nameEn": "Gu Yuan Shi",
+    "parentAdcode": 640000,
+    "parentNameZh": "宁夏回族自治区",
+    "parentNameEn": "Ning Xia Hui Zu Zi Zhi Qu",
+    "centroid": [
+      106.186077,
+      35.918037
+    ],
+    "center": [
+      106.285241,
+      36.004561
+    ]
+  },
+  "cn-640500": {
+    "id": "cn-640500",
+    "adcode": 640500,
+    "level": "city",
+    "nameZh": "中卫市",
+    "nameEn": "Zhong Wei Shi",
+    "parentAdcode": 640000,
+    "parentNameZh": "宁夏回族自治区",
+    "parentNameEn": "Ning Xia Hui Zu Zi Zhi Qu",
+    "centroid": [
+      105.504008,
+      37.016864
+    ],
+    "center": [
+      105.189568,
+      37.514951
+    ]
+  },
+  "cn-650100": {
+    "id": "cn-650100",
+    "adcode": 650100,
+    "level": "city",
+    "nameZh": "乌鲁木齐市",
+    "nameEn": "Wu Lu Mu Qi Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      87.783748,
+      43.739398
+    ],
+    "center": [
+      87.617733,
+      43.792818
+    ]
+  },
+  "cn-650200": {
+    "id": "cn-650200",
+    "adcode": 650200,
+    "level": "city",
+    "nameZh": "克拉玛依市",
+    "nameEn": "Ke La Ma Yi Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      85.224171,
+      45.567128
+    ],
+    "center": [
+      84.873946,
+      45.595886
+    ]
+  },
+  "cn-650400": {
+    "id": "cn-650400",
+    "adcode": 650400,
+    "level": "city",
+    "nameZh": "吐鲁番市",
+    "nameEn": "Tu Lu Fan Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      89.829374,
+      42.398557
+    ],
+    "center": [
+      89.184078,
+      42.947613
+    ]
+  },
+  "cn-650500": {
+    "id": "cn-650500",
+    "adcode": 650500,
+    "level": "city",
+    "nameZh": "哈密市",
+    "nameEn": "Ha Mi Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      93.512835,
+      43.0655
+    ],
+    "center": [
+      93.51316,
+      42.833248
+    ]
+  },
+  "cn-652300": {
+    "id": "cn-652300",
+    "adcode": 652300,
+    "level": "city",
+    "nameZh": "昌吉回族自治州",
+    "nameEn": "Chang Ji Hui Zu Zi Zhi Zhou",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      89.791022,
+      44.351372
+    ],
+    "center": [
+      87.304012,
+      44.014577
+    ]
+  },
+  "cn-652700": {
+    "id": "cn-652700",
+    "adcode": 652700,
+    "level": "city",
+    "nameZh": "博尔塔拉蒙古自治州",
+    "nameEn": "Bo Er Ta La Meng Gu Zi Zhi Zhou",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      82.91122,
+      44.549726
+    ],
+    "center": [
+      82.074778,
+      44.903258
+    ]
+  },
+  "cn-652800": {
+    "id": "cn-652800",
+    "adcode": 652800,
+    "level": "city",
+    "nameZh": "巴音郭楞蒙古自治州",
+    "nameEn": "Ba Yin Guo Leng Meng Gu Zi Zhi Zhou",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      87.681908,
+      39.239339
+    ],
+    "center": [
+      86.150969,
+      41.768552
+    ]
+  },
+  "cn-652900": {
+    "id": "cn-652900",
+    "adcode": 652900,
+    "level": "city",
+    "nameZh": "阿克苏地区",
+    "nameEn": "A Ke Su Di Qu",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      81.177098,
+      41.477458
+    ],
+    "center": [
+      80.265068,
+      41.170712
+    ]
+  },
+  "cn-653000": {
+    "id": "cn-653000",
+    "adcode": 653000,
+    "level": "city",
+    "nameZh": "克孜勒苏柯尔克孜自治州",
+    "nameEn": "Ke Zi Le Su Ke Er Ke Zi Zi Zhi Zhou",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      75.956625,
+      39.672168
+    ],
+    "center": [
+      76.172825,
+      39.713431
+    ]
+  },
+  "cn-653100": {
+    "id": "cn-653100",
+    "adcode": 653100,
+    "level": "city",
+    "nameZh": "喀什地区",
+    "nameEn": "Ka Shen Di Qu",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      77.133824,
+      38.111752
+    ],
+    "center": [
+      75.989138,
+      39.467664
+    ]
+  },
+  "cn-653200": {
+    "id": "cn-653200",
+    "adcode": 653200,
+    "level": "city",
+    "nameZh": "和田地区",
+    "nameEn": "He Tian Di Qu",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      81.72906,
+      37.578228
+    ],
+    "center": [
+      79.92533,
+      37.110687
+    ]
+  },
+  "cn-654000": {
+    "id": "cn-654000",
+    "adcode": 654000,
+    "level": "city",
+    "nameZh": "伊犁哈萨克自治州",
+    "nameEn": "Yi Li Ha Sa Ke Zi Zhi Zhou",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      82.213264,
+      43.349079
+    ],
+    "center": [
+      81.317946,
+      43.92186
+    ]
+  },
+  "cn-654200": {
+    "id": "cn-654200",
+    "adcode": 654200,
+    "level": "city",
+    "nameZh": "塔城地区",
+    "nameEn": "Ta Cheng Di Qu",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      84.155013,
+      45.399091
+    ],
+    "center": [
+      82.985732,
+      46.746301
+    ]
+  },
+  "cn-654300": {
+    "id": "cn-654300",
+    "adcode": 654300,
+    "level": "city",
+    "nameZh": "阿勒泰地区",
+    "nameEn": "A Le Tai Di Qu",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      87.048189,
+      48.013014
+    ],
+    "center": [
+      88.13963,
+      47.848393
+    ]
+  },
+  "cn-659001": {
+    "id": "cn-659001",
+    "adcode": 659001,
+    "level": "city",
+    "nameZh": "石河子市",
+    "nameEn": "Shi He Zi Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      86.038213,
+      44.306831
+    ],
+    "center": [
+      86.041075,
+      44.305886
+    ]
+  },
+  "cn-659002": {
+    "id": "cn-659002",
+    "adcode": 659002,
+    "level": "city",
+    "nameZh": "阿拉尔市",
+    "nameEn": "A La Er Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      81.316958,
+      40.6005
+    ],
+    "center": [
+      81.285884,
+      40.541914
+    ]
+  },
+  "cn-659003": {
+    "id": "cn-659003",
+    "adcode": 659003,
+    "level": "city",
+    "nameZh": "图木舒克市",
+    "nameEn": "Tu Mu Shu Ke Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      79.163596,
+      39.870411
+    ],
+    "center": [
+      79.077978,
+      39.867316
+    ]
+  },
+  "cn-659004": {
+    "id": "cn-659004",
+    "adcode": 659004,
+    "level": "city",
+    "nameZh": "五家渠市",
+    "nameEn": "Wu Jia Qu Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      87.557631,
+      44.362095
+    ],
+    "center": [
+      87.526884,
+      44.167401
+    ]
+  },
+  "cn-659005": {
+    "id": "cn-659005",
+    "adcode": 659005,
+    "level": "city",
+    "nameZh": "北屯市",
+    "nameEn": "Bei Tun Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      87.95973,
+      47.244003
+    ],
+    "center": [
+      87.824932,
+      47.353177
+    ]
+  },
+  "cn-659006": {
+    "id": "cn-659006",
+    "adcode": 659006,
+    "level": "city",
+    "nameZh": "铁门关市",
+    "nameEn": "Tie Men Guan Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      85.590071,
+      41.800499
+    ],
+    "center": [
+      85.501218,
+      41.827251
+    ]
+  },
+  "cn-659007": {
+    "id": "cn-659007",
+    "adcode": 659007,
+    "level": "city",
+    "nameZh": "双河市",
+    "nameEn": "Shuang He Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      82.468534,
+      44.833549
+    ],
+    "center": [
+      82.353656,
+      44.840524
+    ]
+  },
+  "cn-659008": {
+    "id": "cn-659008",
+    "adcode": 659008,
+    "level": "city",
+    "nameZh": "可克达拉市",
+    "nameEn": "Ke Ke Da La Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      80.603017,
+      43.96732
+    ],
+    "center": [
+      80.63579,
+      43.6832
+    ]
+  },
+  "cn-659009": {
+    "id": "cn-659009",
+    "adcode": 659009,
+    "level": "city",
+    "nameZh": "昆玉市",
+    "nameEn": "Kun Yu Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      79.593726,
+      37.372468
+    ],
+    "center": [
+      79.287372,
+      37.207994
+    ]
+  },
+  "cn-659010": {
+    "id": "cn-659010",
+    "adcode": 659010,
+    "level": "city",
+    "nameZh": "胡杨河市",
+    "nameEn": "Hu Yang He Shi",
+    "parentAdcode": 650000,
+    "parentNameZh": "新疆维吾尔自治区",
+    "parentNameEn": "Xin Jiang Wei Wu Er Zi Zhi Qu",
+    "centroid": [
+      84.786397,
+      44.84257
+    ],
+    "center": [
+      84.8275959,
+      44.69288853
+    ]
+  },
+  "cn-710000": {
+    "id": "cn-710000",
+    "adcode": 710000,
+    "level": "special",
+    "nameZh": "台湾省",
+    "nameEn": "Taiwan",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      120.971485,
+      23.749452
+    ],
+    "center": [
+      121.509062,
+      25.044332
+    ]
+  },
+  "cn-810000": {
+    "id": "cn-810000",
+    "adcode": 810000,
+    "level": "special",
+    "nameZh": "香港特别行政区",
+    "nameEn": "Hong Kong",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      114.134357,
+      22.377366
+    ],
+    "center": [
+      114.173355,
+      22.320048
+    ]
+  },
+  "cn-820000": {
+    "id": "cn-820000",
+    "adcode": 820000,
+    "level": "special",
+    "nameZh": "澳门特别行政区",
+    "nameEn": "Macau",
+    "parentAdcode": 100000,
+    "parentNameZh": "中国",
+    "parentNameEn": "China",
+    "centroid": [
+      113.566988,
+      22.159307
+    ],
+    "center": [
+      113.54909,
+      22.198951
+    ]
+  }
+}

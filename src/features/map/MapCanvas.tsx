@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import * as echarts from 'echarts/core'
 import { MapChart } from 'echarts/charts'
@@ -6,6 +6,7 @@ import { TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import type { MapSeriesOption } from 'echarts'
 import {
+  currentDatasetConfigAtom,
   datasetAtom,
   handleRegionSelectionAtom,
   interactionModeAtom,
@@ -14,33 +15,42 @@ import {
   showLabelsAtom,
   trainingSessionAtom,
 } from '../../state/appAtoms'
-import type { LanguageMode, TrainingSession } from '../../types/app'
-import { WORLD_MAP_KEY, worldFeatureCollection, worldRegionById, worldRegionIds } from './worldDataset'
+import type { DatasetMode, LanguageMode, RegionMeta, TrainingSession } from '../../types/app'
 
 echarts.use([CanvasRenderer, MapChart, TooltipComponent])
 
-let worldMapRegistered = false
+const registeredMaps = new Set<string>()
 
-function ensureWorldMapRegistered() {
-  if (worldMapRegistered) {
+function ensureMapRegistered(mapKey: string, featureCollection: object) {
+  if (registeredMaps.has(mapKey)) {
     return
   }
 
-  echarts.registerMap(WORLD_MAP_KEY, worldFeatureCollection as never)
-  worldMapRegistered = true
+  echarts.registerMap(mapKey, featureCollection as never)
+  registeredMaps.add(mapKey)
 }
 
-function getRegionLabel(regionId: string, language: LanguageMode) {
-  const meta = worldRegionById.get(regionId)
-
-  if (!meta) {
-    return regionId
+function getRegionLabel(region: RegionMeta, language: LanguageMode) {
+  if (language === 'en') {
+    return region.nameEn
   }
 
-  return language === 'en' ? meta.nameEn : meta.nameZh
+  return region.nameZh
 }
 
-function buildWorldSeries(
+function defaultAreaColor(dataset: DatasetMode) {
+  return dataset === 'world' ? '#d6dfcf' : '#d8d1c3'
+}
+
+function defaultBorderColor(dataset: DatasetMode) {
+  return dataset === 'world' ? '#586357' : '#6b6157'
+}
+
+function buildSeries(
+  dataset: DatasetMode,
+  mapKey: string,
+  regionById: Map<string, RegionMeta>,
+  regionIds: string[],
   language: LanguageMode,
   showLabels: boolean,
   interactionMode: 'explore' | 'training',
@@ -49,18 +59,18 @@ function buildWorldSeries(
 ): MapSeriesOption {
   return {
     type: 'map',
-    map: WORLD_MAP_KEY,
+    map: mapKey,
     roam: true,
     selectedMode: false,
     animation: false,
     scaleLimit: {
       min: 1,
-      max: 10,
+      max: dataset === 'world' ? 10 : 25,
     },
     itemStyle: {
-      areaColor: '#d6dfcf',
-      borderColor: '#586357',
-      borderWidth: 0.8,
+      areaColor: defaultAreaColor(dataset),
+      borderColor: defaultBorderColor(dataset),
+      borderWidth: dataset === 'world' ? 0.8 : 0.6,
     },
     emphasis: {
       label: {
@@ -74,13 +84,17 @@ function buildWorldSeries(
     label: {
       show: showLabels,
       color: '#253127',
-      fontSize: 10,
-      formatter: ({ name }) => getRegionLabel(String(name), language),
+      fontSize: dataset === 'world' ? 10 : 9,
+      formatter: ({ name }) => {
+        const region = regionById.get(String(name))
+
+        return region ? getRegionLabel(region, language) : String(name)
+      },
     },
-    data: worldRegionIds.map((regionId) => {
-      let areaColor = '#d6dfcf'
-      let borderColor = '#586357'
-      let borderWidth = 0.8
+    data: regionIds.map((regionId) => {
+      let areaColor = defaultAreaColor(dataset)
+      let borderColor = defaultBorderColor(dataset)
+      let borderWidth = dataset === 'world' ? 0.8 : 0.6
 
       if (interactionMode === 'explore' && selectedRegionId === regionId) {
         areaColor = '#a6c7f6'
@@ -123,7 +137,9 @@ function buildWorldSeries(
 export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
+  const [featureCollection, setFeatureCollection] = useState<object | null>(null)
   const dataset = useAtomValue(datasetAtom)
+  const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
   const language = useAtomValue(languageAtom)
   const showLabels = useAtomValue(showLabelsAtom)
   const interactionMode = useAtomValue(interactionModeAtom)
@@ -132,17 +148,41 @@ export function MapCanvas() {
   const handleRegionSelection = useSetAtom(handleRegionSelectionAtom)
 
   useEffect(() => {
-    if (!chartRef.current || dataset !== 'world') {
+    let cancelled = false
+
+    currentDatasetConfig
+      .loadFeatureCollection()
+      .then((loadedFeatureCollection) => {
+        if (!cancelled) {
+          setFeatureCollection(loadedFeatureCollection)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setFeatureCollection(null)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [currentDatasetConfig])
+
+  useEffect(() => {
+    if (!chartRef.current || !featureCollection) {
       return
     }
 
-    ensureWorldMapRegistered()
+    ensureMapRegistered(currentDatasetConfig.mapKey, featureCollection)
 
-    const chart = echarts.init(chartRef.current, undefined, {
-      renderer: 'canvas',
-    })
+    const chart =
+      chartInstanceRef.current ??
+      echarts.init(chartRef.current, undefined, {
+        renderer: 'canvas',
+      })
+
     chartInstanceRef.current = chart
-
+    chart.off('click')
     chart.on('click', (params) => {
       const regionId = typeof params.name === 'string' ? params.name : null
 
@@ -171,63 +211,66 @@ export function MapCanvas() {
 
     return () => {
       resizeObserver.disconnect()
-      chart.dispose()
-      chartInstanceRef.current = null
     }
-  }, [dataset, handleRegionSelection])
+  }, [currentDatasetConfig.mapKey, featureCollection, handleRegionSelection])
 
   useEffect(() => {
-    if (dataset !== 'world') {
-      return
-    }
-
     const chart = chartInstanceRef.current
 
-    if (!chart) {
+    if (!chart || !featureCollection) {
       return
     }
 
-    chart.setOption(
-      {
-        backgroundColor: 'transparent',
-        tooltip: {
-          show: false,
-        },
-        series: [
-          buildWorldSeries(
-            language,
-            showLabels,
-            interactionMode,
-            selectedRegionId,
-            trainingSession,
-          ),
-        ],
+    chart.setOption({
+      backgroundColor: 'transparent',
+      tooltip: {
+        show: false,
       },
-    )
-  }, [dataset, interactionMode, language, selectedRegionId, showLabels, trainingSession])
+      series: [
+        buildSeries(
+          dataset,
+          currentDatasetConfig.mapKey,
+          currentDatasetConfig.regionById,
+          currentDatasetConfig.regionIds,
+          language,
+          showLabels,
+          interactionMode,
+          selectedRegionId,
+          trainingSession,
+        ),
+      ],
+    })
+  }, [
+    currentDatasetConfig.mapKey,
+    currentDatasetConfig.regionById,
+    currentDatasetConfig.regionIds,
+    dataset,
+    featureCollection,
+    interactionMode,
+    language,
+    selectedRegionId,
+    showLabels,
+    trainingSession,
+  ])
+
+  useEffect(() => {
+    return () => {
+      chartInstanceRef.current?.dispose()
+      chartInstanceRef.current = null
+    }
+  }, [])
 
   return (
-    <div
-      className="absolute inset-0 bg-[radial-gradient(circle_at_top,#f4f7ee_0%,#ece7d6_40%,#e0d8c6_100%)]"
-      data-dataset={dataset}
-    >
-      {dataset === 'world' ? (
-        <div ref={chartRef} className="h-full w-full" />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="max-w-md rounded-[32px] border border-stone-700/15 bg-white/70 px-6 py-5 text-center shadow-[0_24px_80px_rgba(28,38,20,0.12)] backdrop-blur">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-stone-500">
-              China prefecture mode
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-stone-900">
-              中国地级市 / 州数据正在接入
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-stone-600">
-              当前版本先把世界国家的训练闭环打通。中国模式下一步会走省级拆分抓取和聚合。
-            </p>
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#f4f7ee_0%,#ece7d6_40%,#e0d8c6_100%)]">
+      <div ref={chartRef} className="h-full w-full" />
+
+      {!featureCollection ? (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <div className="rounded-full bg-white/85 px-5 py-3 text-sm font-medium text-stone-700 shadow-lg backdrop-blur">
+            Loading {dataset === 'world' ? 'world' : 'china'} map data…
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

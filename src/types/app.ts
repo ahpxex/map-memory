@@ -6,16 +6,23 @@ export type TrainingResult = 'idle' | 'correct' | 'wrong'
 
 export type RegionMeta = {
   id: string
-  isoA2: string | null
-  isoA3: string | null
   nameEn: string
   nameZh: string
-  formalNameEn: string
-  continent: string | null
-  regionUn: string | null
-  subregion: string | null
-  population: number | null
-  wikidataId: string | null
+  isoA2?: string | null
+  isoA3?: string | null
+  formalNameEn?: string | null
+  continent?: string | null
+  regionUn?: string | null
+  subregion?: string | null
+  population?: number | null
+  wikidataId?: string | null
+  adcode?: number | null
+  level?: string | null
+  parentAdcode?: number | null
+  parentNameZh?: string | null
+  parentNameEn?: string | null
+  centroid?: number[] | null
+  center?: number[] | null
 }
 
 export type RegionProgress = {

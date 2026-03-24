@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { worldRegionById, worldRegionIds } from '../features/map/worldDataset'
+import { datasetConfigs } from '../features/map/datasets'
 import type {
   DatasetMode,
   LanguageMode,
@@ -54,10 +54,15 @@ function cloneSettings(
   }
 }
 
-function pickNextWorldPrompt(progressByDataset: ProgressByDataset) {
-  const ranked = worldRegionIds
+function pickNextPrompt(
+  dataset: DatasetMode,
+  progressByDataset: ProgressByDataset,
+) {
+  const config = datasetConfigs[dataset]
+
+  const ranked = config.regionIds
     .map((regionId) => {
-      const progress = getRegionProgress(progressByDataset, 'world', regionId)
+      const progress = getRegionProgress(progressByDataset, dataset, regionId)
       const score =
         (progress.attempts === 0 ? 100 : 0) + progress.wrong * 8 - progress.correct * 2 - progress.attempts
 
@@ -65,26 +70,27 @@ function pickNextWorldPrompt(progressByDataset: ProgressByDataset) {
     })
     .toSorted((left, right) => right.score - left.score)
 
-  const candidatePool = ranked.slice(0, Math.min(ranked.length, 12))
+  const candidatePool = ranked.slice(0, Math.min(ranked.length, 16))
   const randomIndex = Math.floor(Math.random() * candidatePool.length)
 
-  return candidatePool[randomIndex]?.regionId ?? worldRegionIds[0] ?? null
+  return candidatePool[randomIndex]?.regionId ?? config.regionIds[0] ?? null
 }
 
 function recordTrainingAttempt(
   persistedData: PersistedAppData,
+  dataset: DatasetMode,
   regionId: string,
   isCorrect: boolean,
 ): PersistedAppData {
-  const current = getRegionProgress(persistedData.progress, 'world', regionId)
+  const current = getRegionProgress(persistedData.progress, dataset, regionId)
   const now = new Date().toISOString()
 
   return {
     ...persistedData,
     progress: {
       ...persistedData.progress,
-      world: {
-        ...persistedData.progress.world,
+      [dataset]: {
+        ...persistedData.progress[dataset],
         [regionId]: {
           attempts: current.attempts + 1,
           correct: current.correct + (isCorrect ? 1 : 0),
@@ -120,10 +126,6 @@ export const datasetAtom = atom(
     set(selectedRegionIdAtom, null)
     set(popupStateAtom, null)
     set(trainingSessionAtom, createIdleTrainingSession())
-
-    if (dataset === 'china') {
-      set(noticeAtom, '中国地级市/州数据聚合下一步接入，这一版先把世界模式打透。')
-    }
   },
 )
 
@@ -161,26 +163,54 @@ export const languageAtom = atom(
   },
 )
 
-export const currentDatasetImplementedAtom = atom((get) => get(datasetAtom) === 'world')
+export const currentDatasetConfigAtom = atom((get) => datasetConfigs[get(datasetAtom)])
+
+export const currentDatasetImplementedAtom = atom((get) => {
+  const dataset = get(datasetAtom)
+  const config = datasetConfigs[dataset]
+
+  return config.regionIds.length > 0
+})
 
 export const selectedRegionAtom = atom((get) => {
   const selectedRegionId = get(selectedRegionIdAtom)
+  const config = get(currentDatasetConfigAtom)
 
-  return selectedRegionId ? worldRegionById.get(selectedRegionId) ?? null : null
+  return selectedRegionId ? config.regionById.get(selectedRegionId) ?? null : null
 })
 
 export const currentPromptRegionAtom = atom((get) => {
   const promptRegionId = get(trainingSessionAtom).promptRegionId
+  const config = get(currentDatasetConfigAtom)
 
-  return promptRegionId ? worldRegionById.get(promptRegionId) ?? null : null
+  return promptRegionId ? config.regionById.get(promptRegionId) ?? null : null
+})
+
+export const currentDatasetProgressAtom = atom((get) => {
+  const dataset = get(datasetAtom)
+
+  return get(persistedDataAtom).progress[dataset]
+})
+
+export const currentDatasetStatsAtom = atom((get) => {
+  const progressMap = Object.values(get(currentDatasetProgressAtom))
+  const totalRegions = get(currentDatasetConfigAtom).regionIds.length
+  const practicedRegions = progressMap.filter((progress) => progress.attempts > 0).length
+  const attempts = progressMap.reduce((sum, progress) => sum + progress.attempts, 0)
+  const correct = progressMap.reduce((sum, progress) => sum + progress.correct, 0)
+
+  return {
+    totalRegions,
+    practicedRegions,
+    attempts,
+    correct,
+    accuracy: attempts > 0 ? Math.round((correct / attempts) * 100) : 0,
+  }
 })
 
 export const startNextTrainingRoundAtom = atom(null, (get, set) => {
-  if (get(datasetAtom) !== 'world') {
-    return
-  }
-
-  const promptRegionId = pickNextWorldPrompt(get(persistedDataAtom).progress)
+  const dataset = get(datasetAtom)
+  const promptRegionId = pickNextPrompt(dataset, get(persistedDataAtom).progress)
 
   set(trainingSessionAtom, {
     promptRegionId,
@@ -214,12 +244,7 @@ export const handleRegionSelectionAtom = atom(
   null,
   (get, set, payload: { regionId: string; position: PopupPosition }) => {
     const { regionId, position } = payload
-
-    if (get(datasetAtom) !== 'world') {
-      set(noticeAtom, '中国地级市/州数据聚合下一步接入，这一版先把世界模式打透。')
-      return
-    }
-
+    const dataset = get(datasetAtom)
     const interactionMode = get(interactionModeAtom)
 
     set(selectedRegionIdAtom, regionId)
@@ -231,7 +256,7 @@ export const handleRegionSelectionAtom = atom(
 
     const currentSession = get(trainingSessionAtom)
     const promptRegionId =
-      currentSession.promptRegionId ?? pickNextWorldPrompt(get(persistedDataAtom).progress)
+      currentSession.promptRegionId ?? pickNextPrompt(dataset, get(persistedDataAtom).progress)
 
     if (!promptRegionId) {
       return
@@ -239,7 +264,7 @@ export const handleRegionSelectionAtom = atom(
 
     const isCorrect = regionId === promptRegionId
 
-    set(persistedDataAtom, recordTrainingAttempt(get(persistedDataAtom), promptRegionId, isCorrect))
+    set(persistedDataAtom, recordTrainingAttempt(get(persistedDataAtom), dataset, promptRegionId, isCorrect))
     set(trainingSessionAtom, {
       promptRegionId,
       answeredRegionId: regionId,
