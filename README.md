@@ -41,6 +41,7 @@ bun run build
 ## PRD
 
 - See [PRD.md](./PRD.md)
+- See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)
 
 ## Project Intent
 
