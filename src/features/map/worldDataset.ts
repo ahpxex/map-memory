@@ -22,7 +22,11 @@ export const worldRegionIds = worldRegions.map((region) => region.id)
 export const worldRegionById = new Map(worldRegions.map((region) => [region.id, region]))
 
 export async function loadWorldFeatureCollection() {
-  const module = await import('../../data/world/world.geo.json')
+  const response = await fetch('/data/world/world.geo.json')
 
-  return module.default as FeatureCollection<Geometry, WorldFeatureProperties>
+  if (!response.ok) {
+    throw new Error(`Failed to load world map data: ${response.status}`)
+  }
+
+  return (await response.json()) as FeatureCollection<Geometry, WorldFeatureProperties>
 }

@@ -23,6 +23,7 @@ export type RegionMeta = {
   parentNameEn?: string | null
   centroid?: number[] | null
   center?: number[] | null
+  labelWeight?: number | null
 }
 
 export type RegionProgress = {

@@ -46,6 +46,51 @@ function defaultBorderColor(dataset: DatasetMode) {
   return dataset === 'world' ? '#586357' : '#6b6157'
 }
 
+function shouldShowRegionLabel(
+  region: RegionMeta,
+  dataset: DatasetMode,
+  zoom: number,
+  interactionMode: 'explore' | 'training',
+  selectedRegionId: string | null,
+  trainingSession: TrainingSession,
+) {
+  if (selectedRegionId === region.id) {
+    return true
+  }
+
+  if (trainingSession.promptRegionId === region.id || trainingSession.answeredRegionId === region.id) {
+    return true
+  }
+
+  if (interactionMode === 'training') {
+    return zoom >= (dataset === 'world' ? 2.15 : 3.2)
+  }
+
+  const labelWeight = region.labelWeight ?? 0
+
+  if (dataset === 'world') {
+    if (zoom >= 2.15) {
+      return true
+    }
+
+    if (zoom >= 1.45) {
+      return labelWeight >= 40
+    }
+
+    return labelWeight >= 110
+  }
+
+  if (zoom >= 3.1) {
+    return true
+  }
+
+  if (zoom >= 1.9) {
+    return labelWeight >= 0.55
+  }
+
+  return labelWeight >= 2.2
+}
+
 function buildSeries(
   dataset: DatasetMode,
   mapKey: string,
@@ -53,6 +98,7 @@ function buildSeries(
   regionIds: string[],
   language: LanguageMode,
   showLabels: boolean,
+  zoom: number,
   interactionMode: 'explore' | 'training',
   selectedRegionId: string | null,
   trainingSession: TrainingSession,
@@ -88,7 +134,20 @@ function buildSeries(
       formatter: ({ name }) => {
         const region = regionById.get(String(name))
 
-        return region ? getRegionLabel(region, language) : String(name)
+        if (!region) {
+          return String(name)
+        }
+
+        return shouldShowRegionLabel(
+          region,
+          dataset,
+          zoom,
+          interactionMode,
+          selectedRegionId,
+          trainingSession,
+        )
+          ? getRegionLabel(region, language)
+          : ''
       },
     },
     data: regionIds.map((regionId) => {
@@ -138,6 +197,7 @@ export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
   const [featureCollection, setFeatureCollection] = useState<object | null>(null)
+  const [zoom, setZoom] = useState(1)
   const dataset = useAtomValue(datasetAtom)
   const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
   const language = useAtomValue(languageAtom)
@@ -150,6 +210,7 @@ export function MapCanvas() {
   useEffect(() => {
     let cancelled = false
 
+    setZoom(1)
     currentDatasetConfig
       .loadFeatureCollection()
       .then((loadedFeatureCollection) => {
@@ -203,6 +264,17 @@ export function MapCanvas() {
       })
     })
 
+    chart.off('georoam')
+    chart.on('georoam', () => {
+      const option = chart.getOption() as { series?: Array<{ zoom?: number }> }
+      const nextZoom =
+        typeof option.series?.[0]?.zoom === 'number'
+          ? option.series[0].zoom
+          : 1
+
+      setZoom(nextZoom)
+    })
+
     const resizeObserver = new ResizeObserver(() => {
       chart.resize()
     })
@@ -234,6 +306,7 @@ export function MapCanvas() {
           currentDatasetConfig.regionIds,
           language,
           showLabels,
+          zoom,
           interactionMode,
           selectedRegionId,
           trainingSession,
@@ -251,6 +324,7 @@ export function MapCanvas() {
     selectedRegionId,
     showLabels,
     trainingSession,
+    zoom,
   ])
 
   useEffect(() => {

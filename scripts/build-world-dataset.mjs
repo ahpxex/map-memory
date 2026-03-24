@@ -9,7 +9,7 @@ const worldSourcePath = path.resolve(
 )
 const worldOutputPath = path.resolve(
   __dirname,
-  '../src/data/world/world.geo.json',
+  '../public/data/world/world.geo.json',
 )
 const metadataOutputPath = path.resolve(
   __dirname,
@@ -34,6 +34,41 @@ function makeRegionId(properties) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
+}
+
+function visitCoordinates(coordinates, visit) {
+  if (!Array.isArray(coordinates)) {
+    return
+  }
+
+  if (typeof coordinates[0] === 'number' && typeof coordinates[1] === 'number') {
+    visit(coordinates[0], coordinates[1])
+    return
+  }
+
+  for (const child of coordinates) {
+    visitCoordinates(child, visit)
+  }
+}
+
+function computeLabelWeight(geometry) {
+  let minX = Number.POSITIVE_INFINITY
+  let minY = Number.POSITIVE_INFINITY
+  let maxX = Number.NEGATIVE_INFINITY
+  let maxY = Number.NEGATIVE_INFINITY
+
+  visitCoordinates(geometry?.coordinates, (x, y) => {
+    minX = Math.min(minX, x)
+    minY = Math.min(minY, y)
+    maxX = Math.max(maxX, x)
+    maxY = Math.max(maxY, y)
+  })
+
+  if (!Number.isFinite(minX) || !Number.isFinite(minY)) {
+    return 0
+  }
+
+  return Number(((maxX - minX) * (maxY - minY)).toFixed(4))
 }
 
 const raw = JSON.parse(await readFile(worldSourcePath, 'utf8'))
@@ -64,6 +99,7 @@ const outputFeatures = selectedFeatures.map((feature) => {
     subregion: properties.SUBREGION ?? null,
     population: properties.POP_EST ?? null,
     wikidataId: properties.WIKIDATAID ?? null,
+    labelWeight: computeLabelWeight(feature.geometry),
   }
 
   return {

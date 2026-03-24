@@ -1,8 +1,6 @@
-import { startTransition, useEffect } from 'react'
+import { Suspense, lazy, startTransition, useEffect } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { BottomToolbar } from '../components/BottomToolbar'
-import { RegionPopup } from '../components/RegionPopup'
-import { MapCanvas } from '../features/map/MapCanvas'
 import { loadPersistedData, savePersistedData } from '../lib/storage'
 import {
   clearNoticeAtom,
@@ -16,6 +14,10 @@ import {
   trainingSessionAtom,
 } from '../state/appAtoms'
 import { createDefaultPersistedData, isPersistedAppData } from '../types/app'
+
+const LazyMapStage = lazy(async () => ({
+  default: (await import('./MapStage')).MapStage,
+}))
 
 function HydrationBridge() {
   const persistedData = useAtomValue(persistedDataAtom)
@@ -121,8 +123,17 @@ export function AppShell() {
     <div className="relative h-svh w-full overflow-hidden bg-stone-100 text-stone-950">
       <HydrationBridge />
 
-      <MapCanvas />
-      <RegionPopup />
+      <Suspense
+        fallback={
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-stone-950/6 backdrop-blur-[2px]">
+            <div className="rounded-full bg-white/90 px-5 py-3 text-sm font-medium text-stone-700 shadow-lg">
+              Loading map experience…
+            </div>
+          </div>
+        }
+      >
+        <LazyMapStage />
+      </Suspense>
       <BottomToolbar />
 
       {!hydrated ? (

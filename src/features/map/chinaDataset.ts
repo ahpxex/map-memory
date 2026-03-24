@@ -24,7 +24,11 @@ export const chinaRegionIds = chinaRegions.map((region) => region.id)
 export const chinaRegionById = new Map(chinaRegions.map((region) => [region.id, region]))
 
 export async function loadChinaFeatureCollection() {
-  const module = await import('../../data/china/china.geo.json')
+  const response = await fetch('/data/china/china.geo.json')
 
-  return module.default as FeatureCollection<Geometry, ChinaFeatureProperties>
+  if (!response.ok) {
+    throw new Error(`Failed to load china map data: ${response.status}`)
+  }
+
+  return (await response.json()) as FeatureCollection<Geometry, ChinaFeatureProperties>
 }

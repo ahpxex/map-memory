@@ -9,7 +9,7 @@ const chinaSourcePath = path.resolve(
   '../src/data/china/china-provinces-source.geo.json',
 )
 const provinceSourceDir = path.resolve(__dirname, '../src/data/china/provinces')
-const chinaOutputPath = path.resolve(__dirname, '../src/data/china/china.geo.json')
+const chinaPublicOutputPath = path.resolve(__dirname, '../public/data/china/china.geo.json')
 const metadataOutputPath = path.resolve(
   __dirname,
   '../src/data/china/china.metadata.json',
@@ -47,6 +47,41 @@ function makeRegionId(adcode) {
   return `cn-${adcode}`
 }
 
+function visitCoordinates(coordinates, visit) {
+  if (!Array.isArray(coordinates)) {
+    return
+  }
+
+  if (typeof coordinates[0] === 'number' && typeof coordinates[1] === 'number') {
+    visit(coordinates[0], coordinates[1])
+    return
+  }
+
+  for (const child of coordinates) {
+    visitCoordinates(child, visit)
+  }
+}
+
+function computeLabelWeight(geometry) {
+  let minX = Number.POSITIVE_INFINITY
+  let minY = Number.POSITIVE_INFINITY
+  let maxX = Number.NEGATIVE_INFINITY
+  let maxY = Number.NEGATIVE_INFINITY
+
+  visitCoordinates(geometry?.coordinates, (x, y) => {
+    minX = Math.min(minX, x)
+    minY = Math.min(minY, y)
+    maxX = Math.max(maxX, x)
+    maxY = Math.max(maxY, y)
+  })
+
+  if (!Number.isFinite(minX) || !Number.isFinite(minY)) {
+    return 0
+  }
+
+  return Number(((maxX - minX) * (maxY - minY)).toFixed(4))
+}
+
 const provinceCollection = JSON.parse(await readFile(chinaSourcePath, 'utf8'))
 const metadata = {}
 const outputFeatures = []
@@ -77,6 +112,7 @@ for (const provinceFeature of provinceCollection.features) {
       parentNameEn: 'China',
       centroid: provinceProps.centroid ?? provinceProps.center ?? null,
       center: provinceProps.center ?? null,
+      labelWeight: computeLabelWeight(provinceFeature.geometry),
     }
 
     outputFeatures.push({
@@ -121,6 +157,7 @@ for (const provinceFeature of provinceCollection.features) {
       parentNameEn: provinceNameEn,
       centroid: childProps.centroid ?? childProps.center ?? null,
       center: childProps.center ?? null,
+      labelWeight: computeLabelWeight(childFeature.geometry),
     }
 
     outputFeatures.push({
@@ -138,19 +175,18 @@ for (const provinceFeature of provinceCollection.features) {
   }
 }
 
-await mkdir(path.dirname(chinaOutputPath), { recursive: true })
+await mkdir(path.dirname(chinaPublicOutputPath), { recursive: true })
 
-await writeFile(
-  chinaOutputPath,
-  JSON.stringify(
-    {
-      type: 'FeatureCollection',
-      features: outputFeatures,
-    },
-    null,
-    2,
-  ),
+const outputGeoJson = JSON.stringify(
+  {
+    type: 'FeatureCollection',
+    features: outputFeatures,
+  },
+  null,
+  2,
 )
+
+await writeFile(chinaPublicOutputPath, outputGeoJson)
 
 await writeFile(metadataOutputPath, JSON.stringify(metadata, null, 2))
 
@@ -159,7 +195,7 @@ console.log(
     {
       sourceProvinces: provinceCollection.features.length,
       selectedRegions: outputFeatures.length,
-      outputGeoJson: chinaOutputPath,
+      outputGeoJson: chinaPublicOutputPath,
       outputMetadata: metadataOutputPath,
     },
     null,
