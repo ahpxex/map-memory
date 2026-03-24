@@ -33,10 +33,14 @@ bun run build
 
 接下来会继续补：
 
-- 首版 PRD
 - 页面信息架构
 - 地图数据来源与口径
 - 训练模式与错题回放设计
+- 离线导入导出 schema
+
+## PRD
+
+- See [PRD.md](./PRD.md)
 
 ## Project Intent
 
