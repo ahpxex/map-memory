@@ -21,6 +21,11 @@ echarts.use([CanvasRenderer, MapChart, TooltipComponent])
 
 const registeredMaps = new Set<string>()
 
+type LoadedMapState = {
+  mapKey: string
+  featureCollection: object
+}
+
 function ensureMapRegistered(mapKey: string, featureCollection: object) {
   if (registeredMaps.has(mapKey)) {
     return
@@ -196,7 +201,7 @@ function buildSeries(
 export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
-  const [featureCollection, setFeatureCollection] = useState<object | null>(null)
+  const [loadedMap, setLoadedMap] = useState<LoadedMapState | null>(null)
   const [zoom, setZoom] = useState(1)
   const dataset = useAtomValue(datasetAtom)
   const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
@@ -206,21 +211,26 @@ export function MapCanvas() {
   const selectedRegionId = useAtomValue(selectedRegionIdAtom)
   const trainingSession = useAtomValue(trainingSessionAtom)
   const handleRegionSelection = useSetAtom(handleRegionSelectionAtom)
+  const featureCollection =
+    loadedMap?.mapKey === currentDatasetConfig.mapKey ? loadedMap.featureCollection : null
 
   useEffect(() => {
     let cancelled = false
+    const mapKey = currentDatasetConfig.mapKey
 
-    setZoom(1)
     currentDatasetConfig
       .loadFeatureCollection()
       .then((loadedFeatureCollection) => {
         if (!cancelled) {
-          setFeatureCollection(loadedFeatureCollection)
+          setLoadedMap({
+            mapKey,
+            featureCollection: loadedFeatureCollection,
+          })
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setFeatureCollection(null)
+          setLoadedMap(null)
         }
       })
 

@@ -22,6 +22,12 @@ const excludedNames = new Set([
   'Turkish Republic of Northern Cyprus',
 ])
 
+const regionOverrides = {
+  'cn-tw': {
+    nameZh: '台湾省',
+  },
+}
+
 function makeRegionId(properties) {
   const iso2 = properties.ISO_A2
 
@@ -86,13 +92,14 @@ const metadata = {}
 const outputFeatures = selectedFeatures.map((feature) => {
   const properties = feature.properties ?? {}
   const regionId = makeRegionId(properties)
+  const overrides = regionOverrides[regionId] ?? {}
 
   metadata[regionId] = {
     id: regionId,
     isoA2: properties.ISO_A2 && properties.ISO_A2 !== '-99' ? properties.ISO_A2 : null,
     isoA3: properties.ADM0_A3 ?? null,
     nameEn: properties.NAME_EN ?? properties.NAME ?? regionId,
-    nameZh: properties.NAME_ZH ?? properties.NAME_EN ?? regionId,
+    nameZh: overrides.nameZh ?? properties.NAME_ZH ?? properties.NAME_EN ?? regionId,
     formalNameEn: properties.FORMAL_EN ?? properties.NAME_EN ?? regionId,
     continent: properties.CONTINENT ?? null,
     regionUn: properties.REGION_UN ?? null,
