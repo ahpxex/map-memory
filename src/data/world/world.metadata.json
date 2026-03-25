@@ -363,20 +363,6 @@
     "wikidataId": "Q863",
     "labelWeight": 33.8041
   },
-  "cn-tw": {
-    "id": "cn-tw",
-    "isoA2": "CN-TW",
-    "isoA3": "TWN",
-    "nameEn": "Taiwan",
-    "nameZh": "台湾省",
-    "formalNameEn": "Taiwan",
-    "continent": "Asia",
-    "regionUn": "Asia",
-    "subregion": "Eastern Asia",
-    "population": 23568378,
-    "wikidataId": "Q865",
-    "labelWeight": 12.2066
-  },
   "sy": {
     "id": "sy",
     "isoA2": "SY",
@@ -2230,7 +2216,7 @@
     "isoA2": "CN",
     "isoA3": "CHN",
     "nameEn": "People's Republic of China",
-    "nameZh": "中华人民共和国",
+    "nameZh": "中国",
     "formalNameEn": "People's Republic of China",
     "continent": "Asia",
     "regionUn": "Asia",

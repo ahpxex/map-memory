@@ -6972,24 +6972,423 @@
     ],
     "labelWeight": 0.3315
   },
-  "cn-710000": {
-    "id": "cn-710000",
-    "adcode": 710000,
-    "level": "special",
-    "nameZh": "台湾省",
-    "nameEn": "Taiwan",
-    "parentAdcode": 100000,
-    "parentNameZh": "中国",
-    "parentNameEn": "China",
+  "cn-712400": {
+    "id": "cn-712400",
+    "adcode": 712400,
+    "level": "county",
+    "nameZh": "台东县",
+    "nameEn": "Taitung County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
     "centroid": [
-      120.971485,
-      23.749452
+      121.176986,
+      22.694068
     ],
     "center": [
-      121.509062,
-      25.044332
+      121.176986,
+      22.694068
     ],
-    "labelWeight": 20.9545
+    "labelWeight": 1.3132
+  },
+  "cn-711100": {
+    "id": "cn-711100",
+    "adcode": 711100,
+    "level": "county",
+    "nameZh": "宜兰县",
+    "nameEn": "Yilan County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.641372,
+      24.648946
+    ],
+    "center": [
+      121.641372,
+      24.648946
+    ],
+    "labelWeight": 0.4408
+  },
+  "cn-710100": {
+    "id": "cn-710100",
+    "adcode": 710100,
+    "level": "city",
+    "nameZh": "台北市",
+    "nameEn": "Taipei City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.5615,
+      25.085337
+    ],
+    "center": [
+      121.5615,
+      25.085337
+    ],
+    "labelWeight": 0.0521
+  },
+  "cn-711700": {
+    "id": "cn-711700",
+    "adcode": 711700,
+    "level": "county",
+    "nameZh": "云林县",
+    "nameEn": "Yunlin County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.366531,
+      23.641284
+    ],
+    "center": [
+      120.366531,
+      23.641284
+    ],
+    "labelWeight": 0.304
+  },
+  "cn-710900": {
+    "id": "cn-710900",
+    "adcode": 710900,
+    "level": "city",
+    "nameZh": "桃园市",
+    "nameEn": "Taoyuan City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.232941,
+      24.854794
+    ],
+    "center": [
+      121.232941,
+      24.854794
+    ],
+    "labelWeight": 0.2651
+  },
+  "cn-712100": {
+    "id": "cn-712100",
+    "adcode": 712100,
+    "level": "county",
+    "nameZh": "屏东县",
+    "nameEn": "Pingtung County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.628531,
+      22.390881
+    ],
+    "center": [
+      120.628531,
+      22.390881
+    ],
+    "labelWeight": 0.545
+  },
+  "cn-710400": {
+    "id": "cn-710400",
+    "adcode": 710400,
+    "level": "city",
+    "nameZh": "台中市",
+    "nameEn": "Taichung City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.95589,
+      24.220098
+    ],
+    "center": [
+      120.95589,
+      24.220098
+    ],
+    "labelWeight": 0.4389
+  },
+  "cn-710500": {
+    "id": "cn-710500",
+    "adcode": 710500,
+    "level": "city",
+    "nameZh": "台南市",
+    "nameEn": "Tainan City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.343922,
+      23.150605
+    ],
+    "center": [
+      120.343922,
+      23.150605
+    ],
+    "labelWeight": 0.3287
+  },
+  "cn-710300": {
+    "id": "cn-710300",
+    "adcode": 710300,
+    "level": "city",
+    "nameZh": "基隆市",
+    "nameEn": "Keelung City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.717486,
+      25.124036
+    ],
+    "center": [
+      121.717486,
+      25.124036
+    ],
+    "labelWeight": 0.026
+  },
+  "cn-712800": {
+    "id": "cn-712800",
+    "adcode": 712800,
+    "level": "county",
+    "nameZh": "连江县",
+    "nameEn": "Lienchiang County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.215646,
+      26.163813
+    ],
+    "center": [
+      120.215646,
+      26.163813
+    ],
+    "labelWeight": 0.2703
+  },
+  "cn-711500": {
+    "id": "cn-711500",
+    "adcode": 711500,
+    "level": "county",
+    "nameZh": "南投县",
+    "nameEn": "Nantou County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.98249,
+      23.840738
+    ],
+    "center": [
+      120.98249,
+      23.840738
+    ],
+    "labelWeight": 0.5952
+  },
+  "cn-712600": {
+    "id": "cn-712600",
+    "adcode": 712600,
+    "level": "county",
+    "nameZh": "澎湖县",
+    "nameEn": "Penghu County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      119.520912,
+      23.492441
+    ],
+    "center": [
+      119.520912,
+      23.492441
+    ],
+    "labelWeight": 0.2528
+  },
+  "cn-711300": {
+    "id": "cn-711300",
+    "adcode": 711300,
+    "level": "county",
+    "nameZh": "苗栗县",
+    "nameEn": "Miaoli County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.941899,
+      24.5148
+    ],
+    "center": [
+      120.941899,
+      24.5148
+    ],
+    "labelWeight": 0.2903
+  },
+  "cn-710700": {
+    "id": "cn-710700",
+    "adcode": 710700,
+    "level": "city",
+    "nameZh": "嘉义市",
+    "nameEn": "Chiayi City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.449271,
+      23.478949
+    ],
+    "center": [
+      120.449271,
+      23.478949
+    ],
+    "labelWeight": 0.0095
+  },
+  "cn-711200": {
+    "id": "cn-711200",
+    "adcode": 711200,
+    "level": "county",
+    "nameZh": "新竹县",
+    "nameEn": "Hsinchu County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.172199,
+      24.686935
+    ],
+    "center": [
+      121.172199,
+      24.686935
+    ],
+    "labelWeight": 0.2492
+  },
+  "cn-710800": {
+    "id": "cn-710800",
+    "adcode": 710800,
+    "level": "city",
+    "nameZh": "新北市",
+    "nameEn": "New Taipei City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.644879,
+      24.98715
+    ],
+    "center": [
+      121.644879,
+      24.98715
+    ],
+    "labelWeight": 0.4549
+  },
+  "cn-712500": {
+    "id": "cn-712500",
+    "adcode": 712500,
+    "level": "county",
+    "nameZh": "花莲县",
+    "nameEn": "Hualien County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      121.380075,
+      23.734156
+    ],
+    "center": [
+      121.380075,
+      23.734156
+    ],
+    "labelWeight": 1.0016
+  },
+  "cn-710200": {
+    "id": "cn-710200",
+    "adcode": 710200,
+    "level": "city",
+    "nameZh": "高雄市",
+    "nameEn": "Kaohsiung City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.612024,
+      22.973642
+    ],
+    "center": [
+      120.612024,
+      22.973642
+    ],
+    "labelWeight": 0.8706
+  },
+  "cn-711400": {
+    "id": "cn-711400",
+    "adcode": 711400,
+    "level": "county",
+    "nameZh": "彰化县",
+    "nameEn": "Changhua County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.463091,
+      23.991503
+    ],
+    "center": [
+      120.463091,
+      23.991503
+    ],
+    "labelWeight": 0.1819
+  },
+  "cn-711900": {
+    "id": "cn-711900",
+    "adcode": 711900,
+    "level": "county",
+    "nameZh": "嘉义县",
+    "nameEn": "Chiayi County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.537465,
+      23.425347
+    ],
+    "center": [
+      120.537465,
+      23.425347
+    ],
+    "labelWeight": 0.3539
+  },
+  "cn-712700": {
+    "id": "cn-712700",
+    "adcode": 712700,
+    "level": "county",
+    "nameZh": "金门县",
+    "nameEn": "Kinmen County",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      118.344873,
+      24.457828
+    ],
+    "center": [
+      118.344873,
+      24.457828
+    ],
+    "labelWeight": 0.0387
+  },
+  "cn-710600": {
+    "id": "cn-710600",
+    "adcode": 710600,
+    "level": "city",
+    "nameZh": "新竹市",
+    "nameEn": "Hsinchu City",
+    "parentAdcode": 710000,
+    "parentNameZh": "台湾省",
+    "parentNameEn": "Taiwan Province",
+    "centroid": [
+      120.956034,
+      24.783335
+    ],
+    "center": [
+      120.956034,
+      24.783335
+    ],
+    "labelWeight": 0.0219
   },
   "cn-810000": {
     "id": "cn-810000",

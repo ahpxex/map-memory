@@ -23,9 +23,38 @@ const excludedNames = new Set([
 ])
 
 const regionOverrides = {
-  'cn-tw': {
-    nameZh: '台湾省',
+  cn: {
+    nameZh: '中国',
   },
+}
+
+function toMultiPolygonCoordinates(geometry) {
+  if (!geometry) {
+    return []
+  }
+
+  if (geometry.type === 'Polygon') {
+    return [geometry.coordinates]
+  }
+
+  if (geometry.type === 'MultiPolygon') {
+    return geometry.coordinates
+  }
+
+  return []
+}
+
+function mergeFeatureGeometry(baseFeature, appendedFeature) {
+  return {
+    ...baseFeature,
+    geometry: {
+      type: 'MultiPolygon',
+      coordinates: [
+        ...toMultiPolygonCoordinates(baseFeature.geometry),
+        ...toMultiPolygonCoordinates(appendedFeature.geometry),
+      ],
+    },
+  }
 }
 
 function makeRegionId(properties) {
@@ -79,7 +108,7 @@ function computeLabelWeight(geometry) {
 
 const raw = JSON.parse(await readFile(worldSourcePath, 'utf8'))
 
-const selectedFeatures = raw.features.filter((feature) => {
+const filteredFeatures = raw.features.filter((feature) => {
   const properties = feature.properties ?? {}
 
   return (
@@ -87,6 +116,20 @@ const selectedFeatures = raw.features.filter((feature) => {
     !excludedNames.has(properties.NAME_EN)
   )
 })
+
+const taiwanFeature = filteredFeatures.find(
+  (feature) => makeRegionId(feature.properties ?? {}) === 'cn-tw',
+)
+
+const selectedFeatures = filteredFeatures
+  .filter((feature) => makeRegionId(feature.properties ?? {}) !== 'cn-tw')
+  .map((feature) => {
+    if (makeRegionId(feature.properties ?? {}) !== 'cn' || !taiwanFeature) {
+      return feature
+    }
+
+    return mergeFeatureGeometry(feature, taiwanFeature)
+  })
 
 const metadata = {}
 const outputFeatures = selectedFeatures.map((feature) => {
