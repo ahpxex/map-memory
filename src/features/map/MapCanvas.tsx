@@ -51,11 +51,84 @@ function defaultBorderColor(dataset: DatasetMode) {
   return dataset === 'world' ? '#586357' : '#6b6157'
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function getRegionLabelThreshold(dataset: DatasetMode, zoom: number) {
+  if (dataset === 'world') {
+    if (zoom < 1.2) {
+      return 200
+    }
+
+    if (zoom < 1.65) {
+      return 120
+    }
+
+    if (zoom < 2.2) {
+      return 70
+    }
+
+    if (zoom < 3.1) {
+      return 35
+    }
+
+    if (zoom < 4.4) {
+      return 18
+    }
+
+    if (zoom < 5.8) {
+      return 8
+    }
+
+    return 0
+  }
+
+  if (zoom < 1.35) {
+    return 12
+  }
+
+  if (zoom < 1.8) {
+    return 8
+  }
+
+  if (zoom < 2.35) {
+    return 5
+  }
+
+  if (zoom < 3.1) {
+    return 3.5
+  }
+
+  if (zoom < 4.3) {
+    return 2.4
+  }
+
+  if (zoom < 5.8) {
+    return 1.6
+  }
+
+  if (zoom < 7.5) {
+    return 0.9
+  }
+
+  return 0
+}
+
+function getLabelFontSize(dataset: DatasetMode, zoom: number) {
+  const zoomStrength = Math.log2(Math.max(zoom, 1))
+
+  if (dataset === 'world') {
+    return Math.round(clamp(10 + zoomStrength * 3.4, 10, 18) * 10) / 10
+  }
+
+  return Math.round(clamp(8.8 + zoomStrength * 2.8, 8.8, 15.5) * 10) / 10
+}
+
 function shouldShowRegionLabel(
   region: RegionMeta,
   dataset: DatasetMode,
   zoom: number,
-  interactionMode: 'explore' | 'training',
   selectedRegionId: string | null,
   trainingSession: TrainingSession,
 ) {
@@ -67,33 +140,8 @@ function shouldShowRegionLabel(
     return true
   }
 
-  if (interactionMode === 'training') {
-    return zoom >= (dataset === 'world' ? 2.15 : 3.2)
-  }
-
   const labelWeight = region.labelWeight ?? 0
-
-  if (dataset === 'world') {
-    if (zoom >= 2.15) {
-      return true
-    }
-
-    if (zoom >= 1.45) {
-      return labelWeight >= 40
-    }
-
-    return labelWeight >= 110
-  }
-
-  if (zoom >= 3.1) {
-    return true
-  }
-
-  if (zoom >= 1.9) {
-    return labelWeight >= 0.55
-  }
-
-  return labelWeight >= 2.2
+  return labelWeight >= getRegionLabelThreshold(dataset, zoom)
 }
 
 function buildSeries(
@@ -108,6 +156,8 @@ function buildSeries(
   selectedRegionId: string | null,
   trainingSession: TrainingSession,
 ): MapSeriesOption {
+  const labelFontSize = getLabelFontSize(dataset, zoom)
+
   return {
     type: 'map',
     map: mapKey,
@@ -127,15 +177,19 @@ function buildSeries(
       label: {
         show: showLabels,
         color: '#112013',
+        fontSize: labelFontSize,
       },
       itemStyle: {
         areaColor: '#f4cf7f',
       },
     },
+    labelLayout: {
+      hideOverlap: true,
+    },
     label: {
       show: showLabels,
       color: '#253127',
-      fontSize: dataset === 'world' ? 10 : 9,
+      fontSize: labelFontSize,
       formatter: ({ name }) => {
         const region = regionById.get(String(name))
 
@@ -147,7 +201,6 @@ function buildSeries(
           region,
           dataset,
           zoom,
-          interactionMode,
           selectedRegionId,
           trainingSession,
         )

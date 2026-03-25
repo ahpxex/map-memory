@@ -1,4 +1,4 @@
-import { startTransition } from 'react'
+import { startTransition, useEffect, useRef } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import {
   currentPromptRegionAtom,
@@ -24,6 +24,7 @@ function formatPopulation(value: number | null | undefined) {
 }
 
 export function RegionPopup() {
+  const popupRef = useRef<HTMLDivElement | null>(null)
   const popupState = useAtomValue(popupStateAtom)
   const dataset = useAtomValue(datasetAtom)
   const language = useAtomValue(languageAtom)
@@ -32,6 +33,32 @@ export function RegionPopup() {
   const trainingSession = useAtomValue(trainingSessionAtom)
   const dismissPopup = useSetAtom(dismissPopupAtom)
   const startNextTrainingRound = useSetAtom(startNextTrainingRoundAtom)
+
+  useEffect(() => {
+    if (!popupState || !selectedRegion) {
+      return
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      const popupElement = popupRef.current
+
+      if (!popupElement) {
+        return
+      }
+
+      if (event.target instanceof Node && popupElement.contains(event.target)) {
+        return
+      }
+
+      dismissPopup()
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown, true)
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown, true)
+    }
+  }, [dismissPopup, popupState, selectedRegion])
 
   if (!popupState || !selectedRegion) {
     return null
@@ -48,6 +75,7 @@ export function RegionPopup() {
   return (
     <div
       className="fixed z-30 w-84 rounded-[28px] border border-stone-900/10 bg-white/88 p-4 shadow-[0_30px_90px_rgba(20,26,18,0.18)] backdrop-blur-xl"
+      ref={popupRef}
       style={{ left, top }}
     >
       <div className="flex items-start justify-between gap-4">
