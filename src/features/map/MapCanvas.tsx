@@ -7,6 +7,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import type { MapSeriesOption } from 'echarts'
 import {
   currentDatasetConfigAtom,
+  currentDatasetProgressAtom,
   datasetAtom,
   handleRegionSelectionAtom,
   interactionModeAtom,
@@ -15,11 +16,40 @@ import {
   showLabelsAtom,
   trainingSessionAtom,
 } from '../../state/appAtoms'
-import type { DatasetMode, LanguageMode, RegionMeta, TrainingSession } from '../../types/app'
+import type {
+  DatasetMode,
+  LanguageMode,
+  RegionMeta,
+  RegionProgress,
+  TrainingSession,
+} from '../../types/app'
 
 echarts.use([CanvasRenderer, MapChart, TooltipComponent])
 
 const registeredMaps = new Set<string>()
+const chinaHoverPalette = [
+  '#ec9f70',
+  '#e27f8c',
+  '#d9aa56',
+  '#73b7d8',
+  '#7fbe8e',
+  '#b290ea',
+  '#7ec4b4',
+  '#d890c1',
+  '#8aa6f1',
+  '#ba9a72',
+  '#78c9a2',
+  '#f0b86b',
+]
+
+const worldHoverPaletteByContinent: Record<string, string> = {
+  Asia: '#e8a96c',
+  Europe: '#7ea7eb',
+  Africa: '#7fbe8e',
+  'North America': '#d796c5',
+  'South America': '#cf9a6c',
+  Oceania: '#91a5ef',
+}
 
 type LoadedMapState = {
   mapKey: string
@@ -53,6 +83,88 @@ function defaultBorderColor(dataset: DatasetMode) {
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
+}
+
+function normalizeHex(hex: string) {
+  const normalized = hex.replace('#', '')
+
+  if (normalized.length === 3) {
+    return normalized
+      .split('')
+      .map((part) => `${part}${part}`)
+      .join('')
+  }
+
+  return normalized
+}
+
+function blendHexColors(baseHex: string, targetHex: string, weight: number) {
+  const clampedWeight = clamp(weight, 0, 1)
+  const base = normalizeHex(baseHex)
+  const target = normalizeHex(targetHex)
+
+  const channels = [0, 2, 4].map((offset) => {
+    const baseChannel = Number.parseInt(base.slice(offset, offset + 2), 16)
+    const targetChannel = Number.parseInt(target.slice(offset, offset + 2), 16)
+
+    return Math.round(baseChannel + (targetChannel - baseChannel) * clampedWeight)
+      .toString(16)
+      .padStart(2, '0')
+  })
+
+  return `#${channels.join('')}`
+}
+
+function hashStringToIndex(value: string, modulo: number) {
+  let hash = 0
+
+  for (const character of value) {
+    hash = (hash * 31 + character.charCodeAt(0)) >>> 0
+  }
+
+  return hash % modulo
+}
+
+function getRegionHoverAreaColor(region: RegionMeta, dataset: DatasetMode) {
+  if (dataset === 'world') {
+    return (
+      worldHoverPaletteByContinent[region.continent ?? ''] ??
+      chinaHoverPalette[hashStringToIndex(region.id, chinaHoverPalette.length)]
+    )
+  }
+
+  const provinceKey = String(region.parentAdcode ?? region.adcode ?? region.id)
+  return chinaHoverPalette[hashStringToIndex(provinceKey, chinaHoverPalette.length)]
+}
+
+function getRegionHoverBorderColor(region: RegionMeta, dataset: DatasetMode) {
+  return blendHexColors(getRegionHoverAreaColor(region, dataset), '#112013', 0.38)
+}
+
+function getPracticeAccentColor(progress: RegionProgress) {
+  const accuracy = progress.attempts > 0 ? progress.correct / progress.attempts : 0
+
+  if (accuracy >= 0.85) {
+    return '#8ac89a'
+  }
+
+  if (accuracy >= 0.55) {
+    return '#d7bc74'
+  }
+
+  return '#d89c96'
+}
+
+function getPracticedAreaColor(dataset: DatasetMode, progress: RegionProgress) {
+  const baseColor = defaultAreaColor(dataset)
+  const accentColor = getPracticeAccentColor(progress)
+  const intensity = clamp(0.34 + Math.log2(progress.attempts + 1) * 0.08, 0.34, 0.58)
+
+  return blendHexColors(baseColor, accentColor, intensity)
+}
+
+function getPracticedBorderColor(dataset: DatasetMode, progress: RegionProgress) {
+  return blendHexColors(defaultBorderColor(dataset), getPracticeAccentColor(progress), 0.22)
 }
 
 function getRegionLabelThreshold(dataset: DatasetMode, zoom: number) {
@@ -149,6 +261,7 @@ function buildSeries(
   mapKey: string,
   regionById: Map<string, RegionMeta>,
   regionIds: string[],
+  progressByRegionId: Record<string, RegionProgress>,
   language: LanguageMode,
   showLabels: boolean,
   zoom: number,
@@ -209,9 +322,21 @@ function buildSeries(
       },
     },
     data: regionIds.map((regionId) => {
-      let areaColor = defaultAreaColor(dataset)
-      let borderColor = defaultBorderColor(dataset)
+      const region = regionById.get(regionId)
+      const progress = progressByRegionId[regionId]
+      let areaColor =
+        progress && progress.attempts > 0
+          ? getPracticedAreaColor(dataset, progress)
+          : defaultAreaColor(dataset)
+      let borderColor =
+        progress && progress.attempts > 0
+          ? getPracticedBorderColor(dataset, progress)
+          : defaultBorderColor(dataset)
       let borderWidth = dataset === 'world' ? 0.8 : 0.6
+      const hoverAreaColor = region ? getRegionHoverAreaColor(region, dataset) : '#f4cf7f'
+      const hoverBorderColor = region
+        ? getRegionHoverBorderColor(region, dataset)
+        : defaultBorderColor(dataset)
 
       if (interactionMode === 'explore' && selectedRegionId === regionId) {
         areaColor = '#a6c7f6'
@@ -241,6 +366,13 @@ function buildSeries(
 
       return {
         name: regionId,
+        emphasis: {
+          itemStyle: {
+            areaColor: hoverAreaColor,
+            borderColor: hoverBorderColor,
+            borderWidth: Math.max(borderWidth, 1.2),
+          },
+        },
         itemStyle: {
           areaColor,
           borderColor,
@@ -258,6 +390,7 @@ export function MapCanvas() {
   const [zoom, setZoom] = useState(1)
   const dataset = useAtomValue(datasetAtom)
   const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
+  const currentDatasetProgress = useAtomValue(currentDatasetProgressAtom)
   const language = useAtomValue(languageAtom)
   const showLabels = useAtomValue(showLabelsAtom)
   const interactionMode = useAtomValue(interactionModeAtom)
@@ -367,6 +500,7 @@ export function MapCanvas() {
           currentDatasetConfig.mapKey,
           currentDatasetConfig.regionById,
           currentDatasetConfig.regionIds,
+          currentDatasetProgress,
           language,
           showLabels,
           zoom,
@@ -378,6 +512,7 @@ export function MapCanvas() {
     })
   }, [
     currentDatasetConfig.mapKey,
+    currentDatasetProgress,
     currentDatasetConfig.regionById,
     currentDatasetConfig.regionIds,
     dataset,

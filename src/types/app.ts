@@ -36,6 +36,22 @@ export type RegionProgress = {
 
 export type ProgressByDataset = Record<DatasetMode, Record<string, RegionProgress>>
 
+export type PracticeRecordEntry = {
+  regionId: string
+  dataset: DatasetMode
+  nameZh: string
+  nameEn: string
+  parentNameZh?: string | null
+  parentNameEn?: string | null
+  level?: string | null
+  attempts: number
+  correct: number
+  wrong: number
+  accuracy: number
+  lastSeenAt: string | null
+  lastCorrectAt: string | null
+}
+
 export type UserSettings = {
   dataset: DatasetMode
   interactionMode: InteractionMode

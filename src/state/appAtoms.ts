@@ -4,6 +4,7 @@ import type {
   DatasetMode,
   LanguageMode,
   PersistedAppData,
+  PracticeRecordEntry,
   PopupPosition,
   PopupState,
   ProgressByDataset,
@@ -206,6 +207,56 @@ export const currentDatasetStatsAtom = atom((get) => {
     correct,
     accuracy: attempts > 0 ? Math.round((correct / attempts) * 100) : 0,
   }
+})
+
+export const currentDatasetPracticeEntriesAtom = atom((get) => {
+  const dataset = get(datasetAtom)
+  const progressMap = get(currentDatasetProgressAtom)
+  const config = get(currentDatasetConfigAtom)
+
+  return Object.entries(progressMap)
+    .filter(([, progress]) => progress.attempts > 0)
+    .map(([regionId, progress]) => {
+      const region = config.regionById.get(regionId)
+
+      if (!region) {
+        return null
+      }
+
+      const attempts = progress.attempts
+      const correct = progress.correct
+
+      return {
+        regionId,
+        dataset,
+        nameZh: region.nameZh,
+        nameEn: region.nameEn,
+        parentNameZh: region.parentNameZh ?? null,
+        parentNameEn: region.parentNameEn ?? null,
+        level: region.level ?? null,
+        attempts,
+        correct,
+        wrong: progress.wrong,
+        accuracy: attempts > 0 ? Math.round((correct / attempts) * 100) : 0,
+        lastSeenAt: progress.lastSeenAt,
+        lastCorrectAt: progress.lastCorrectAt,
+      } satisfies PracticeRecordEntry
+    })
+    .filter((entry) => entry !== null)
+    .toSorted((left, right) => {
+      const rightSeenAt = right.lastSeenAt ? Date.parse(right.lastSeenAt) : 0
+      const leftSeenAt = left.lastSeenAt ? Date.parse(left.lastSeenAt) : 0
+
+      if (rightSeenAt !== leftSeenAt) {
+        return rightSeenAt - leftSeenAt
+      }
+
+      if (right.attempts !== left.attempts) {
+        return right.attempts - left.attempts
+      }
+
+      return right.accuracy - left.accuracy
+    })
 })
 
 export const startNextTrainingRoundAtom = atom(null, (get, set) => {
