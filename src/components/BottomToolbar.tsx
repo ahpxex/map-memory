@@ -1,6 +1,8 @@
 import { startTransition, useDeferredValue, useEffect, useRef, useState } from 'react'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { buildExportSnapshot, downloadSnapshot } from '../lib/storage'
+import { t, type Language } from '../lib/i18n'
+import { Tooltip } from './Tooltip'
 import {
   currentDatasetImplementedAtom,
   currentDatasetPracticeEntriesAtom,
@@ -17,18 +19,26 @@ import {
 } from '../state/appAtoms'
 import { isExportSnapshot, isPersistedAppData } from '../types/app'
 
-const journalTimeFormatter = new Intl.DateTimeFormat('zh-CN', {
-  month: '2-digit',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-})
+const journalTimeFormatter: Record<Language, Intl.DateTimeFormat> = {
+  zh: new Intl.DateTimeFormat('zh-CN', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }),
+  en: new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }),
+}
 
-function formatPracticeTime(value: string | null) {
-  if (!value) return '未记录'
+function formatPracticeTime(value: string | null, lang: Language) {
+  if (!value) return lang === 'zh' ? '未记录' : 'Never'
   const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return '未记录'
-  return journalTimeFormatter.format(date).replace(',', ' ')
+  if (Number.isNaN(date.getTime())) return lang === 'zh' ? '未记录' : 'Never'
+  return journalTimeFormatter[lang].format(date)
 }
 
 // Minimalist Icons - thin stroke, simple shapes
@@ -107,14 +117,6 @@ function UploadIcon({ className }: { className?: string }) {
   )
 }
 
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-      <path d="M20 6L9 17l-5-5" />
-    </svg>
-  )
-}
-
 function XIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
@@ -166,12 +168,12 @@ export function BottomToolbar() {
         <TargetIcon className="h-4 w-4 text-stone-400 group-hover:text-stone-600" />
         <div className="flex items-baseline gap-2">
           <span className="text-xs text-stone-400">
-            {trainingMode === 'locate-from-name' ? '找到' : '训练'}
+            {trainingMode === 'locate-from-name' ? t('find', language) : t('trainingPrompt', language)}
           </span>
           <span className="text-sm font-medium text-stone-800">
             {currentPromptRegion
               ? language === 'en' ? currentPromptRegion.nameEn : currentPromptRegion.nameZh
-              : '准备中...'}
+              : t('preparing', language)}
           </span>
         </div>
       </div>
@@ -198,7 +200,10 @@ export function BottomToolbar() {
               <HistoryIcon className="h-5 w-5 text-stone-400" />
               <div>
                 <h3 className="text-sm font-medium text-stone-800">
-                  {dataset === 'world' ? '世界国家' : '中国地级市/州'}
+                  {dataset === 'world' 
+                    ? (language === 'zh' ? '世界国家' : 'World Countries')
+                    : (language === 'zh' ? '中国地级市/州' : 'China Cities/Prefectures')
+                  }
                 </h3>
                 <p className="text-xs text-stone-400">
                   {currentDatasetStats.practicedRegions} / {currentDatasetStats.totalRegions} · {currentDatasetStats.accuracy}%
@@ -240,11 +245,11 @@ export function BottomToolbar() {
                         <div className="mt-0.5 flex items-center gap-3 text-xs text-stone-400">
                           <span>{subtitle}</span>
                           <span>·</span>
-                          <span>{formatPracticeTime(entry.lastSeenAt)}</span>
+                          <span>{formatPracticeTime(entry.lastSeenAt, language)}</span>
                         </div>
                       </div>
                       <div className="ml-4 flex items-center gap-3 text-xs">
-                        <span className="text-stone-400">{entry.attempts} 次</span>
+                        <span className="text-stone-400">{entry.attempts}</span>
                         <span className={`font-medium ${
                           entry.accuracy >= 85 ? 'text-emerald-600' :
                           entry.accuracy >= 55 ? 'text-amber-600' :
@@ -260,8 +265,8 @@ export function BottomToolbar() {
             </div>
           ) : (
             <div className="py-8 text-center">
-              <p className="text-sm text-stone-400">还没有练习记录</p>
-              <p className="mt-1 text-xs text-stone-300">开始练习后，这里会显示你的进度</p>
+              <p className="text-sm text-stone-400">{t('noRecords', language)}</p>
+              <p className="mt-1 text-xs text-stone-300">{t('startPracticing', language)}</p>
             </div>
           )}
         </div>
@@ -272,129 +277,141 @@ export function BottomToolbar() {
         <div className="flex items-center gap-1 rounded-full border border-stone-200/60 bg-white/80 px-2 py-1.5 shadow-lg backdrop-blur-xl">
           
           {/* Dataset */}
-          <button
-            onClick={() => setDataset('world')}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-              dataset === 'world'
-                ? 'bg-stone-800 text-white'
-                : 'text-stone-400 hover:text-stone-600'
-            }`}
-            title="世界"
-          >
-            <GlobeIcon className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setDataset('china')}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-              dataset === 'china'
-                ? 'bg-stone-800 text-white'
-                : 'text-stone-400 hover:text-stone-600'
-            }`}
-            title="中国"
-          >
-            <MapIcon className="h-4 w-4" />
-          </button>
+          <Tooltip content={t('world', language)}>
+            <button
+              onClick={() => setDataset('world')}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                dataset === 'world'
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              <GlobeIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
+          <Tooltip content={t('china', language)}>
+            <button
+              onClick={() => setDataset('china')}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                dataset === 'china'
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              <MapIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
 
           <div className="mx-1 h-4 w-px bg-stone-200" />
 
           {/* Mode */}
-          <button
-            onClick={() => setInteractionMode('explore')}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-              interactionMode === 'explore'
-                ? 'bg-stone-100 text-stone-800'
-                : 'text-stone-400 hover:text-stone-600'
-            }`}
-            title="探索"
-          >
-            <CompassIcon className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setInteractionMode('training')}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-              interactionMode === 'training'
-                ? 'bg-stone-800 text-white'
-                : 'text-stone-400 hover:text-stone-600'
-            }`}
-            title="训练"
-          >
-            <GraduationIcon className="h-4 w-4" />
-          </button>
+          <Tooltip content={t('explore', language)}>
+            <button
+              onClick={() => setInteractionMode('explore')}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                interactionMode === 'explore'
+                  ? 'bg-stone-100 text-stone-800'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              <CompassIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
+          <Tooltip content={t('training', language)}>
+            <button
+              onClick={() => setInteractionMode('training')}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                interactionMode === 'training'
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              <GraduationIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
 
           <div className="mx-1 h-4 w-px bg-stone-200" />
 
           {/* Labels */}
-          <button
-            onClick={() => setShowLabels(!showLabels)}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-              showLabels
-                ? 'bg-emerald-50 text-emerald-600'
-                : 'text-stone-400 hover:text-stone-600'
-            }`}
-            title="标签"
-          >
-            <TagIcon className="h-4 w-4" />
-          </button>
+          <Tooltip content={showLabels ? t('labelsOn', language) : t('labelsOff', language)}>
+            <button
+              onClick={() => setShowLabels(!showLabels)}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                showLabels
+                  ? 'bg-emerald-50 text-emerald-600'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              <TagIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
 
           {/* Language */}
-          <button
-            onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
-            className="flex h-8 items-center justify-center rounded-full px-2.5 text-xs font-medium text-stone-500 transition hover:bg-stone-100 hover:text-stone-700"
-            title={language === 'zh' ? '切换至 English' : 'Switch to 中文'}
-          >
-            {language === 'zh' ? '中' : 'EN'}
-          </button>
+          <Tooltip content={language === 'zh' ? t('switchToEn', language) : t('switchToZh', language)}>
+            <button
+              onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
+              className="flex h-8 items-center justify-center rounded-full px-2.5 text-xs font-medium text-stone-500 transition hover:bg-stone-100 hover:text-stone-700"
+            >
+              {language === 'zh' ? '中' : 'EN'}
+            </button>
+          </Tooltip>
 
           <div className="mx-1 h-4 w-px bg-stone-200" />
 
           {/* Stats - minimal */}
-          <div className="flex items-center gap-3 px-2 text-xs text-stone-500">
-            <span>{currentDatasetStats.practicedRegions}/{currentDatasetStats.totalRegions}</span>
-            <span className="text-stone-300">·</span>
-            <span>{currentDatasetStats.accuracy}%</span>
-          </div>
+          <Tooltip content={`${t('practiced', language)} / ${t('accuracy', language)}`}>
+            <div className="flex items-center gap-3 px-2 text-xs text-stone-500">
+              <span>{currentDatasetStats.practicedRegions}/{currentDatasetStats.totalRegions}</span>
+              <span className="text-stone-300">·</span>
+              <span>{currentDatasetStats.accuracy}%</span>
+            </div>
+          </Tooltip>
 
           <div className="mx-1 h-4 w-px bg-stone-200" />
 
           {/* Records */}
-          <button
-            onClick={() => setRecordsPanelOpen(!recordsPanelOpen)}
-            className={`flex h-8 items-center gap-1.5 rounded-full px-3 transition ${
-              recordsPanelOpen
-                ? 'bg-stone-800 text-white'
-                : 'text-stone-500 hover:bg-stone-100 hover:text-stone-700'
-            }`}
-          >
-            <HistoryIcon className="h-3.5 w-3.5" />
-            <span className="text-xs">记录</span>
-            {currentDatasetStats.practicedRegions > 0 && (
-              <span className={`ml-0.5 text-[10px] ${recordsPanelOpen ? 'text-stone-300' : 'text-stone-400'}`}>
-                {currentDatasetStats.practicedRegions}
-              </span>
-            )}
-          </button>
+          <Tooltip content={t('records', language)}>
+            <button
+              onClick={() => setRecordsPanelOpen(!recordsPanelOpen)}
+              className={`flex h-8 items-center gap-1.5 rounded-full px-3 transition ${
+                recordsPanelOpen
+                  ? 'bg-stone-800 text-white'
+                  : 'text-stone-500 hover:bg-stone-100 hover:text-stone-700'
+              }`}
+            >
+              <HistoryIcon className="h-3.5 w-3.5" />
+              <span className="text-xs">{t('records', language)}</span>
+              {currentDatasetStats.practicedRegions > 0 && (
+                <span className={`ml-0.5 text-[10px] ${recordsPanelOpen ? 'text-stone-300' : 'text-stone-400'}`}>
+                  {currentDatasetStats.practicedRegions}
+                </span>
+              )}
+            </button>
+          </Tooltip>
 
           <div className="mx-1 h-4 w-px bg-stone-200" />
 
           {/* Data */}
-          <button
-            onClick={() => {
-              const snapshot = buildExportSnapshot(persistedData)
-              const filename = `map-memory-${snapshot.exportedAt.slice(0, 10)}.json`
-              downloadSnapshot(filename, snapshot)
-            }}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-stone-400 transition hover:text-stone-600"
-            title="导出"
-          >
-            <DownloadIcon className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => importInputRef.current?.click()}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-stone-400 transition hover:text-stone-600"
-            title="导入"
-          >
-            <UploadIcon className="h-4 w-4" />
-          </button>
+          <Tooltip content={t('export', language)}>
+            <button
+              onClick={() => {
+                const snapshot = buildExportSnapshot(persistedData)
+                const filename = `map-memory-${snapshot.exportedAt.slice(0, 10)}.json`
+                downloadSnapshot(filename, snapshot)
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-stone-400 transition hover:text-stone-600"
+            >
+              <DownloadIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
+          <Tooltip content={t('import', language)}>
+            <button
+              onClick={() => importInputRef.current?.click()}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-stone-400 transition hover:text-stone-600"
+            >
+              <UploadIcon className="h-4 w-4" />
+            </button>
+          </Tooltip>
 
           <input
             accept="application/json"
@@ -413,13 +430,13 @@ export function BottomToolbar() {
                     : null
 
                 if (!importedData) {
-                  window.alert('This file is not a valid map-memory export.')
+                  window.alert(t('importInvalidFile', language))
                   event.target.value = ''
                   return
                 }
 
                 const confirmed = window.confirm(
-                  '导入将替换当前的本地训练数据，是否继续？',
+                  t('importReplaceWarning', language),
                 )
 
                 if (!confirmed) {
@@ -431,7 +448,7 @@ export function BottomToolbar() {
                   replacePersistedData(importedData)
                 })
               } catch {
-                window.alert('导入失败，文件格式无效。')
+                window.alert(t('importFailed', language))
                 event.target.value = ''
                 return
               }
