@@ -14,10 +14,15 @@ const taiwanCountySourcePath = path.resolve(
   '../src/data/china/taiwan-counties-source.geo.json',
 )
 const chinaPublicOutputPath = path.resolve(__dirname, '../public/data/china/china.geo.json')
+const chinaDetailedPublicOutputPath = path.resolve(
+  __dirname,
+  '../public/data/china/china.detail.geo.json',
+)
 const metadataOutputPath = path.resolve(
   __dirname,
   '../src/data/china/china.metadata.json',
 )
+const CHINA_SIMPLIFY_TOLERANCE = 0.01
 
 const specialProvinceFallbacks = new Set([
   110000, // Beijing
@@ -131,6 +136,145 @@ function computeApproximateCenter(geometry) {
     Number(((minX + maxX) / 2).toFixed(6)),
     Number(((minY + maxY) / 2).toFixed(6)),
   ]
+}
+
+function getSquaredSegmentDistance(point, segmentStart, segmentEnd) {
+  let x = segmentStart[0]
+  let y = segmentStart[1]
+  let dx = segmentEnd[0] - x
+  let dy = segmentEnd[1] - y
+
+  if (dx !== 0 || dy !== 0) {
+    const projection =
+      ((point[0] - x) * dx + (point[1] - y) * dy) / (dx * dx + dy * dy)
+
+    if (projection > 1) {
+      x = segmentEnd[0]
+      y = segmentEnd[1]
+    } else if (projection > 0) {
+      x += dx * projection
+      y += dy * projection
+    }
+  }
+
+  dx = point[0] - x
+  dy = point[1] - y
+
+  return dx * dx + dy * dy
+}
+
+function simplifyDouglasPeucker(points, firstIndex, lastIndex, squaredTolerance, target) {
+  let maxSquaredDistance = squaredTolerance
+  let furthestPointIndex = -1
+
+  for (let index = firstIndex + 1; index < lastIndex; index += 1) {
+    const squaredDistance = getSquaredSegmentDistance(
+      points[index],
+      points[firstIndex],
+      points[lastIndex],
+    )
+
+    if (squaredDistance > maxSquaredDistance) {
+      furthestPointIndex = index
+      maxSquaredDistance = squaredDistance
+    }
+  }
+
+  if (furthestPointIndex === -1) {
+    return
+  }
+
+  if (furthestPointIndex - firstIndex > 1) {
+    simplifyDouglasPeucker(
+      points,
+      firstIndex,
+      furthestPointIndex,
+      squaredTolerance,
+      target,
+    )
+  }
+
+  target.push(points[furthestPointIndex])
+
+  if (lastIndex - furthestPointIndex > 1) {
+    simplifyDouglasPeucker(
+      points,
+      furthestPointIndex,
+      lastIndex,
+      squaredTolerance,
+      target,
+    )
+  }
+}
+
+function simplifyLine(points, tolerance) {
+  if (points.length <= 2) {
+    return points
+  }
+
+  const squaredTolerance = tolerance * tolerance
+  const simplified = [points[0]]
+  const lastIndex = points.length - 1
+
+  simplifyDouglasPeucker(points, 0, lastIndex, squaredTolerance, simplified)
+  simplified.push(points[lastIndex])
+
+  return simplified
+}
+
+function simplifyRing(ring, tolerance) {
+  if (!Array.isArray(ring) || ring.length <= 4) {
+    return ring
+  }
+
+  const isClosed =
+    ring.length > 1 &&
+    ring[0][0] === ring[ring.length - 1][0] &&
+    ring[0][1] === ring[ring.length - 1][1]
+  const openRing = isClosed ? ring.slice(0, -1) : ring.slice()
+  let simplifiedRing = simplifyLine(openRing, tolerance)
+
+  if (simplifiedRing.length < 3) {
+    simplifiedRing = openRing.slice(0, Math.min(openRing.length, 3))
+  }
+
+  const firstPoint = simplifiedRing[0]
+  const lastPoint = simplifiedRing[simplifiedRing.length - 1]
+
+  if (firstPoint[0] !== lastPoint[0] || firstPoint[1] !== lastPoint[1]) {
+    simplifiedRing.push([...firstPoint])
+  }
+
+  if (simplifiedRing.length < 4) {
+    simplifiedRing = openRing.slice(0, Math.min(openRing.length, 3))
+    simplifiedRing.push([...simplifiedRing[0]])
+  }
+
+  return simplifiedRing
+}
+
+function simplifyGeometry(geometry, tolerance) {
+  if (!geometry || tolerance <= 0) {
+    return geometry
+  }
+
+  if (geometry.type === 'Polygon') {
+    return {
+      ...geometry,
+      coordinates: geometry.coordinates.map((ring) => simplifyRing(ring, tolerance)),
+    }
+  }
+
+  if (geometry.type === 'MultiPolygon') {
+    return {
+      ...geometry,
+      coordinates: geometry.coordinates.map((polygon) =>
+        polygon.map((ring) => simplifyRing(ring, tolerance)),
+      ),
+    }
+  }
+
+  return geometry
 }
 
 async function buildTaiwanCountyFeatures(provinceAdcode, provinceNameZh, provinceNameEn) {
@@ -296,7 +440,20 @@ const outputGeoJson = JSON.stringify(
   2,
 )
 
-await writeFile(chinaPublicOutputPath, outputGeoJson)
+const simplifiedOutputGeoJson = JSON.stringify(
+  {
+    type: 'FeatureCollection',
+    features: outputFeatures.map((feature) => ({
+      ...feature,
+      geometry: simplifyGeometry(feature.geometry, CHINA_SIMPLIFY_TOLERANCE),
+    })),
+  },
+  null,
+  2,
+)
+
+await writeFile(chinaDetailedPublicOutputPath, outputGeoJson)
+await writeFile(chinaPublicOutputPath, simplifiedOutputGeoJson)
 
 await writeFile(metadataOutputPath, JSON.stringify(metadata, null, 2))
 
@@ -306,6 +463,8 @@ console.log(
       sourceProvinces: provinceCollection.features.length,
       selectedRegions: outputFeatures.length,
       outputGeoJson: chinaPublicOutputPath,
+      outputDetailedGeoJson: chinaDetailedPublicOutputPath,
+      simplifyTolerance: CHINA_SIMPLIFY_TOLERANCE,
       outputMetadata: metadataOutputPath,
     },
     null,
