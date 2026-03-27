@@ -1,59 +1,62 @@
 /**
- * Region Popup - Updated for Training System v2
+ * Region Popup - context for explore mode and answer feedback for training mode.
  */
 
 import { useEffect, useRef } from 'react'
+import { useAtom } from 'jotai'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { atom, useAtom } from 'jotai'
-import { 
-  datasetAtom, 
-  languageAtom, 
+import {
+  datasetAtom,
+  languageAtom,
   trainingSessionAtom,
   nextQuestionAtom,
   interactionModeAtom,
   currentDatasetConfigAtom,
 } from '../state/trainingAtoms'
-
-// 用于探索模式的选中区域
-const selectedRegionIdForExploreAtom = atom<string | null>(null)
+import { selectedRegionIdForExploreAtom } from '../state/exploreAtoms'
+import type { TrainingSession, UserAnswer } from '../types/training'
 
 export function RegionPopup() {
   const interactionMode = useAtomValue(interactionModeAtom)
   const trainingSession = useAtomValue(trainingSessionAtom)
 
-  if (interactionMode === 'training' && trainingSession) {
+  if (interactionMode === 'training' && trainingSession?.userAnswer) {
     return <TrainingResultPopup />
   }
 
-  return <ExplorePopup />
+  if (interactionMode === 'explore') {
+    return <ExplorePopup />
+  }
+
+  return null
 }
 
-// 探索模式弹窗
 function ExplorePopup() {
   const popupRef = useRef<HTMLDivElement | null>(null)
   const [selectedRegionId, setSelectedRegionId] = useAtom(selectedRegionIdForExploreAtom)
   const dataset = useAtomValue(datasetAtom)
   const language = useAtomValue(languageAtom)
   const config = useAtomValue(currentDatasetConfigAtom)
-  
   const region = selectedRegionId ? config.regionById.get(selectedRegionId) : null
-  
-  if (!region) return null
-
-  const title = language === 'en' ? region.nameEn : region.nameZh
-  const subtitle = language === 'en' ? region.nameZh : region.nameEn
 
   useEffect(() => {
+    if (!selectedRegionId) return undefined
+
     function handlePointerDown(event: PointerEvent) {
       const popupElement = popupRef.current
       if (!popupElement) return
       if (event.target instanceof Node && popupElement.contains(event.target)) return
-      ;(setSelectedRegionId as (value: string | null) => void)(null)
+      setSelectedRegionId(null)
     }
 
     document.addEventListener('pointerdown', handlePointerDown, true)
     return () => document.removeEventListener('pointerdown', handlePointerDown, true)
-  }, [setSelectedRegionId])
+  }, [selectedRegionId, setSelectedRegionId])
+
+  if (!region) return null
+
+  const title = language === 'en' ? region.nameEn : region.nameZh
+  const subtitle = language === 'en' ? region.nameZh : region.nameEn
 
   return (
     <div
@@ -62,34 +65,22 @@ function ExplorePopup() {
     >
       <div className="mb-3">
         <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-stone-400">
-          Region Info
+          {dataset === 'world' ? 'Country' : 'Region'}
         </span>
         <h3 className="mt-1 text-xl font-semibold text-stone-900">{title}</h3>
         <p className="text-sm text-stone-500">{subtitle}</p>
       </div>
-      
+
       <div className="grid grid-cols-2 gap-2 text-sm">
         {dataset === 'world' ? (
           <>
-            <div className="rounded-lg bg-stone-50 p-2">
-              <span className="text-xs text-stone-400">Continent</span>
-              <p className="font-medium text-stone-700">{region.continent ?? 'Unknown'}</p>
-            </div>
-            <div className="rounded-lg bg-stone-50 p-2">
-              <span className="text-xs text-stone-400">Subregion</span>
-              <p className="font-medium text-stone-700">{region.subregion ?? 'Unknown'}</p>
-            </div>
+            <InfoCard label="Continent" value={region.continent ?? 'Unknown'} />
+            <InfoCard label="Subregion" value={region.subregion ?? 'Unknown'} />
           </>
         ) : (
           <>
-            <div className="rounded-lg bg-stone-50 p-2">
-              <span className="text-xs text-stone-400">Province</span>
-              <p className="font-medium text-stone-700">{region.parentNameZh ?? 'Unknown'}</p>
-            </div>
-            <div className="rounded-lg bg-stone-50 p-2">
-              <span className="text-xs text-stone-400">Level</span>
-              <p className="font-medium text-stone-700">{region.level ?? 'Unknown'}</p>
-            </div>
+            <InfoCard label="Province" value={region.parentNameZh ?? 'Unknown'} />
+            <InfoCard label="Level" value={region.level ?? 'Unknown'} />
           </>
         )}
       </div>
@@ -97,64 +88,95 @@ function ExplorePopup() {
   )
 }
 
-// 训练结果弹窗
-function TrainingResultPopup() {
-  const session = useAtomValue(trainingSessionAtom)
-  const nextQuestion = useSetAtom(nextQuestionAtom)
-  
-  if (!session) return null
-
-  const { prompt, status, userAnswer } = session
-  const hasAnswered = userAnswer !== null
-  
-  // 获取反馈文本
-  let feedbackText = ''
-  let feedbackClass = ''
-  let feedbackIcon = ''
-  
-  if (status === 'correct') {
-    feedbackText = '回答正确！'
-    feedbackClass = 'bg-emerald-50 text-emerald-900'
-    feedbackIcon = '✓'
-  } else if (status === 'wrong') {
-    feedbackText = '回答错误'
-    feedbackClass = 'bg-rose-50 text-rose-900'
-    feedbackIcon = '✗'
-  }
-  
+function InfoCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="pointer-events-auto fixed left-1/2 top-1/2 z-30 w-96 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-stone-200/60 bg-white/95 p-6 shadow-xl backdrop-blur-xl">
-      {/* 题目展示 */}
-      <div className="mb-4">
-        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-stone-400">
-          题目
-        </span>
-        <h3 className="mt-1 text-lg font-semibold text-stone-800">
-          {prompt.content}
-        </h3>
-      </div>
-      
-      {/* 结果展示 */}
-      {hasAnswered && (
-        <div className={`mb-4 rounded-xl p-4 ${feedbackClass}`}>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">{feedbackIcon}</span>
-            <span className="font-semibold">{feedbackText}</span>
-          </div>
-        </div>
-      )}
-      
-      {/* 操作按钮 */}
-      <div className="flex gap-2">
-        <button
-          onClick={() => nextQuestion()}
-          className="flex-1 rounded-full bg-stone-800 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700"
-        >
-          {hasAnswered ? '下一题' : '跳过'}
-        </button>
-      </div>
+    <div className="rounded-lg bg-stone-50 p-2">
+      <span className="text-xs text-stone-400">{label}</span>
+      <p className="font-medium text-stone-700">{value}</p>
     </div>
   )
 }
 
-export { selectedRegionIdForExploreAtom }
+function formatChoiceLabel(session: TrainingSession, optionIndex: number) {
+  if (!session.options || optionIndex < 0) {
+    return '未知选项'
+  }
+  return session.options[optionIndex]?.label ?? '未知选项'
+}
+
+function formatRegionAnswer(
+  answer: UserAnswer,
+  session: TrainingSession,
+  regionById: Map<string, { nameZh: string; nameEn: string }>
+) {
+  switch (answer.type) {
+    case 'map-click':
+      return regionById.get(answer.regionId)?.nameZh ?? answer.regionId
+    case 'choice':
+      return formatChoiceLabel(session, answer.optionIndex)
+    case 'boolean':
+      return answer.value ? '是' : '否'
+    case 'streak':
+      return answer.regionIds
+        .map((regionId) => regionById.get(regionId)?.nameZh ?? regionId)
+        .join('、')
+    default:
+      return '未知答案'
+  }
+}
+
+function TrainingResultPopup() {
+  const session = useAtomValue(trainingSessionAtom)
+  const config = useAtomValue(currentDatasetConfigAtom)
+  const nextQuestion = useSetAtom(nextQuestionAtom)
+
+  if (!session?.userAnswer) return null
+
+  const isCorrect = session.status === 'correct'
+  const correctAnswerText = formatRegionAnswer(session.correctAnswer, session, config.regionById)
+  const userAnswerText = formatRegionAnswer(session.userAnswer, session, config.regionById)
+
+  return (
+    <div className="pointer-events-auto fixed left-1/2 top-1/2 z-30 w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-stone-200/60 bg-white/95 p-6 shadow-xl backdrop-blur-xl">
+      <div className="mb-4">
+        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-stone-400">
+          训练结果
+        </span>
+        <h3 className="mt-1 text-lg font-semibold text-stone-800">
+          {session.prompt.content}
+        </h3>
+      </div>
+
+      <div
+        className={`mb-4 rounded-xl border px-4 py-3 ${
+          isCorrect
+            ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+            : 'border-rose-200 bg-rose-50 text-rose-900'
+        }`}
+      >
+        <div className="flex items-center gap-2 text-base font-semibold">
+          <span className="text-xl">{isCorrect ? '✓' : '✗'}</span>
+          <span>{isCorrect ? '回答正确' : '回答错误'}</span>
+        </div>
+      </div>
+
+      <div className="mb-5 space-y-2 rounded-xl bg-stone-50 p-4 text-sm text-stone-700">
+        <div className="flex items-start justify-between gap-4">
+          <span className="text-stone-400">你的答案</span>
+          <span className="text-right font-medium">{userAnswerText}</span>
+        </div>
+        <div className="flex items-start justify-between gap-4">
+          <span className="text-stone-400">正确答案</span>
+          <span className="text-right font-medium">{correctAnswerText}</span>
+        </div>
+      </div>
+
+      <button
+        onClick={() => nextQuestion()}
+        className="w-full rounded-full bg-stone-800 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700"
+      >
+        下一题
+      </button>
+    </div>
+  )
+}

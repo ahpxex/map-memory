@@ -8,7 +8,6 @@ import { openDB } from 'idb'
 import type { 
   PersistedTrainingData,
   ExportTrainingSnapshot,
-  SkillProgressByDataset,
   TrainingSettings,
   Skill,
 } from '../types/training'

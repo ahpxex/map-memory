@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import * as echarts from 'echarts/core'
 import { MapChart } from 'echarts/charts'
 import { TooltipComponent } from 'echarts/components'
@@ -15,12 +15,13 @@ import {
   interactionModeAtom,
   showLabelsAtom,
   trainingSessionAtom,
+  mapViewportResetTokenAtom,
   currentDatasetConfigAtom,
   submitAnswerAtom,
   currentSkillProgressMapAtom,
-  currentSkillAtom,
 } from '../../state/trainingAtoms'
 import type { RegionMeta, SkillProgress } from '../../types/training'
+import { selectedRegionIdForExploreAtom } from '../../state/exploreAtoms'
 
 echarts.use([CanvasRenderer, MapChart, TooltipComponent])
 
@@ -183,6 +184,7 @@ function getTrackpadZoomScale(deltaY: number) {
 export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
+  const activeMapKeyRef = useRef<string | null>(null)
   
   const [loadedMap, setLoadedMap] = useState<{ mapKey: string; featureCollection: object } | null>(null)
   const [zoom, setZoom] = useState(1)
@@ -192,10 +194,12 @@ export function MapCanvas() {
   const showLabels = useAtomValue(showLabelsAtom)
   const interactionMode = useAtomValue(interactionModeAtom)
   const trainingSession = useAtomValue(trainingSessionAtom)
+  const mapViewportResetToken = useAtomValue(mapViewportResetTokenAtom)
   const config = useAtomValue(currentDatasetConfigAtom)
   const skillProgress = useAtomValue(currentSkillProgressMapAtom)
-  const skill = useAtomValue(currentSkillAtom)
   const submitAnswer = useSetAtom(submitAnswerAtom)
+  const [, setSelectedRegionId] = useAtom(selectedRegionIdForExploreAtom)
+  const activeLoadedMap = loadedMap?.mapKey === config.mapKey ? loadedMap : null
   
   const labelThreshold = getRegionLabelThreshold(dataset, zoom)
   const labelFontSize = getQuantizedLabelFontSize(dataset, zoom)
@@ -203,7 +207,7 @@ export function MapCanvas() {
   // Load map data
   useEffect(() => {
     let cancelled = false
-    
+
     config.loadFeatureCollection()
       .then((fc) => {
         if (!cancelled) {
@@ -219,12 +223,20 @@ export function MapCanvas() {
   
   // Initialize chart
   useEffect(() => {
-    if (!chartRef.current || !loadedMap) return
+    if (!chartRef.current || !activeLoadedMap) return
     
-    ensureMapRegistered(config.mapKey, loadedMap.featureCollection)
-    
+    ensureMapRegistered(config.mapKey, activeLoadedMap.featureCollection)
+
+    if (activeMapKeyRef.current && activeMapKeyRef.current !== config.mapKey) {
+      chartInstanceRef.current?.dispose()
+      chartInstanceRef.current = null
+      window.setTimeout(() => setZoom(1), 0)
+      activeMapKeyRef.current = null
+    }
+
     const chart = chartInstanceRef.current ?? echarts.init(chartRef.current, undefined, { renderer: 'canvas' })
     chartInstanceRef.current = chart
+    activeMapKeyRef.current = config.mapKey
     
     // Handle click
     chart.off('click')
@@ -232,10 +244,12 @@ export function MapCanvas() {
       const regionId = typeof params.name === 'string' ? params.name : null
       if (!regionId) return
       
-      // 在训练模式下提交答案
       if (interactionMode === 'training') {
         submitAnswer({ type: 'map-click', regionId })
+        return
       }
+
+      setSelectedRegionId(regionId)
     })
     
     // Handle zoom
@@ -319,12 +333,28 @@ export function MapCanvas() {
       chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
-  }, [config.mapKey, dataset, loadedMap, zoom, interactionMode, submitAnswer])
+  }, [activeLoadedMap, config.mapKey, dataset, zoom, interactionMode, submitAnswer, setSelectedRegionId])
+
+  useEffect(() => {
+    const chart = chartInstanceRef.current
+    if (!chart || !activeLoadedMap) return
+
+    chart.setOption({
+      series: [{
+        type: 'map',
+        map: config.mapKey,
+        center: null,
+        zoom: 1,
+      }],
+    })
+    const frameId = window.requestAnimationFrame(() => setZoom(1))
+    return () => window.cancelAnimationFrame(frameId)
+  }, [activeLoadedMap, config.mapKey, mapViewportResetToken])
   
   // Update chart series
   useEffect(() => {
     const chart = chartInstanceRef.current
-    if (!chart || !loadedMap) return
+    if (!chart || !activeLoadedMap) return
     
     const seriesData = config.regionIds.map((regionId) => {
       const region = config.regionById.get(regionId)
@@ -413,7 +443,7 @@ export function MapCanvas() {
       series: [series],
     })
   }, [
-    config, dataset, loadedMap, skillProgress, showLabels,
+    activeLoadedMap, config, dataset, skillProgress, showLabels,
     labelThreshold, labelFontSize, language, interactionMode, trainingSession
   ])
   
@@ -422,6 +452,7 @@ export function MapCanvas() {
     return () => {
       chartInstanceRef.current?.dispose()
       chartInstanceRef.current = null
+      activeMapKeyRef.current = null
     }
   }, [])
   
@@ -429,7 +460,7 @@ export function MapCanvas() {
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#f4f7ee_0%,#ece7d6_40%,#e0d8c6_100%)]">
       <div ref={chartRef} className="h-full w-full" />
       
-      {!loadedMap && (
+      {!activeLoadedMap && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-stone-600 shadow-md backdrop-blur-md">
             Loading {dataset === 'world' ? 'world' : 'china'} map…

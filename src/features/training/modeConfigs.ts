@@ -8,7 +8,6 @@ import type {
   Dataset,
   TrainingMode,
   Skill,
-  AnswerType,
   ModeConfig,
   Prompt,
   ChoiceOption,
@@ -16,21 +15,6 @@ import type {
   TrainingSession,
 } from '../../types/training'
 import type { RegionMeta } from '../../types/app'
-
-// ============================================================================
-// Helper Functions
-// ============================================================================
-
-function getRegionName(region: RegionMeta, lang: 'zh' | 'en' = 'zh'): string {
-  return lang === 'zh' ? region.nameZh : region.nameEn
-}
-
-function getParentName(region: RegionMeta, lang: 'zh' | 'en' = 'zh'): string {
-  if (lang === 'zh') {
-    return region.parentNameZh ?? region.parentNameEn ?? ''
-  }
-  return region.parentNameEn ?? region.parentNameZh ?? ''
-}
 
 // 干扰项生成器 - 基于规则选择相似的选项
 function generateDistractors(
@@ -284,7 +268,7 @@ function buildNameToCapitalOptions(
   ].sort(() => Math.random() - 0.5)
 }
 
-function buildContinentOptions(region: RegionMeta): ChoiceOption[] {
+function buildContinentOptions(): ChoiceOption[] {
   const continents = [
     { id: 'asia', label: '亚洲' },
     { id: 'europe', label: '欧洲' },

@@ -5,15 +5,14 @@
  */
 
 import { useEffect } from 'react'
-import { useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { MapCanvas } from './features/map/MapCanvasV2'
 import { RegionPopup } from './components/RegionPopup'
 import { EnhancedToolbar } from './components/EnhancedToolbar'
 import { 
-  trainingSettingsAtom,
-  skillProgressAtom,
-  errorBookAtom,
-  weakItemsAtom,
+  persistenceReadyAtom,
+  persistedTrainingDataAtom,
+  replaceTrainingDataAtom,
 } from './state/trainingAtoms'
 import { 
   loadPersistedData, 
@@ -103,31 +102,23 @@ function migrateLegacyData(oldData: unknown): {
 
 // Hydration Component
 function HydrationBridge() {
-  const setSettings = useSetAtom(trainingSettingsAtom)
-  const setProgress = useSetAtom(skillProgressAtom)
-  const setErrorBook = useSetAtom(errorBookAtom)
-  const setWeakItems = useSetAtom(weakItemsAtom)
+  const replaceTrainingData = useSetAtom(replaceTrainingDataAtom)
+  const setPersistenceReady = useSetAtom(persistenceReadyAtom)
 
   useEffect(() => {
     let cancelled = false
 
     // 立即使用默认设置，让 UI 先渲染
     const defaultData = createDefaultTrainingData()
-    setSettings(defaultData.settings)
-    setProgress(defaultData.progress)
-    setErrorBook(defaultData.errorBook)
-    setWeakItems(defaultData.weakItems)
+    replaceTrainingData(defaultData)
 
     // 然后异步加载持久化数据
     loadPersistedData()
-      .then((storedData) => {
+      .then(async (storedData) => {
         if (cancelled) return
 
         if (storedData) {
-          setSettings(storedData.settings)
-          setProgress(storedData.progress)
-          setErrorBook(storedData.errorBook)
-          setWeakItems(storedData.weakItems)
+          replaceTrainingData(storedData)
         } else {
           const legacyData = localStorage.getItem('map-memory-storage')
           if (legacyData) {
@@ -135,23 +126,53 @@ function HydrationBridge() {
               const parsed = JSON.parse(legacyData)
               const migrated = migrateLegacyData(parsed)
               if (migrated) {
-                setSettings(migrated.settings)
-                setProgress(migrated.skillProgress)
+                const nextData = {
+                  ...defaultData,
+                  settings: migrated.settings,
+                  progress: migrated.skillProgress,
+                  errorBook: migrated.errorBook,
+                  weakItems: migrated.weakItems,
+                  markedRegions: migrated.markedRegions,
+                }
+                replaceTrainingData(nextData)
+                await savePersistedData(nextData)
               }
             } catch {
               // 忽略解析错误
             }
           }
         }
+        setPersistenceReady(true)
       })
       .catch(() => {
         // 错误时使用默认设置
+        if (!cancelled) {
+          replaceTrainingData(defaultData)
+          setPersistenceReady(true)
+        }
       })
 
     return () => {
       cancelled = true
     }
-  }, [setSettings, setProgress, setErrorBook, setWeakItems])
+  }, [replaceTrainingData, setPersistenceReady])
+
+  return null
+}
+
+function PersistenceBridge() {
+  const data = useAtomValue(persistedTrainingDataAtom)
+  const persistenceReady = useAtomValue(persistenceReadyAtom)
+
+  useEffect(() => {
+    if (!persistenceReady) return undefined
+
+    const timer = window.setTimeout(() => {
+      void savePersistedData(data)
+    }, 200)
+
+    return () => window.clearTimeout(timer)
+  }, [data, persistenceReady])
 
   return null
 }
@@ -161,6 +182,7 @@ function App() {
   return (
     <div className="relative h-svh w-full overflow-hidden bg-stone-100 text-stone-950">
       <HydrationBridge />
+      <PersistenceBridge />
       
       {/* Map Canvas */}
       <MapCanvas />

@@ -10,11 +10,13 @@ import type {
   TrainingMode,
   Skill,
   ScopeType,
+  UserAnswer,
   TrainingSession,
   SkillProgress,
   ProgressBySkill,
   SkillProgressByDataset,
   ErrorRecord,
+  PersistedTrainingData,
   WeakItem,
   TrainingSettings,
   ChallengeMode,
@@ -97,6 +99,35 @@ export const trainingSessionAtom = atom(
 export const skillProgressAtom = atom<SkillProgressByDataset>(createEmptySkillProgressByDataset())
 export const errorBookAtom = atom<ErrorRecord[]>([])
 export const weakItemsAtom = atom<WeakItem[]>([])
+export const persistenceReadyAtom = atom(false)
+export const mapViewportResetTokenAtom = atom(0)
+export const requestMapViewportResetAtom = atom(null, (get, set) => {
+  set(mapViewportResetTokenAtom, get(mapViewportResetTokenAtom) + 1)
+})
+
+export const replaceTrainingDataAtom = atom(null, (_get, set, data: PersistedTrainingData) => {
+  set(trainingSettingsAtom, data.settings)
+  set(skillProgressAtom, data.progress)
+  set(errorBookAtom, data.errorBook)
+  set(weakItemsAtom, data.weakItems)
+  if (data.settings.interactionMode === 'training') {
+    set(initTrainingSessionAtom)
+    return
+  }
+  set(primitiveTrainingSessionAtom, null)
+})
+
+export const persistedTrainingDataAtom = atom<PersistedTrainingData>((get) => ({
+  version: 3,
+  settings: get(trainingSettingsAtom),
+  progress: get(skillProgressAtom),
+  errorBook: get(errorBookAtom),
+  weakItems: get(weakItemsAtom),
+  markedRegions: {
+    world: [],
+    china: [],
+  },
+}))
 
 // ============================================================================
 // Derived Atoms - Settings
@@ -104,7 +135,7 @@ export const weakItemsAtom = atom<WeakItem[]>([])
 
 export const datasetAtom = atom(
   (get) => get(trainingSettingsAtom).dataset,
-  (_get, set, dataset: Dataset) => {
+  (get, set, dataset: Dataset) => {
     set(trainingSettingsAtom, (prev) => ({
       ...prev,
       dataset,
@@ -112,6 +143,10 @@ export const datasetAtom = atom(
       scopeValue: null,
       trainingMode: dataset === 'world' ? 'name-to-location' : 'name-to-location',
     }))
+    if (get(interactionModeAtom) === 'training') {
+      set(initTrainingSessionAtom)
+      return
+    }
     set(primitiveTrainingSessionAtom, null)
   }
 )
@@ -350,7 +385,7 @@ export const initTrainingSessionAtom = atom(null, (get, set) => {
   set(primitiveTrainingSessionAtom, session)
 })
 
-export const submitAnswerAtom = atom(null, (get, set, answer: { type: 'map-click'; regionId: string }) => {
+export const submitAnswerAtom = atom(null, (get, set, answer: UserAnswer) => {
   const session = get(trainingSessionAtom)
   if (!session || session.userAnswer) return
   
@@ -375,36 +410,34 @@ export const submitAnswerAtom = atom(null, (get, set, answer: { type: 'map-click
 })
 
 export const updateProgressAtom = atom(null, (
-  _get, set,
+  get, set,
   dataset: Dataset,
   skill: Skill,
   regionId: string,
   isCorrect: boolean
 ) => {
+  const current = get(skillProgressAtom)[dataset]?.[skill]?.[regionId] ?? createDefaultSkillProgress()
+  const now = new Date().toISOString()
+  const newStreak = isCorrect ? current.streak + 1 : 0
+  const totalAttempts = current.attempts + 1
+  const correctCount = current.correct + (isCorrect ? 1 : 0)
+  const accuracy = correctCount / totalAttempts
+  const streakBonus = Math.min(newStreak * 5, 20)
+  const practicePenalty = Math.min(totalAttempts * 0.5, 10)
+  const newMastery = Math.round((accuracy * 60 + streakBonus - practicePenalty + 20) * 100) / 100
+  const clampedMastery = Math.max(0, Math.min(100, newMastery))
+
+  const updated: SkillProgress = {
+    attempts: totalAttempts,
+    correct: correctCount,
+    wrong: current.wrong + (isCorrect ? 0 : 1),
+    lastSeenAt: now,
+    lastCorrectAt: isCorrect ? now : current.lastCorrectAt,
+    streak: newStreak,
+    masteryScore: clampedMastery,
+  }
+
   set(skillProgressAtom, (prev) => {
-    const current = prev[dataset]?.[skill]?.[regionId] ?? createDefaultSkillProgress()
-    const now = new Date().toISOString()
-    
-    const newStreak = isCorrect ? current.streak + 1 : 0
-    const totalAttempts = current.attempts + 1
-    const correctCount = current.correct + (isCorrect ? 1 : 0)
-    const accuracy = correctCount / totalAttempts
-    
-    const streakBonus = Math.min(newStreak * 5, 20)
-    const practicePenalty = Math.min(totalAttempts * 0.5, 10)
-    const newMastery = Math.round((accuracy * 60 + streakBonus - practicePenalty + 20) * 100) / 100
-    const clampedMastery = Math.max(0, Math.min(100, newMastery))
-    
-    const updated: SkillProgress = {
-      attempts: totalAttempts,
-      correct: correctCount,
-      wrong: current.wrong + (isCorrect ? 0 : 1),
-      lastSeenAt: now,
-      lastCorrectAt: isCorrect ? now : current.lastCorrectAt,
-      streak: newStreak,
-      masteryScore: clampedMastery,
-    }
-    
     return {
       ...prev,
       [dataset]: {
@@ -415,6 +448,30 @@ export const updateProgressAtom = atom(null, (
         },
       },
     }
+  })
+
+  set(weakItemsAtom, (prev) => {
+    const withoutCurrent = prev.filter((item) =>
+      !(item.dataset === dataset && item.skill === skill && item.regionId === regionId)
+    )
+    if (updated.attempts === 0 || updated.masteryScore >= 50) {
+      return withoutCurrent
+    }
+
+    const currentWeakItem = prev.find((item) =>
+      item.dataset === dataset && item.skill === skill && item.regionId === regionId
+    )
+
+    return [
+      {
+        dataset,
+        skill,
+        regionId,
+        masteryScore: updated.masteryScore,
+        lastWrongAt: isCorrect ? currentWeakItem?.lastWrongAt ?? now : now,
+      },
+      ...withoutCurrent,
+    ].slice(0, 1000)
   })
 })
 

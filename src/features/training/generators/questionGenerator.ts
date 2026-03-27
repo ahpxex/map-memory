@@ -11,7 +11,6 @@ import type {
   Prompt,
   ChoiceOption,
   UserAnswer,
-  TrainingSession,
   WorldSkill,
   ChinaSkill,
 } from '../../../types/training'
@@ -125,42 +124,6 @@ const WORLD_CAPITALS: Record<string, string> = {
 }
 
 // 中国地图：省份 -> 省会
-const CHINA_PROVINCIAL_CAPITALS: Record<string, { code: string; name: string }> = {
-  '110000': { code: 'cn-110000', name: '北京市' },
-  '120000': { code: 'cn-120000', name: '天津市' },
-  '130000': { code: 'cn-130100', name: '石家庄市' },
-  '140000': { code: 'cn-140100', name: '太原市' },
-  '150000': { code: 'cn-150100', name: '呼和浩特市' },
-  '210000': { code: 'cn-210100', name: '沈阳市' },
-  '220000': { code: 'cn-220100', name: '长春市' },
-  '230000': { code: 'cn-230100', name: '哈尔滨市' },
-  '310000': { code: 'cn-310000', name: '上海市' },
-  '320000': { code: 'cn-320100', name: '南京市' },
-  '330000': { code: 'cn-330100', name: '杭州市' },
-  '340000': { code: 'cn-340100', name: '合肥市' },
-  '350000': { code: 'cn-350100', name: '福州市' },
-  '360000': { code: 'cn-360100', name: '南昌市' },
-  '370000': { code: 'cn-370100', name: '济南市' },
-  '410000': { code: 'cn-410100', name: '郑州市' },
-  '420000': { code: 'cn-420100', name: '武汉市' },
-  '430000': { code: 'cn-430100', name: '长沙市' },
-  '440000': { code: 'cn-440100', name: '广州市' },
-  '450000': { code: 'cn-450100', name: '南宁市' },
-  '460000': { code: 'cn-460100', name: '海口市' },
-  '500000': { code: 'cn-500000', name: '重庆市' },
-  '510000': { code: 'cn-510100', name: '成都市' },
-  '520000': { code: 'cn-520100', name: '贵阳市' },
-  '530000': { code: 'cn-530100', name: '昆明市' },
-  '540000': { code: 'cn-540100', name: '拉萨市' },
-  '610000': { code: 'cn-610100', name: '西安市' },
-  '620000': { code: 'cn-620100', name: '兰州市' },
-  '630000': { code: 'cn-630100', name: '西宁市' },
-  '640000': { code: 'cn-640100', name: '银川市' },
-  '650000': { code: 'cn-650100', name: '乌鲁木齐市' },
-  '810000': { code: 'cn-810000', name: '香港' },
-  '820000': { code: 'cn-820000', name: '澳门' },
-}
-
 // 邻国关系（简化版）
 const NEIGHBORS: Record<string, string[]> = {
   'cn': ['ru', 'mn', 'kp', 'af', 'pk', 'in', 'np', 'bt', 'mm', 'la', 'vn', 'kg', 'tj', 'kz'],
@@ -429,7 +392,7 @@ export function buildNameToCapitalOptions(
   return options.sort(() => Math.random() - 0.5)
 }
 
-export function buildContinentOptions(region: RegionMeta): ChoiceOption[] {
+export function buildContinentOptions(): ChoiceOption[] {
   const continents = [
     { id: 'asia', label: '亚洲' },
     { id: 'europe', label: '欧洲' },
@@ -590,7 +553,7 @@ export function generateQuestion(
     
     case 'name-to-continent': {
       if (dataset !== 'world') return null
-      const continentOptions = buildContinentOptions(region)
+      const continentOptions = buildContinentOptions()
       return {
         prompt: buildNameToContinentPrompt(region),
         options: continentOptions,

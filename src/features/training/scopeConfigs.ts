@@ -4,7 +4,7 @@
  * 根据 training-system-implementation.md 定义的 Scope 配置表
  */
 
-import type { Dataset, ScopeType, ScopeConfig, SkillProgress } from '../../types/training'
+import type { Dataset, ScopeType, ScopeConfig } from '../../types/training'
 import type { RegionMeta } from '../../types/app'
 
 // ============================================================================
@@ -70,7 +70,7 @@ function filterAll(regions: RegionMeta[]): RegionMeta[] {
 }
 
 function filterByContinent(regions: RegionMeta[], continent?: string): RegionMeta[] {
-  if (!continent) return regions
+  if (!continent) return []
   
   return regions.filter(r => {
     const mapped = CONTINENT_MAPPING[r.continent ?? '']
@@ -93,7 +93,7 @@ function filterConfusionSetChina(regions: RegionMeta[]): RegionMeta[] {
 }
 
 function filterByProvince(regions: RegionMeta[], provinceAdcode?: string): RegionMeta[] {
-  if (!provinceAdcode) return regions
+  if (!provinceAdcode) return []
   
   return regions.filter(r => 
     r.parentAdcode?.toString() === provinceAdcode ||
@@ -110,7 +110,7 @@ function filterWrongOnly(
   _value: string | undefined,
   context?: { errorBook: { regionId: string }[] }
 ): RegionMeta[] {
-  if (!context?.errorBook?.length) return regions
+  if (!context?.errorBook?.length) return []
   
   const errorIds = new Set(context.errorBook.map(e => e.regionId))
   return regions.filter(r => errorIds.has(r.id))
@@ -121,7 +121,7 @@ function filterWeakOnly(
   _value: string | undefined,
   context?: { weakItems: { regionId: string; masteryScore: number }[] }
 ): RegionMeta[] {
-  if (!context?.weakItems?.length) return regions
+  if (!context?.weakItems?.length) return []
   
   const weakIds = new Set(context.weakItems.filter(w => w.masteryScore < 50).map(w => w.regionId))
   return regions.filter(r => weakIds.has(r.id))
