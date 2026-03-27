@@ -125,9 +125,9 @@ export function AppShell() {
 
       <Suspense
         fallback={
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-stone-950/6 backdrop-blur-[2px]">
-            <div className="rounded-full bg-white/90 px-5 py-3 text-sm font-medium text-stone-700 shadow-lg">
-              Loading map experience…
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-stone-100/50 backdrop-blur-sm">
+            <div className="rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-stone-600 shadow-md">
+              Loading map…
             </div>
           </div>
         }
@@ -137,16 +137,16 @@ export function AppShell() {
       <BottomToolbar />
 
       {!hydrated ? (
-        <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-stone-950/6 backdrop-blur-[2px]">
-          <div className="rounded-full bg-white/90 px-5 py-3 text-sm font-medium text-stone-700 shadow-lg">
-            Loading local training state…
+        <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-stone-100/50 backdrop-blur-sm">
+          <div className="rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-stone-600 shadow-md">
+            Loading data…
           </div>
         </div>
       ) : null}
 
       {notice ? (
-        <div className="pointer-events-none absolute left-1/2 top-5 z-30 -translate-x-1/2">
-          <div className="rounded-full border border-stone-900/10 bg-white/90 px-4 py-2 text-sm font-medium text-stone-700 shadow-lg backdrop-blur">
+        <div className="pointer-events-none absolute left-1/2 top-4 z-30 -translate-x-1/2">
+          <div className="rounded-full border border-stone-200/60 bg-white/85 px-3.5 py-1.5 text-sm font-medium text-stone-600 shadow-md backdrop-blur-md">
             {notice}
           </div>
         </div>

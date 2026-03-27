@@ -187,32 +187,32 @@ export function BottomToolbar() {
 
       {/* Records Panel */}
       <div
-        className={`pointer-events-auto w-full max-w-3xl transition-all duration-300 ease-out ${
+        className={`pointer-events-auto w-full max-w-2xl transition-all duration-300 ease-out ${
           recordsPanelOpen
             ? 'mb-4 translate-y-0 opacity-100'
             : 'pointer-events-none mb-0 translate-y-4 opacity-0'
         }`}
       >
-        <div className="rounded-2xl border border-stone-200/60 bg-white/95 p-5 shadow-2xl backdrop-blur-xl">
+        <div className="rounded-2xl border border-stone-200/60 bg-white/85 p-4 shadow-lg backdrop-blur-xl">
           {/* Panel Header */}
-          <div className="mb-5 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <HistoryIcon className="h-5 w-5 text-stone-400" />
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <HistoryIcon className="h-4 w-4 text-stone-400" />
               <div>
-                <h3 className="text-sm font-medium text-stone-800">
+                <h3 className="text-sm font-medium text-stone-700">
                   {dataset === 'world' 
                     ? (language === 'zh' ? '世界国家' : 'World Countries')
                     : (language === 'zh' ? '中国地级市/州' : 'China Cities/Prefectures')
                   }
                 </h3>
-                <p className="text-xs text-stone-400">
+                <p className="text-[11px] text-stone-400">
                   {currentDatasetStats.practicedRegions} / {currentDatasetStats.totalRegions} · {currentDatasetStats.accuracy}%
                 </p>
               </div>
             </div>
             <button
               onClick={() => setRecordsPanelOpen(false)}
-              className="p-1.5 text-stone-300 transition hover:text-stone-500"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-stone-300 transition hover:bg-stone-100 hover:text-stone-500"
             >
               <XIcon className="h-4 w-4" />
             </button>
@@ -220,8 +220,8 @@ export function BottomToolbar() {
 
           {/* Records */}
           {deferredPracticeEntries.length > 0 ? (
-            <div className="max-h-[min(45vh,24rem)] overflow-y-auto pr-1">
-              <div className="space-y-2">
+            <div className="max-h-[min(40vh,20rem)] overflow-y-auto pr-1">
+              <div className="space-y-1.5">
                 {deferredPracticeEntries.map((entry) => {
                   const title = language === 'en' ? entry.nameEn : entry.nameZh
                   const subtitle = language === 'en' ? entry.nameZh : entry.nameEn
@@ -233,7 +233,7 @@ export function BottomToolbar() {
                   return (
                     <div
                       key={entry.regionId}
-                      className="flex items-center justify-between rounded-xl border border-stone-100 bg-stone-50/50 px-4 py-3 transition hover:border-stone-200 hover:bg-stone-50"
+                      className="flex items-center justify-between rounded-xl border border-stone-100 bg-stone-50/40 px-3 py-2.5 transition hover:border-stone-200 hover:bg-stone-50/60"
                     >
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
@@ -242,13 +242,13 @@ export function BottomToolbar() {
                             <span className="shrink-0 text-xs text-stone-400">· {parentName}</span>
                           )}
                         </div>
-                        <div className="mt-0.5 flex items-center gap-3 text-xs text-stone-400">
+                        <div className="mt-0.5 flex items-center gap-2 text-[11px] text-stone-400">
                           <span>{subtitle}</span>
                           <span>·</span>
                           <span>{formatPracticeTime(entry.lastSeenAt, language)}</span>
                         </div>
                       </div>
-                      <div className="ml-4 flex items-center gap-3 text-xs">
+                      <div className="ml-3 flex items-center gap-2.5 text-xs">
                         <span className="text-stone-400">{entry.attempts}</span>
                         <span className={`font-medium ${
                           entry.accuracy >= 85 ? 'text-emerald-600' :
@@ -264,7 +264,7 @@ export function BottomToolbar() {
               </div>
             </div>
           ) : (
-            <div className="py-8 text-center">
+            <div className="py-6 text-center">
               <p className="text-sm text-stone-400">{t('noRecords', language)}</p>
               <p className="mt-1 text-xs text-stone-300">{t('startPracticing', language)}</p>
             </div>

@@ -538,8 +538,8 @@ export function MapCanvas() {
 
       {!featureCollection ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="rounded-full bg-white/85 px-5 py-3 text-sm font-medium text-stone-700 shadow-lg backdrop-blur">
-            Loading {dataset === 'world' ? 'world' : 'china'} map data…
+          <div className="rounded-full bg-white/80 px-4 py-2 text-sm font-medium text-stone-600 shadow-md backdrop-blur-md">
+            Loading {dataset === 'world' ? 'world' : 'china'} map…
           </div>
         </div>
       ) : null}
