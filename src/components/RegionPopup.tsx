@@ -1,253 +1,160 @@
-import { startTransition, useEffect, useRef } from 'react'
+/**
+ * Region Popup - Updated for Training System v2
+ */
+
+import { useEffect, useRef } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
-import {
-  currentDatasetMarkedRegionIdSetAtom,
-  currentPromptRegionAtom,
-  datasetAtom,
-  dismissPopupAtom,
-  languageAtom,
-  popupStateAtom,
-  selectedRegionAtom,
-  startNextTrainingRoundAtom,
-  toggleMarkedRegionAtom,
+import { atom, useAtom } from 'jotai'
+import { 
+  datasetAtom, 
+  languageAtom, 
   trainingSessionAtom,
-} from '../state/appAtoms'
+  nextQuestionAtom,
+  interactionModeAtom,
+  currentDatasetConfigAtom,
+} from '../state/trainingAtoms'
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max)
-}
-
-function formatPopulation(value: number | null | undefined) {
-  if (!value) {
-    return 'Unknown'
-  }
-
-  return new Intl.NumberFormat('en-US').format(value)
-}
+// 用于探索模式的选中区域
+const selectedRegionIdForExploreAtom = atom<string | null>(null)
 
 export function RegionPopup() {
+  const interactionMode = useAtomValue(interactionModeAtom)
+  const trainingSession = useAtomValue(trainingSessionAtom)
+
+  if (interactionMode === 'training' && trainingSession) {
+    return <TrainingResultPopup />
+  }
+
+  return <ExplorePopup />
+}
+
+// 探索模式弹窗
+function ExplorePopup() {
   const popupRef = useRef<HTMLDivElement | null>(null)
-  const popupState = useAtomValue(popupStateAtom)
+  const [selectedRegionId, setSelectedRegionId] = useAtom(selectedRegionIdForExploreAtom)
   const dataset = useAtomValue(datasetAtom)
   const language = useAtomValue(languageAtom)
-  const selectedRegion = useAtomValue(selectedRegionAtom)
-  const markedRegionIdSet = useAtomValue(currentDatasetMarkedRegionIdSetAtom)
-  const currentPromptRegion = useAtomValue(currentPromptRegionAtom)
-  const trainingSession = useAtomValue(trainingSessionAtom)
-  const dismissPopup = useSetAtom(dismissPopupAtom)
-  const startNextTrainingRound = useSetAtom(startNextTrainingRoundAtom)
-  const toggleMarkedRegion = useSetAtom(toggleMarkedRegionAtom)
+  const config = useAtomValue(currentDatasetConfigAtom)
+  
+  const region = selectedRegionId ? config.regionById.get(selectedRegionId) : null
+  
+  if (!region) return null
+
+  const title = language === 'en' ? region.nameEn : region.nameZh
+  const subtitle = language === 'en' ? region.nameZh : region.nameEn
 
   useEffect(() => {
-    if (!popupState || !selectedRegion) {
-      return
-    }
-
     function handlePointerDown(event: PointerEvent) {
       const popupElement = popupRef.current
-
-      if (!popupElement) {
-        return
-      }
-
-      if (event.target instanceof Node && popupElement.contains(event.target)) {
-        return
-      }
-
-      dismissPopup()
-    }
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key !== 'Escape') {
-        return
-      }
-
-      event.preventDefault()
-      dismissPopup()
+      if (!popupElement) return
+      if (event.target instanceof Node && popupElement.contains(event.target)) return
+      ;(setSelectedRegionId as (value: string | null) => void)(null)
     }
 
     document.addEventListener('pointerdown', handlePointerDown, true)
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDown, true)
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [dismissPopup, popupState, selectedRegion])
-
-  if (!popupState || !selectedRegion) {
-    return null
-  }
-
-  const popupWidth = 336
-  const popupHeight =
-    popupState.kind === 'training'
-      ? 270
-      : dataset === 'world'
-        ? 300
-        : 288
-  const left = clamp(popupState.x + 18, 16, window.innerWidth - popupWidth - 16)
-  const top = clamp(popupState.y - popupHeight / 2, 16, window.innerHeight - popupHeight - 96)
-  const title = language === 'en' ? selectedRegion.nameEn : selectedRegion.nameZh
-  const subtitle = language === 'en' ? selectedRegion.nameZh : selectedRegion.nameEn
-  const targetTitle = language === 'en' ? currentPromptRegion?.nameEn : currentPromptRegion?.nameZh
-  const isMarked = markedRegionIdSet.has(selectedRegion.id)
-  const markButtonLabel =
-    language === 'zh'
-      ? isMarked
-        ? '取消标记该地区'
-        : '标记该地区'
-      : isMarked
-        ? 'Unmark region'
-        : 'Mark region'
-  const markedBadgeLabel = language === 'zh' ? '已标记' : 'Marked'
+    return () => document.removeEventListener('pointerdown', handlePointerDown, true)
+  }, [setSelectedRegionId])
 
   return (
     <div
-      className="fixed z-30 w-80 rounded-2xl border border-stone-200/60 bg-white/80 p-4 shadow-lg backdrop-blur-xl"
       ref={popupRef}
-      style={{ left, top }}
+      className="pointer-events-auto fixed bottom-32 left-4 z-30 w-80 rounded-2xl border border-stone-200/60 bg-white/95 p-4 shadow-lg backdrop-blur-xl"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-stone-400">
-            {popupState.kind === 'training' ? 'Training result' : 'Region overview'}
-          </p>
-          <h3 className="mt-1.5 text-xl font-semibold tracking-tight text-stone-900">{title}</h3>
-          <div className="mt-0.5 flex flex-wrap items-center gap-2">
-            <p className="text-sm text-stone-500">{subtitle}</p>
-            {isMarked ? (
-              <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-medium text-stone-500">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3">
-                  <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                </svg>
-                {markedBadgeLabel}
-              </span>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-1">
-          <button
-            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition ${
-              isMarked
-                ? 'text-amber-500 hover:bg-amber-50'
-                : 'text-stone-300 hover:bg-stone-100 hover:text-stone-500'
-            }`}
-            onClick={() => toggleMarkedRegion(selectedRegion.id)}
-            type="button"
-            aria-label={markButtonLabel}
-            title={markButtonLabel}
-          >
-            <svg viewBox="0 0 24 24" fill={isMarked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-            </svg>
-          </button>
-          <button
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-stone-400 transition hover:bg-stone-100 hover:text-stone-600"
-            onClick={() => dismissPopup()}
-            type="button"
-            aria-label="Close"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
-              <path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+      <div className="mb-3">
+        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-stone-400">
+          Region Info
+        </span>
+        <h3 className="mt-1 text-xl font-semibold text-stone-900">{title}</h3>
+        <p className="text-sm text-stone-500">{subtitle}</p>
       </div>
-
-      {popupState.kind === 'explore' ? (
-        <div className="mt-3 space-y-3">
-          {dataset === 'world' ? (
-            <dl className="grid grid-cols-2 gap-2 text-sm text-stone-700">
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Continent</dt>
-                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.continent ?? 'Unknown'}</dd>
-              </div>
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Subregion</dt>
-                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.subregion ?? 'Unknown'}</dd>
-              </div>
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Population</dt>
-                <dd className="mt-1 font-medium text-stone-800">{formatPopulation(selectedRegion.population)}</dd>
-              </div>
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Formal name</dt>
-                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.formalNameEn ?? selectedRegion.nameEn}</dd>
-              </div>
-            </dl>
-          ) : (
-            <dl className="grid grid-cols-2 gap-2 text-sm text-stone-700">
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Province</dt>
-                <dd className="mt-1 font-medium text-stone-800">
-                  {language === 'en'
-                    ? selectedRegion.parentNameEn ?? selectedRegion.parentNameZh ?? 'Unknown'
-                    : selectedRegion.parentNameZh ?? selectedRegion.parentNameEn ?? 'Unknown'}
-                </dd>
-              </div>
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Level</dt>
-                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.level ?? 'Unknown'}</dd>
-              </div>
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Adcode</dt>
-                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.adcode ?? 'Unknown'}</dd>
-              </div>
-              <div className="rounded-xl bg-stone-100/60 p-2.5">
-                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Center</dt>
-                <dd className="mt-1 font-medium text-stone-800">
-                  {selectedRegion.center
-                    ? `${selectedRegion.center[0].toFixed(2)}, ${selectedRegion.center[1].toFixed(2)}`
-                    : 'Unknown'}
-                </dd>
-              </div>
-            </dl>
-          )}
-
-        </div>
-      ) : (
-        <div className="mt-3 space-y-2">
-          <div className="rounded-xl bg-stone-100/60 p-2.5">
-            <p className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Target</p>
-            <p className="mt-1 text-sm font-medium text-stone-800">{targetTitle}</p>
-          </div>
-
-          <div
-            className={`rounded-xl p-2.5 ${
-              trainingSession.result === 'correct'
-                ? 'bg-emerald-50/80 text-emerald-900'
-                : 'bg-rose-50/80 text-rose-900'
-            }`}
-          >
-            <p className="text-[10px] uppercase tracking-[0.15em] opacity-70">Result</p>
-            <p className="mt-1 text-sm font-semibold">
-              {trainingSession.result === 'correct' ? 'Correct' : 'Wrong region'}
-            </p>
-            {trainingSession.result === 'wrong' ? (
-              <p className="mt-1.5 text-xs leading-5">
-                You clicked{' '}
-                <span className="font-semibold">{title}</span>. The correct answer is{' '}
-                <span className="font-semibold">{targetTitle}</span>.
-              </p>
-            ) : null}
-          </div>
-
-          <button
-            className="w-full rounded-full bg-stone-800 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700"
-            onClick={() => {
-              startTransition(() => {
-                startNextTrainingRound()
-              })
-            }}
-            type="button"
-          >
-            Next question
-          </button>
-
-        </div>
-      )}
+      
+      <div className="grid grid-cols-2 gap-2 text-sm">
+        {dataset === 'world' ? (
+          <>
+            <div className="rounded-lg bg-stone-50 p-2">
+              <span className="text-xs text-stone-400">Continent</span>
+              <p className="font-medium text-stone-700">{region.continent ?? 'Unknown'}</p>
+            </div>
+            <div className="rounded-lg bg-stone-50 p-2">
+              <span className="text-xs text-stone-400">Subregion</span>
+              <p className="font-medium text-stone-700">{region.subregion ?? 'Unknown'}</p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="rounded-lg bg-stone-50 p-2">
+              <span className="text-xs text-stone-400">Province</span>
+              <p className="font-medium text-stone-700">{region.parentNameZh ?? 'Unknown'}</p>
+            </div>
+            <div className="rounded-lg bg-stone-50 p-2">
+              <span className="text-xs text-stone-400">Level</span>
+              <p className="font-medium text-stone-700">{region.level ?? 'Unknown'}</p>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }
+
+// 训练结果弹窗
+function TrainingResultPopup() {
+  const session = useAtomValue(trainingSessionAtom)
+  const nextQuestion = useSetAtom(nextQuestionAtom)
+  
+  if (!session) return null
+
+  const { prompt, status, userAnswer } = session
+  const hasAnswered = userAnswer !== null
+  
+  // 获取反馈文本
+  let feedbackText = ''
+  let feedbackClass = ''
+  let feedbackIcon = ''
+  
+  if (status === 'correct') {
+    feedbackText = '回答正确！'
+    feedbackClass = 'bg-emerald-50 text-emerald-900'
+    feedbackIcon = '✓'
+  } else if (status === 'wrong') {
+    feedbackText = '回答错误'
+    feedbackClass = 'bg-rose-50 text-rose-900'
+    feedbackIcon = '✗'
+  }
+  
+  return (
+    <div className="pointer-events-auto fixed left-1/2 top-1/2 z-30 w-96 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-stone-200/60 bg-white/95 p-6 shadow-xl backdrop-blur-xl">
+      {/* 题目展示 */}
+      <div className="mb-4">
+        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-stone-400">
+          题目
+        </span>
+        <h3 className="mt-1 text-lg font-semibold text-stone-800">
+          {prompt.content}
+        </h3>
+      </div>
+      
+      {/* 结果展示 */}
+      {hasAnswered && (
+        <div className={`mb-4 rounded-xl p-4 ${feedbackClass}`}>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{feedbackIcon}</span>
+            <span className="font-semibold">{feedbackText}</span>
+          </div>
+        </div>
+      )}
+      
+      {/* 操作按钮 */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => nextQuestion()}
+          className="flex-1 rounded-full bg-stone-800 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-stone-700"
+        >
+          {hasAnswered ? '下一题' : '跳过'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export { selectedRegionIdForExploreAtom }
