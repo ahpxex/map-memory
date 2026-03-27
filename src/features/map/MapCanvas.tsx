@@ -61,6 +61,12 @@ type LoadedMapState = {
   featureCollection: object
 }
 
+type ZoomPresentation = {
+  labelFontSize: number
+  labelThreshold: number
+  signature: string
+}
+
 function ensureMapRegistered(mapKey: string, featureCollection: object) {
   if (registeredMaps.has(mapKey)) {
     return
@@ -84,6 +90,10 @@ function defaultAreaColor(dataset: DatasetMode) {
 
 function defaultBorderColor(dataset: DatasetMode) {
   return dataset === 'world' ? '#586357' : '#6b6157'
+}
+
+function getMaxZoom(dataset: DatasetMode) {
+  return dataset === 'world' ? 10 : 25
 }
 
 function clamp(value: number, min: number, max: number) {
@@ -295,10 +305,24 @@ function getLabelFontSize(dataset: DatasetMode, zoom: number) {
   return Math.round(clamp(8.8 + zoomStrength * 2.8, 8.8, 15.5) * 10) / 10
 }
 
+function getQuantizedLabelFontSize(dataset: DatasetMode, zoom: number) {
+  return Math.round(getLabelFontSize(dataset, zoom))
+}
+
+function getZoomPresentation(dataset: DatasetMode, zoom: number): ZoomPresentation {
+  const labelThreshold = getRegionLabelThreshold(dataset, zoom)
+  const labelFontSize = getQuantizedLabelFontSize(dataset, zoom)
+
+  return {
+    labelFontSize,
+    labelThreshold,
+    signature: `${labelThreshold}:${labelFontSize}`,
+  }
+}
+
 function shouldShowRegionLabel(
   region: RegionMeta,
-  dataset: DatasetMode,
-  zoom: number,
+  labelThreshold: number,
   selectedRegionId: string | null,
   trainingSession: TrainingSession,
 ) {
@@ -311,7 +335,7 @@ function shouldShowRegionLabel(
   }
 
   const labelWeight = region.labelWeight ?? 0
-  return labelWeight >= getRegionLabelThreshold(dataset, zoom)
+  return labelWeight >= labelThreshold
 }
 
 function buildSeries(
@@ -323,13 +347,12 @@ function buildSeries(
   markedRegionIdSet: Set<string>,
   language: LanguageMode,
   showLabels: boolean,
-  zoom: number,
+  labelThreshold: number,
+  labelFontSize: number,
   interactionMode: 'explore' | 'training',
   selectedRegionId: string | null,
   trainingSession: TrainingSession,
 ): MapSeriesOption {
-  const labelFontSize = getLabelFontSize(dataset, zoom)
-
   return {
     type: 'map',
     map: mapKey,
@@ -338,7 +361,7 @@ function buildSeries(
     animation: false,
     scaleLimit: {
       min: 1,
-      max: dataset === 'world' ? 10 : 25,
+      max: getMaxZoom(dataset),
     },
     itemStyle: {
       areaColor: defaultAreaColor(dataset),
@@ -371,8 +394,7 @@ function buildSeries(
 
         return shouldShowRegionLabel(
           region,
-          dataset,
-          zoom,
+          labelThreshold,
           selectedRegionId,
           trainingSession,
         )
@@ -452,8 +474,15 @@ export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
   const [loadedMap, setLoadedMap] = useState<LoadedMapState | null>(null)
-  const [zoom, setZoom] = useState(1)
   const dataset = useAtomValue(datasetAtom)
+  const [zoomPresentation, setZoomPresentation] = useState<ZoomPresentation>(() =>
+    getZoomPresentation(dataset, 1),
+  )
+  const [labelsSuppressedDuringRoam, setLabelsSuppressedDuringRoam] = useState(false)
+  const liveZoomRef = useRef(1)
+  const zoomPresentationRef = useRef(zoomPresentation)
+  const showLabelsRef = useRef(false)
+  const labelsSuppressedDuringRoamRef = useRef(false)
   const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
   const markedRegionIdSet = useAtomValue(currentDatasetMarkedRegionIdSetAtom)
   const currentDatasetProgress = useAtomValue(currentDatasetProgressAtom)
@@ -465,6 +494,33 @@ export function MapCanvas() {
   const handleRegionSelection = useSetAtom(handleRegionSelectionAtom)
   const featureCollection =
     loadedMap?.mapKey === currentDatasetConfig.mapKey ? loadedMap.featureCollection : null
+  const effectiveShowLabels = showLabels && !labelsSuppressedDuringRoam
+  const renderedZoomPresentation = zoomPresentation
+
+  useEffect(() => {
+    showLabelsRef.current = showLabels
+  }, [showLabels])
+
+  useEffect(() => {
+    if (!showLabels || labelsSuppressedDuringRoam) {
+      return
+    }
+
+    const currentZoomPresentation = getZoomPresentation(dataset, liveZoomRef.current)
+
+    if (currentZoomPresentation.signature === zoomPresentationRef.current.signature) {
+      return
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      zoomPresentationRef.current = currentZoomPresentation
+      setZoomPresentation(currentZoomPresentation)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+    }
+  }, [dataset, labelsSuppressedDuringRoam, showLabels])
 
   useEffect(() => {
     let cancelled = false
@@ -528,20 +584,35 @@ export function MapCanvas() {
     })
 
     chart.off('georoam')
-    chart.on('georoam', () => {
-      const option = chart.getOption() as { series?: Array<{ zoom?: number }> }
+    chart.on('georoam', (event) => {
+      const rawEvent = event as { totalZoom?: number; zoom?: number }
       const nextZoom =
-        typeof option.series?.[0]?.zoom === 'number'
-          ? option.series[0].zoom
-          : 1
+        typeof rawEvent.totalZoom === 'number'
+          ? rawEvent.totalZoom
+          : typeof rawEvent.zoom === 'number'
+            ? liveZoomRef.current * rawEvent.zoom
+            : liveZoomRef.current
 
-      setZoom(nextZoom)
+      liveZoomRef.current = clamp(nextZoom, 1, getMaxZoom(dataset))
+      const nextZoomPresentation = getZoomPresentation(dataset, liveZoomRef.current)
+
+      if (
+        showLabelsRef.current &&
+        !labelsSuppressedDuringRoamRef.current &&
+        nextZoomPresentation.signature !== zoomPresentationRef.current.signature
+      ) {
+        zoomPresentationRef.current = nextZoomPresentation
+        setZoomPresentation(nextZoomPresentation)
+      }
     })
 
     let pendingZoom = 1
     let pendingDx = 0
     let pendingDy = 0
+    let pendingOriginX: number | null = null
+    let pendingOriginY: number | null = null
     let rafId: number | null = null
+    let roamSettledTimeoutId: number | null = null
     let lastWheelTime = 0
 
     function flushTransform() {
@@ -553,10 +624,12 @@ export function MapCanvas() {
           componentType: 'series',
           seriesIndex: 0,
           zoom: pendingZoom,
-          originX: chart.getWidth() / 2,
-          originY: chart.getHeight() / 2,
+          originX: pendingOriginX ?? chart.getWidth() / 2,
+          originY: pendingOriginY ?? chart.getHeight() / 2,
         })
         pendingZoom = 1
+        pendingOriginX = null
+        pendingOriginY = null
       }
 
       if (pendingDx !== 0 || pendingDy !== 0) {
@@ -570,6 +643,35 @@ export function MapCanvas() {
         pendingDx = 0
         pendingDy = 0
       }
+    }
+
+    function beginRoamInteraction() {
+      if (!showLabelsRef.current || labelsSuppressedDuringRoamRef.current) {
+        return
+      }
+
+      labelsSuppressedDuringRoamRef.current = true
+      setLabelsSuppressedDuringRoam(true)
+    }
+
+    function scheduleRoamInteractionEnd() {
+      if (roamSettledTimeoutId !== null) {
+        window.clearTimeout(roamSettledTimeoutId)
+      }
+
+      roamSettledTimeoutId = window.setTimeout(() => {
+        roamSettledTimeoutId = null
+
+        if (!labelsSuppressedDuringRoamRef.current) {
+          return
+        }
+
+        labelsSuppressedDuringRoamRef.current = false
+        const settledZoomPresentation = getZoomPresentation(dataset, liveZoomRef.current)
+        zoomPresentationRef.current = settledZoomPresentation
+        setZoomPresentation(settledZoomPresentation)
+        setLabelsSuppressedDuringRoam(false)
+      }, 90)
     }
 
     function scheduleFlush() {
@@ -601,15 +703,21 @@ export function MapCanvas() {
 
       if (event.ctrlKey || event.metaKey) {
         const scale = getTrackpadZoomScale(event.deltaY)
+        beginRoamInteraction()
         pendingZoom *= scale
+        pendingOriginX = originX
+        pendingOriginY = originY
         scheduleFlush()
+        scheduleRoamInteractionEnd()
         return
       }
 
+      beginRoamInteraction()
       const velocityFactor = Math.min(1, 16 / (timeDelta + 1))
       pendingDx -= event.deltaX * TRACKPAD_PAN_SENSITIVITY * velocityFactor
       pendingDy -= event.deltaY * TRACKPAD_PAN_SENSITIVITY * velocityFactor
       scheduleFlush()
+      scheduleRoamInteractionEnd()
     }
 
     chart.getDom().addEventListener('wheel', handleWheel, {
@@ -627,10 +735,14 @@ export function MapCanvas() {
       if (rafId !== null) {
         cancelAnimationFrame(rafId)
       }
+      if (roamSettledTimeoutId !== null) {
+        window.clearTimeout(roamSettledTimeoutId)
+      }
+      labelsSuppressedDuringRoamRef.current = false
       chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
-  }, [currentDatasetConfig.mapKey, featureCollection, handleRegionSelection])
+  }, [currentDatasetConfig.mapKey, dataset, featureCollection, handleRegionSelection])
 
   useEffect(() => {
     const chart = chartInstanceRef.current
@@ -653,8 +765,9 @@ export function MapCanvas() {
           currentDatasetProgress,
           markedRegionIdSet,
           language,
-          showLabels,
-          zoom,
+          effectiveShowLabels,
+          renderedZoomPresentation.labelThreshold,
+          renderedZoomPresentation.labelFontSize,
           interactionMode,
           selectedRegionId,
           trainingSession,
@@ -671,10 +784,11 @@ export function MapCanvas() {
     interactionMode,
     language,
     markedRegionIdSet,
+    effectiveShowLabels,
+    renderedZoomPresentation.labelFontSize,
+    renderedZoomPresentation.labelThreshold,
     selectedRegionId,
-    showLabels,
     trainingSession,
-    zoom,
   ])
 
   useEffect(() => {
