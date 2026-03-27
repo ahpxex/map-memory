@@ -82,10 +82,10 @@ export function RegionPopup() {
   const popupWidth = 336
   const popupHeight =
     popupState.kind === 'training'
-      ? 324
+      ? 270
       : dataset === 'world'
-        ? 360
-        : 344
+        ? 300
+        : 288
   const left = clamp(popupState.x + 18, 16, window.innerWidth - popupWidth - 16)
   const top = clamp(popupState.y - popupHeight / 2, 16, window.innerHeight - popupHeight - 96)
   const title = language === 'en' ? selectedRegion.nameEn : selectedRegion.nameZh
@@ -101,7 +101,6 @@ export function RegionPopup() {
         ? 'Unmark region'
         : 'Mark region'
   const markedBadgeLabel = language === 'zh' ? '已标记' : 'Marked'
-  const escHint = language === 'zh' ? 'Esc 关闭' : 'Esc closes'
 
   return (
     <div
@@ -118,23 +117,43 @@ export function RegionPopup() {
           <div className="mt-0.5 flex flex-wrap items-center gap-2">
             <p className="text-sm text-stone-500">{subtitle}</p>
             {isMarked ? (
-              <span className="inline-flex rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-amber-800">
+              <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-2 py-0.5 text-[10px] font-medium text-stone-500">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3">
+                  <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                </svg>
                 {markedBadgeLabel}
               </span>
             ) : null}
           </div>
         </div>
 
-        <button
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-stone-400 transition hover:bg-stone-100 hover:text-stone-600"
-          onClick={() => dismissPopup()}
-          type="button"
-          aria-label="Close"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
-            <path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition ${
+              isMarked
+                ? 'text-amber-500 hover:bg-amber-50'
+                : 'text-stone-300 hover:bg-stone-100 hover:text-stone-500'
+            }`}
+            onClick={() => toggleMarkedRegion(selectedRegion.id)}
+            type="button"
+            aria-label={markButtonLabel}
+            title={markButtonLabel}
+          >
+            <svg viewBox="0 0 24 24" fill={isMarked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+          </button>
+          <button
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-stone-400 transition hover:bg-stone-100 hover:text-stone-600"
+            onClick={() => dismissPopup()}
+            type="button"
+            aria-label="Close"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4">
+              <path strokeLinecap="round" d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {popupState.kind === 'explore' ? (
@@ -187,20 +206,6 @@ export function RegionPopup() {
             </dl>
           )}
 
-          <div className="flex items-center gap-2">
-            <button
-              className={`flex-1 rounded-full border px-4 py-2.5 text-sm font-medium transition ${
-                isMarked
-                  ? 'border-amber-200 bg-amber-100/90 text-amber-900 hover:bg-amber-100'
-                  : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
-              }`}
-              onClick={() => toggleMarkedRegion(selectedRegion.id)}
-              type="button"
-            >
-              {markButtonLabel}
-            </button>
-            <span className="text-[11px] text-stone-400">{escHint}</span>
-          </div>
         </div>
       ) : (
         <div className="mt-3 space-y-2">
@@ -241,20 +246,6 @@ export function RegionPopup() {
             Next question
           </button>
 
-          <div className="flex items-center gap-2">
-            <button
-              className={`flex-1 rounded-full border px-4 py-2.5 text-sm font-medium transition ${
-                isMarked
-                  ? 'border-amber-200 bg-amber-100/90 text-amber-900 hover:bg-amber-100'
-                  : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
-              }`}
-              onClick={() => toggleMarkedRegion(selectedRegion.id)}
-              type="button"
-            >
-              {markButtonLabel}
-            </button>
-            <span className="text-[11px] text-stone-400">{escHint}</span>
-          </div>
         </div>
       )}
     </div>
