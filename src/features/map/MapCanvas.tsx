@@ -51,10 +51,10 @@ const worldHoverPaletteByContinent: Record<string, string> = {
   'South America': '#cf9a6c',
   Oceania: '#91a5ef',
 }
-const TRACKPAD_ZOOM_MIN = 0.85
-const TRACKPAD_ZOOM_MAX = 1.18
-const TRACKPAD_ZOOM_SENSITIVITY = 0.0025
-const TRACKPAD_PAN_SENSITIVITY = 1
+const TRACKPAD_ZOOM_MIN = 0.92
+const TRACKPAD_ZOOM_MAX = 1.12
+const TRACKPAD_ZOOM_SENSITIVITY = 0.008
+const TRACKPAD_PAN_SENSITIVITY = 1.2
 
 type LoadedMapState = {
   mapKey: string
@@ -538,6 +538,46 @@ export function MapCanvas() {
       setZoom(nextZoom)
     })
 
+    let pendingZoom = 1
+    let pendingDx = 0
+    let pendingDy = 0
+    let rafId: number | null = null
+    let lastWheelTime = 0
+
+    function flushTransform() {
+      rafId = null
+
+      if (pendingZoom !== 1) {
+        chart.dispatchAction({
+          type: 'geoRoam',
+          componentType: 'series',
+          seriesIndex: 0,
+          zoom: pendingZoom,
+          originX: chart.getWidth() / 2,
+          originY: chart.getHeight() / 2,
+        })
+        pendingZoom = 1
+      }
+
+      if (pendingDx !== 0 || pendingDy !== 0) {
+        chart.dispatchAction({
+          type: 'geoRoam',
+          componentType: 'series',
+          seriesIndex: 0,
+          dx: pendingDx,
+          dy: pendingDy,
+        })
+        pendingDx = 0
+        pendingDy = 0
+      }
+    }
+
+    function scheduleFlush() {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(flushTransform)
+      }
+    }
+
     function handleWheel(event: WheelEvent) {
       if (!isTrackpadLikeWheelEvent(event)) {
         return
@@ -555,25 +595,21 @@ export function MapCanvas() {
       event.preventDefault()
       event.stopPropagation()
 
+      const now = performance.now()
+      const timeDelta = now - lastWheelTime
+      lastWheelTime = now
+
       if (event.ctrlKey || event.metaKey) {
-        chart.dispatchAction({
-          type: 'geoRoam',
-          componentType: 'series',
-          seriesIndex: 0,
-          zoom: getTrackpadZoomScale(event.deltaY),
-          originX,
-          originY,
-        })
+        const scale = getTrackpadZoomScale(event.deltaY)
+        pendingZoom *= scale
+        scheduleFlush()
         return
       }
 
-      chart.dispatchAction({
-        type: 'geoRoam',
-        componentType: 'series',
-        seriesIndex: 0,
-        dx: -event.deltaX * TRACKPAD_PAN_SENSITIVITY,
-        dy: -event.deltaY * TRACKPAD_PAN_SENSITIVITY,
-      })
+      const velocityFactor = Math.min(1, 16 / (timeDelta + 1))
+      pendingDx -= event.deltaX * TRACKPAD_PAN_SENSITIVITY * velocityFactor
+      pendingDy -= event.deltaY * TRACKPAD_PAN_SENSITIVITY * velocityFactor
+      scheduleFlush()
     }
 
     chart.getDom().addEventListener('wheel', handleWheel, {
@@ -588,6 +624,9 @@ export function MapCanvas() {
     resizeObserver.observe(chartRef.current)
 
     return () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId)
+      }
       chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
