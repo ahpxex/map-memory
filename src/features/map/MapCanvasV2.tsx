@@ -185,6 +185,7 @@ export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
   const activeMapKeyRef = useRef<string | null>(null)
+  const liveZoomRef = useRef(1)
   
   const [loadedMap, setLoadedMap] = useState<{ mapKey: string; featureCollection: object } | null>(null)
   const [zoom, setZoom] = useState(1)
@@ -230,7 +231,10 @@ export function MapCanvas() {
     if (activeMapKeyRef.current && activeMapKeyRef.current !== config.mapKey) {
       chartInstanceRef.current?.dispose()
       chartInstanceRef.current = null
-      window.setTimeout(() => setZoom(1), 0)
+      window.setTimeout(() => {
+        liveZoomRef.current = 1
+        setZoom(1)
+      }, 0)
       activeMapKeyRef.current = null
     }
 
@@ -256,9 +260,14 @@ export function MapCanvas() {
     chart.off('georoam')
     chart.on('georoam', (event) => {
       const e = event as { zoom?: number; totalZoom?: number }
-      const newZoom = typeof e.totalZoom === 'number' ? e.totalZoom :
-        typeof e.zoom === 'number' ? zoom * e.zoom : zoom
-      setZoom(clamp(newZoom, 1, getMaxZoom(dataset)))
+      const newZoom = typeof e.totalZoom === 'number'
+        ? e.totalZoom
+        : typeof e.zoom === 'number'
+          ? liveZoomRef.current * e.zoom
+          : liveZoomRef.current
+      const clampedZoom = clamp(newZoom, 1, getMaxZoom(dataset))
+      liveZoomRef.current = clampedZoom
+      setZoom(clampedZoom)
     })
     
     // Trackpad handling
@@ -266,6 +275,8 @@ export function MapCanvas() {
     let pendingZoom = 1
     let pendingDx = 0
     let pendingDy = 0
+    let pendingOriginX: number | null = null
+    let pendingOriginY: number | null = null
     let lastWheelTime = 0
     
     function flushTransform() {
@@ -276,8 +287,12 @@ export function MapCanvas() {
           componentType: 'series',
           seriesIndex: 0,
           zoom: pendingZoom,
+          originX: pendingOriginX ?? chart.getWidth() / 2,
+          originY: pendingOriginY ?? chart.getHeight() / 2,
         })
         pendingZoom = 1
+        pendingOriginX = null
+        pendingOriginY = null
       }
       if (pendingDx !== 0 || pendingDy !== 0) {
         chart.dispatchAction({
@@ -306,6 +321,7 @@ export function MapCanvas() {
       if (x < 0 || y < 0 || x > rect.width || y > rect.height) return
       
       event.preventDefault()
+      event.stopPropagation()
       
       const now = performance.now()
       const timeDelta = now - lastWheelTime
@@ -313,6 +329,8 @@ export function MapCanvas() {
       
       if (event.ctrlKey || event.metaKey) {
         pendingZoom *= getTrackpadZoomScale(event.deltaY)
+        pendingOriginX = x
+        pendingOriginY = y
         scheduleFlush()
         return
       }
@@ -333,12 +351,13 @@ export function MapCanvas() {
       chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
-  }, [activeLoadedMap, config.mapKey, dataset, zoom, interactionMode, submitAnswer, setSelectedRegionId])
+  }, [activeLoadedMap, config.mapKey, dataset, interactionMode, submitAnswer, setSelectedRegionId])
 
   useEffect(() => {
     const chart = chartInstanceRef.current
     if (!chart || !activeLoadedMap) return
 
+    liveZoomRef.current = 1
     chart.setOption({
       series: [{
         type: 'map',
