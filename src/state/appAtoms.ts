@@ -3,6 +3,7 @@ import { datasetConfigs } from '../features/map/datasets'
 import type {
   DatasetMode,
   LanguageMode,
+  MarkedRegionsByDataset,
   PersistedAppData,
   PracticeRecordEntry,
   PopupPosition,
@@ -52,6 +53,26 @@ function cloneSettings(
       ...persistedData.settings,
       ...nextSettings,
     },
+  }
+}
+
+function createNextMarkedRegions(
+  markedRegions: MarkedRegionsByDataset,
+  dataset: DatasetMode,
+  regionId: string,
+  datasetRegionIds: string[],
+) {
+  const nextMarkedRegionIds = new Set(markedRegions[dataset])
+
+  if (nextMarkedRegionIds.has(regionId)) {
+    nextMarkedRegionIds.delete(regionId)
+  } else {
+    nextMarkedRegionIds.add(regionId)
+  }
+
+  return {
+    ...markedRegions,
+    [dataset]: datasetRegionIds.filter((currentRegionId) => nextMarkedRegionIds.has(currentRegionId)),
   }
 }
 
@@ -193,6 +214,16 @@ export const currentDatasetProgressAtom = atom((get) => {
   return get(persistedDataAtom).progress[dataset]
 })
 
+export const currentDatasetMarkedRegionIdsAtom = atom((get) => {
+  const dataset = get(datasetAtom)
+
+  return get(persistedDataAtom).markedRegions[dataset]
+})
+
+export const currentDatasetMarkedRegionIdSetAtom = atom(
+  (get) => new Set(get(currentDatasetMarkedRegionIdsAtom)),
+)
+
 export const currentDatasetStatsAtom = atom((get) => {
   const progressMap = Object.values(get(currentDatasetProgressAtom))
   const totalRegions = get(currentDatasetConfigAtom).regionIds.length
@@ -273,7 +304,24 @@ export const startNextTrainingRoundAtom = atom(null, (get, set) => {
 })
 
 export const dismissPopupAtom = atom(null, (_get, set) => {
+  set(selectedRegionIdAtom, null)
   set(popupStateAtom, null)
+})
+
+export const toggleMarkedRegionAtom = atom(null, (get, set, regionId: string) => {
+  const dataset = get(datasetAtom)
+  const datasetRegionIds = get(currentDatasetConfigAtom).regionIds
+  const persistedData = get(persistedDataAtom)
+
+  set(persistedDataAtom, {
+    ...persistedData,
+    markedRegions: createNextMarkedRegions(
+      persistedData.markedRegions,
+      dataset,
+      regionId,
+      datasetRegionIds,
+    ),
+  })
 })
 
 export const clearNoticeAtom = atom(null, (_get, set) => {

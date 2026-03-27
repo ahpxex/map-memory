@@ -35,6 +35,7 @@ export type RegionProgress = {
 }
 
 export type ProgressByDataset = Record<DatasetMode, Record<string, RegionProgress>>
+export type MarkedRegionsByDataset = Record<DatasetMode, string[]>
 
 export type PracticeRecordEntry = {
   regionId: string
@@ -61,9 +62,10 @@ export type UserSettings = {
 }
 
 export type PersistedAppData = {
-  version: 1
+  version: 2
   settings: UserSettings
   progress: ProgressByDataset
+  markedRegions: MarkedRegionsByDataset
 }
 
 export type PopupPosition = {
@@ -83,7 +85,7 @@ export type TrainingSession = {
 }
 
 export type ExportSnapshot = {
-  version: 1
+  version: 2
   exportedAt: string
   data: PersistedAppData
 }
@@ -95,9 +97,16 @@ export function createEmptyProgress(): ProgressByDataset {
   }
 }
 
+export function createEmptyMarkedRegions(): MarkedRegionsByDataset {
+  return {
+    world: [],
+    china: [],
+  }
+}
+
 export function createDefaultPersistedData(): PersistedAppData {
   return {
-    version: 1,
+    version: 2,
     settings: {
       dataset: 'world',
       interactionMode: 'training',
@@ -106,18 +115,20 @@ export function createDefaultPersistedData(): PersistedAppData {
       showLabels: false,
     },
     progress: createEmptyProgress(),
+    markedRegions: createEmptyMarkedRegions(),
   }
 }
 
-export function isPersistedAppData(value: unknown): value is PersistedAppData {
-  if (!value || typeof value !== 'object') {
-    return false
+function normalizeMarkedRegionList(value: unknown) {
+  if (!Array.isArray(value)) {
+    return []
   }
 
-  const candidate = value as Partial<PersistedAppData>
+  return Array.from(new Set(value.filter((regionId): regionId is string => typeof regionId === 'string')))
+}
 
+function hasValidSettings(candidate: Partial<PersistedAppData>) {
   return (
-    candidate.version === 1 &&
     !!candidate.settings &&
     !!candidate.progress &&
     typeof candidate.settings.dataset === 'string' &&
@@ -128,16 +139,57 @@ export function isPersistedAppData(value: unknown): value is PersistedAppData {
   )
 }
 
-export function isExportSnapshot(value: unknown): value is ExportSnapshot {
+export function normalizePersistedAppData(value: unknown): PersistedAppData | null {
   if (!value || typeof value !== 'object') {
-    return false
+    return null
+  }
+
+  const candidate = value as Partial<PersistedAppData> & {
+    version?: number
+    markedRegions?: Partial<MarkedRegionsByDataset>
+  }
+
+  if (!hasValidSettings(candidate)) {
+    return null
+  }
+
+  const settings = candidate.settings as UserSettings
+  const progress = candidate.progress as ProgressByDataset
+
+  return {
+    version: 2,
+    settings,
+    progress,
+    markedRegions: {
+      world: normalizeMarkedRegionList(candidate.markedRegions?.world),
+      china: normalizeMarkedRegionList(candidate.markedRegions?.china),
+    },
+  }
+}
+
+export function isPersistedAppData(value: unknown): value is PersistedAppData {
+  return normalizePersistedAppData(value) !== null
+}
+
+export function normalizeExportSnapshot(value: unknown): ExportSnapshot | null {
+  if (!value || typeof value !== 'object') {
+    return null
   }
 
   const candidate = value as Partial<ExportSnapshot>
+  const normalizedData = normalizePersistedAppData(candidate.data)
 
-  return (
-    candidate.version === 1 &&
-    typeof candidate.exportedAt === 'string' &&
-    isPersistedAppData(candidate.data)
-  )
+  if (!normalizedData || typeof candidate.exportedAt !== 'string') {
+    return null
+  }
+
+  return {
+    version: 2,
+    exportedAt: candidate.exportedAt,
+    data: normalizedData,
+  }
+}
+
+export function isExportSnapshot(value: unknown): value is ExportSnapshot {
+  return normalizeExportSnapshot(value) !== null
 }

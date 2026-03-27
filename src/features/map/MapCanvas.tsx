@@ -7,6 +7,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import type { MapSeriesOption } from 'echarts'
 import {
   currentDatasetConfigAtom,
+  currentDatasetMarkedRegionIdSetAtom,
   currentDatasetProgressAtom,
   datasetAtom,
   handleRegionSelectionAtom,
@@ -50,6 +51,10 @@ const worldHoverPaletteByContinent: Record<string, string> = {
   'South America': '#cf9a6c',
   Oceania: '#91a5ef',
 }
+const TRACKPAD_ZOOM_MIN = 0.85
+const TRACKPAD_ZOOM_MAX = 1.18
+const TRACKPAD_ZOOM_SENSITIVITY = 0.0025
+const TRACKPAD_PAN_SENSITIVITY = 1
 
 type LoadedMapState = {
   mapKey: string
@@ -83,6 +88,51 @@ function defaultBorderColor(dataset: DatasetMode) {
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max)
+}
+
+function isNearlyMultiple(value: number, step: number, tolerance = 0.5) {
+  const remainder = Math.abs(value) % step
+  return remainder <= tolerance || step - remainder <= tolerance
+}
+
+function isTrackpadLikeWheelEvent(event: WheelEvent) {
+  if (event.ctrlKey || event.metaKey) {
+    return true
+  }
+
+  if (event.deltaMode !== WheelEvent.DOM_DELTA_PIXEL) {
+    return false
+  }
+
+  const absDeltaX = Math.abs(event.deltaX)
+  const absDeltaY = Math.abs(event.deltaY)
+
+  if (absDeltaX > 0.5) {
+    return true
+  }
+
+  if (absDeltaY === 0) {
+    return false
+  }
+
+  const hasFractionalDelta = Math.abs(absDeltaY - Math.round(absDeltaY)) > 0.01
+
+  if (hasFractionalDelta) {
+    return true
+  }
+
+  const isMouseLikeStep =
+    absDeltaY >= 100 && (isNearlyMultiple(absDeltaY, 100) || isNearlyMultiple(absDeltaY, 120))
+
+  return !isMouseLikeStep
+}
+
+function getTrackpadZoomScale(deltaY: number) {
+  return clamp(
+    Math.exp(-deltaY * TRACKPAD_ZOOM_SENSITIVITY),
+    TRACKPAD_ZOOM_MIN,
+    TRACKPAD_ZOOM_MAX,
+  )
 }
 
 function normalizeHex(hex: string) {
@@ -165,6 +215,14 @@ function getPracticedAreaColor(dataset: DatasetMode, progress: RegionProgress) {
 
 function getPracticedBorderColor(dataset: DatasetMode, progress: RegionProgress) {
   return blendHexColors(defaultBorderColor(dataset), getPracticeAccentColor(progress), 0.22)
+}
+
+function getMarkedAreaColor(areaColor: string) {
+  return blendHexColors(areaColor, '#8fc9c7', 0.28)
+}
+
+function getMarkedBorderColor(borderColor: string) {
+  return blendHexColors(borderColor, '#0f5d63', 0.72)
 }
 
 function getRegionLabelThreshold(dataset: DatasetMode, zoom: number) {
@@ -262,6 +320,7 @@ function buildSeries(
   regionById: Map<string, RegionMeta>,
   regionIds: string[],
   progressByRegionId: Record<string, RegionProgress>,
+  markedRegionIdSet: Set<string>,
   language: LanguageMode,
   showLabels: boolean,
   zoom: number,
@@ -338,6 +397,12 @@ function buildSeries(
         ? getRegionHoverBorderColor(region, dataset)
         : defaultBorderColor(dataset)
 
+      if (markedRegionIdSet.has(regionId)) {
+        areaColor = getMarkedAreaColor(areaColor)
+        borderColor = getMarkedBorderColor(borderColor)
+        borderWidth = Math.max(borderWidth, dataset === 'world' ? 1.35 : 1.15)
+      }
+
       if (interactionMode === 'explore' && selectedRegionId === regionId) {
         areaColor = '#a6c7f6'
         borderColor = '#20477a'
@@ -390,6 +455,7 @@ export function MapCanvas() {
   const [zoom, setZoom] = useState(1)
   const dataset = useAtomValue(datasetAtom)
   const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
+  const markedRegionIdSet = useAtomValue(currentDatasetMarkedRegionIdSetAtom)
   const currentDatasetProgress = useAtomValue(currentDatasetProgressAtom)
   const language = useAtomValue(languageAtom)
   const showLabels = useAtomValue(showLabelsAtom)
@@ -440,6 +506,7 @@ export function MapCanvas() {
 
     chartInstanceRef.current = chart
     chart.off('click')
+
     chart.on('click', (params) => {
       const regionId = typeof params.name === 'string' ? params.name : null
 
@@ -471,6 +538,49 @@ export function MapCanvas() {
       setZoom(nextZoom)
     })
 
+    function handleWheel(event: WheelEvent) {
+      if (!isTrackpadLikeWheelEvent(event)) {
+        return
+      }
+
+      const chartDom = chart.getDom()
+      const rect = chartDom.getBoundingClientRect()
+      const originX = event.clientX - rect.left
+      const originY = event.clientY - rect.top
+
+      if (originX < 0 || originY < 0 || originX > rect.width || originY > rect.height) {
+        return
+      }
+
+      event.preventDefault()
+      event.stopPropagation()
+
+      if (event.ctrlKey || event.metaKey) {
+        chart.dispatchAction({
+          type: 'geoRoam',
+          componentType: 'series',
+          seriesIndex: 0,
+          zoom: getTrackpadZoomScale(event.deltaY),
+          originX,
+          originY,
+        })
+        return
+      }
+
+      chart.dispatchAction({
+        type: 'geoRoam',
+        componentType: 'series',
+        seriesIndex: 0,
+        dx: -event.deltaX * TRACKPAD_PAN_SENSITIVITY,
+        dy: -event.deltaY * TRACKPAD_PAN_SENSITIVITY,
+      })
+    }
+
+    chart.getDom().addEventListener('wheel', handleWheel, {
+      capture: true,
+      passive: false,
+    })
+
     const resizeObserver = new ResizeObserver(() => {
       chart.resize()
     })
@@ -478,6 +588,7 @@ export function MapCanvas() {
     resizeObserver.observe(chartRef.current)
 
     return () => {
+      chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
   }, [currentDatasetConfig.mapKey, featureCollection, handleRegionSelection])
@@ -501,6 +612,7 @@ export function MapCanvas() {
           currentDatasetConfig.regionById,
           currentDatasetConfig.regionIds,
           currentDatasetProgress,
+          markedRegionIdSet,
           language,
           showLabels,
           zoom,
@@ -519,6 +631,7 @@ export function MapCanvas() {
     featureCollection,
     interactionMode,
     language,
+    markedRegionIdSet,
     selectedRegionId,
     showLabels,
     trainingSession,

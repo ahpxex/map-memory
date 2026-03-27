@@ -13,7 +13,7 @@ import {
   startNextTrainingRoundAtom,
   trainingSessionAtom,
 } from '../state/appAtoms'
-import { createDefaultPersistedData, isPersistedAppData } from '../types/app'
+import { createDefaultPersistedData, normalizePersistedAppData } from '../types/app'
 
 const LazyMapStage = lazy(async () => ({
   default: (await import('./MapStage')).MapStage,
@@ -34,10 +34,10 @@ function HydrationBridge() {
           return
         }
 
+        const normalizedData = normalizePersistedAppData(storedData)
+
         setPersistedData(
-          storedData && isPersistedAppData(storedData)
-            ? storedData
-            : createDefaultPersistedData(),
+          normalizedData ?? createDefaultPersistedData(),
         )
         setHydrated(true)
       })

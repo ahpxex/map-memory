@@ -17,7 +17,7 @@ import {
   startNextTrainingRoundAtom,
   trainingModeAtom,
 } from '../state/appAtoms'
-import { isExportSnapshot, isPersistedAppData } from '../types/app'
+import { normalizeExportSnapshot, normalizePersistedAppData } from '../types/app'
 
 const journalTimeFormatter: Record<Language, Intl.DateTimeFormat> = {
   zh: new Intl.DateTimeFormat('zh-CN', {
@@ -423,11 +423,8 @@ export function BottomToolbar() {
               try {
                 const text = await file.text()
                 const parsed = JSON.parse(text)
-                const importedData = isExportSnapshot(parsed)
-                  ? parsed.data
-                  : isPersistedAppData(parsed)
-                    ? parsed
-                    : null
+                const importedData =
+                  normalizeExportSnapshot(parsed)?.data ?? normalizePersistedAppData(parsed)
 
                 if (!importedData) {
                   window.alert(t('importInvalidFile', language))

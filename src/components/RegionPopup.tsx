@@ -1,6 +1,7 @@
 import { startTransition, useEffect, useRef } from 'react'
 import { useAtomValue, useSetAtom } from 'jotai'
 import {
+  currentDatasetMarkedRegionIdSetAtom,
   currentPromptRegionAtom,
   datasetAtom,
   dismissPopupAtom,
@@ -8,6 +9,7 @@ import {
   popupStateAtom,
   selectedRegionAtom,
   startNextTrainingRoundAtom,
+  toggleMarkedRegionAtom,
   trainingSessionAtom,
 } from '../state/appAtoms'
 
@@ -29,10 +31,12 @@ export function RegionPopup() {
   const dataset = useAtomValue(datasetAtom)
   const language = useAtomValue(languageAtom)
   const selectedRegion = useAtomValue(selectedRegionAtom)
+  const markedRegionIdSet = useAtomValue(currentDatasetMarkedRegionIdSetAtom)
   const currentPromptRegion = useAtomValue(currentPromptRegionAtom)
   const trainingSession = useAtomValue(trainingSessionAtom)
   const dismissPopup = useSetAtom(dismissPopupAtom)
   const startNextTrainingRound = useSetAtom(startNextTrainingRoundAtom)
+  const toggleMarkedRegion = useSetAtom(toggleMarkedRegionAtom)
 
   useEffect(() => {
     if (!popupState || !selectedRegion) {
@@ -53,10 +57,21 @@ export function RegionPopup() {
       dismissPopup()
     }
 
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key !== 'Escape') {
+        return
+      }
+
+      event.preventDefault()
+      dismissPopup()
+    }
+
     document.addEventListener('pointerdown', handlePointerDown, true)
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown, true)
+      window.removeEventListener('keydown', handleKeyDown)
     }
   }, [dismissPopup, popupState, selectedRegion])
 
@@ -65,12 +80,28 @@ export function RegionPopup() {
   }
 
   const popupWidth = 336
-  const popupHeight = popupState.kind === 'training' ? 250 : 280
+  const popupHeight =
+    popupState.kind === 'training'
+      ? 324
+      : dataset === 'world'
+        ? 360
+        : 344
   const left = clamp(popupState.x + 18, 16, window.innerWidth - popupWidth - 16)
   const top = clamp(popupState.y - popupHeight / 2, 16, window.innerHeight - popupHeight - 96)
   const title = language === 'en' ? selectedRegion.nameEn : selectedRegion.nameZh
   const subtitle = language === 'en' ? selectedRegion.nameZh : selectedRegion.nameEn
   const targetTitle = language === 'en' ? currentPromptRegion?.nameEn : currentPromptRegion?.nameZh
+  const isMarked = markedRegionIdSet.has(selectedRegion.id)
+  const markButtonLabel =
+    language === 'zh'
+      ? isMarked
+        ? '取消标记该地区'
+        : '标记该地区'
+      : isMarked
+        ? 'Unmark region'
+        : 'Mark region'
+  const markedBadgeLabel = language === 'zh' ? '已标记' : 'Marked'
+  const escHint = language === 'zh' ? 'Esc 关闭' : 'Esc closes'
 
   return (
     <div
@@ -84,7 +115,14 @@ export function RegionPopup() {
             {popupState.kind === 'training' ? 'Training result' : 'Region overview'}
           </p>
           <h3 className="mt-1.5 text-xl font-semibold tracking-tight text-stone-900">{title}</h3>
-          <p className="mt-0.5 text-sm text-stone-500">{subtitle}</p>
+          <div className="mt-0.5 flex flex-wrap items-center gap-2">
+            <p className="text-sm text-stone-500">{subtitle}</p>
+            {isMarked ? (
+              <span className="inline-flex rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-amber-800">
+                {markedBadgeLabel}
+              </span>
+            ) : null}
+          </div>
         </div>
 
         <button
@@ -100,53 +138,70 @@ export function RegionPopup() {
       </div>
 
       {popupState.kind === 'explore' ? (
-        dataset === 'world' ? (
-          <dl className="mt-3 grid grid-cols-2 gap-2 text-sm text-stone-700">
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Continent</dt>
-              <dd className="mt-1 font-medium text-stone-800">{selectedRegion.continent ?? 'Unknown'}</dd>
-            </div>
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Subregion</dt>
-              <dd className="mt-1 font-medium text-stone-800">{selectedRegion.subregion ?? 'Unknown'}</dd>
-            </div>
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Population</dt>
-              <dd className="mt-1 font-medium text-stone-800">{formatPopulation(selectedRegion.population)}</dd>
-            </div>
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Formal name</dt>
-              <dd className="mt-1 font-medium text-stone-800">{selectedRegion.formalNameEn ?? selectedRegion.nameEn}</dd>
-            </div>
-          </dl>
-        ) : (
-          <dl className="mt-3 grid grid-cols-2 gap-2 text-sm text-stone-700">
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Province</dt>
-              <dd className="mt-1 font-medium text-stone-800">
-                {language === 'en'
-                  ? selectedRegion.parentNameEn ?? selectedRegion.parentNameZh ?? 'Unknown'
-                  : selectedRegion.parentNameZh ?? selectedRegion.parentNameEn ?? 'Unknown'}
-              </dd>
-            </div>
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Level</dt>
-              <dd className="mt-1 font-medium text-stone-800">{selectedRegion.level ?? 'Unknown'}</dd>
-            </div>
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Adcode</dt>
-              <dd className="mt-1 font-medium text-stone-800">{selectedRegion.adcode ?? 'Unknown'}</dd>
-            </div>
-            <div className="rounded-xl bg-stone-100/60 p-2.5">
-              <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Center</dt>
-              <dd className="mt-1 font-medium text-stone-800">
-                {selectedRegion.center
-                  ? `${selectedRegion.center[0].toFixed(2)}, ${selectedRegion.center[1].toFixed(2)}`
-                  : 'Unknown'}
-              </dd>
-            </div>
-          </dl>
-        )
+        <div className="mt-3 space-y-3">
+          {dataset === 'world' ? (
+            <dl className="grid grid-cols-2 gap-2 text-sm text-stone-700">
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Continent</dt>
+                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.continent ?? 'Unknown'}</dd>
+              </div>
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Subregion</dt>
+                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.subregion ?? 'Unknown'}</dd>
+              </div>
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Population</dt>
+                <dd className="mt-1 font-medium text-stone-800">{formatPopulation(selectedRegion.population)}</dd>
+              </div>
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Formal name</dt>
+                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.formalNameEn ?? selectedRegion.nameEn}</dd>
+              </div>
+            </dl>
+          ) : (
+            <dl className="grid grid-cols-2 gap-2 text-sm text-stone-700">
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Province</dt>
+                <dd className="mt-1 font-medium text-stone-800">
+                  {language === 'en'
+                    ? selectedRegion.parentNameEn ?? selectedRegion.parentNameZh ?? 'Unknown'
+                    : selectedRegion.parentNameZh ?? selectedRegion.parentNameEn ?? 'Unknown'}
+                </dd>
+              </div>
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Level</dt>
+                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.level ?? 'Unknown'}</dd>
+              </div>
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Adcode</dt>
+                <dd className="mt-1 font-medium text-stone-800">{selectedRegion.adcode ?? 'Unknown'}</dd>
+              </div>
+              <div className="rounded-xl bg-stone-100/60 p-2.5">
+                <dt className="text-[10px] uppercase tracking-[0.15em] text-stone-400">Center</dt>
+                <dd className="mt-1 font-medium text-stone-800">
+                  {selectedRegion.center
+                    ? `${selectedRegion.center[0].toFixed(2)}, ${selectedRegion.center[1].toFixed(2)}`
+                    : 'Unknown'}
+                </dd>
+              </div>
+            </dl>
+          )}
+
+          <div className="flex items-center gap-2">
+            <button
+              className={`flex-1 rounded-full border px-4 py-2.5 text-sm font-medium transition ${
+                isMarked
+                  ? 'border-amber-200 bg-amber-100/90 text-amber-900 hover:bg-amber-100'
+                  : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+              }`}
+              onClick={() => toggleMarkedRegion(selectedRegion.id)}
+              type="button"
+            >
+              {markButtonLabel}
+            </button>
+            <span className="text-[11px] text-stone-400">{escHint}</span>
+          </div>
+        </div>
       ) : (
         <div className="mt-3 space-y-2">
           <div className="rounded-xl bg-stone-100/60 p-2.5">
@@ -185,6 +240,21 @@ export function RegionPopup() {
           >
             Next question
           </button>
+
+          <div className="flex items-center gap-2">
+            <button
+              className={`flex-1 rounded-full border px-4 py-2.5 text-sm font-medium transition ${
+                isMarked
+                  ? 'border-amber-200 bg-amber-100/90 text-amber-900 hover:bg-amber-100'
+                  : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50'
+              }`}
+              onClick={() => toggleMarkedRegion(selectedRegion.id)}
+              type="button"
+            >
+              {markButtonLabel}
+            </button>
+            <span className="text-[11px] text-stone-400">{escHint}</span>
+          </div>
         </div>
       )}
     </div>

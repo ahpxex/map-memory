@@ -26,7 +26,7 @@ export async function savePersistedData(data: PersistedAppData) {
 
 export function buildExportSnapshot(data: PersistedAppData): ExportSnapshot {
   return {
-    version: 1,
+    version: 2,
     exportedAt: new Date().toISOString(),
     data,
   }
