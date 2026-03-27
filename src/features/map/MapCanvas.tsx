@@ -478,11 +478,9 @@ export function MapCanvas() {
   const [zoomPresentation, setZoomPresentation] = useState<ZoomPresentation>(() =>
     getZoomPresentation(dataset, 1),
   )
-  const [labelsSuppressedDuringRoam, setLabelsSuppressedDuringRoam] = useState(false)
   const liveZoomRef = useRef(1)
   const zoomPresentationRef = useRef(zoomPresentation)
   const showLabelsRef = useRef(false)
-  const labelsSuppressedDuringRoamRef = useRef(false)
   const currentDatasetConfig = useAtomValue(currentDatasetConfigAtom)
   const markedRegionIdSet = useAtomValue(currentDatasetMarkedRegionIdSetAtom)
   const currentDatasetProgress = useAtomValue(currentDatasetProgressAtom)
@@ -494,7 +492,6 @@ export function MapCanvas() {
   const handleRegionSelection = useSetAtom(handleRegionSelectionAtom)
   const featureCollection =
     loadedMap?.mapKey === currentDatasetConfig.mapKey ? loadedMap.featureCollection : null
-  const effectiveShowLabels = showLabels && !labelsSuppressedDuringRoam
   const renderedZoomPresentation = zoomPresentation
 
   useEffect(() => {
@@ -502,7 +499,7 @@ export function MapCanvas() {
   }, [showLabels])
 
   useEffect(() => {
-    if (!showLabels || labelsSuppressedDuringRoam) {
+    if (!showLabels) {
       return
     }
 
@@ -520,7 +517,7 @@ export function MapCanvas() {
     return () => {
       window.cancelAnimationFrame(frameId)
     }
-  }, [dataset, labelsSuppressedDuringRoam, showLabels])
+  }, [dataset, showLabels])
 
   useEffect(() => {
     let cancelled = false
@@ -596,11 +593,7 @@ export function MapCanvas() {
       liveZoomRef.current = clamp(nextZoom, 1, getMaxZoom(dataset))
       const nextZoomPresentation = getZoomPresentation(dataset, liveZoomRef.current)
 
-      if (
-        showLabelsRef.current &&
-        !labelsSuppressedDuringRoamRef.current &&
-        nextZoomPresentation.signature !== zoomPresentationRef.current.signature
-      ) {
+      if (showLabelsRef.current && nextZoomPresentation.signature !== zoomPresentationRef.current.signature) {
         zoomPresentationRef.current = nextZoomPresentation
         setZoomPresentation(nextZoomPresentation)
       }
@@ -612,7 +605,6 @@ export function MapCanvas() {
     let pendingOriginX: number | null = null
     let pendingOriginY: number | null = null
     let rafId: number | null = null
-    let roamSettledTimeoutId: number | null = null
     let lastWheelTime = 0
 
     function flushTransform() {
@@ -645,35 +637,6 @@ export function MapCanvas() {
       }
     }
 
-    function beginRoamInteraction() {
-      if (!showLabelsRef.current || labelsSuppressedDuringRoamRef.current) {
-        return
-      }
-
-      labelsSuppressedDuringRoamRef.current = true
-      setLabelsSuppressedDuringRoam(true)
-    }
-
-    function scheduleRoamInteractionEnd() {
-      if (roamSettledTimeoutId !== null) {
-        window.clearTimeout(roamSettledTimeoutId)
-      }
-
-      roamSettledTimeoutId = window.setTimeout(() => {
-        roamSettledTimeoutId = null
-
-        if (!labelsSuppressedDuringRoamRef.current) {
-          return
-        }
-
-        labelsSuppressedDuringRoamRef.current = false
-        const settledZoomPresentation = getZoomPresentation(dataset, liveZoomRef.current)
-        zoomPresentationRef.current = settledZoomPresentation
-        setZoomPresentation(settledZoomPresentation)
-        setLabelsSuppressedDuringRoam(false)
-      }, 90)
-    }
-
     function scheduleFlush() {
       if (rafId === null) {
         rafId = requestAnimationFrame(flushTransform)
@@ -703,21 +666,17 @@ export function MapCanvas() {
 
       if (event.ctrlKey || event.metaKey) {
         const scale = getTrackpadZoomScale(event.deltaY)
-        beginRoamInteraction()
         pendingZoom *= scale
         pendingOriginX = originX
         pendingOriginY = originY
         scheduleFlush()
-        scheduleRoamInteractionEnd()
         return
       }
 
-      beginRoamInteraction()
       const velocityFactor = Math.min(1, 16 / (timeDelta + 1))
       pendingDx -= event.deltaX * TRACKPAD_PAN_SENSITIVITY * velocityFactor
       pendingDy -= event.deltaY * TRACKPAD_PAN_SENSITIVITY * velocityFactor
       scheduleFlush()
-      scheduleRoamInteractionEnd()
     }
 
     chart.getDom().addEventListener('wheel', handleWheel, {
@@ -735,10 +694,6 @@ export function MapCanvas() {
       if (rafId !== null) {
         cancelAnimationFrame(rafId)
       }
-      if (roamSettledTimeoutId !== null) {
-        window.clearTimeout(roamSettledTimeoutId)
-      }
-      labelsSuppressedDuringRoamRef.current = false
       chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
@@ -765,7 +720,7 @@ export function MapCanvas() {
           currentDatasetProgress,
           markedRegionIdSet,
           language,
-          effectiveShowLabels,
+          showLabels,
           renderedZoomPresentation.labelThreshold,
           renderedZoomPresentation.labelFontSize,
           interactionMode,
@@ -784,7 +739,7 @@ export function MapCanvas() {
     interactionMode,
     language,
     markedRegionIdSet,
-    effectiveShowLabels,
+    showLabels,
     renderedZoomPresentation.labelFontSize,
     renderedZoomPresentation.labelThreshold,
     selectedRegionId,
