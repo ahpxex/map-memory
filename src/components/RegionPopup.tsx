@@ -58,33 +58,6 @@ function getPopupText(language: AppLanguage) {
     }
   }
 
-  if (language === 'mixed') {
-    return {
-      country: '国家 / Country',
-      region: '地区 / Region',
-      continent: '洲别 / Continent',
-      capital: '首都 / Capital',
-      subregion: '次区域 / Subregion',
-      neighbors: '邻接 / Neighbors',
-      population: '人口 / Population',
-      formalName: '正式名称 / Formal Name',
-      province: '省份 / Province',
-      type: '类型 / Type',
-      parent: '上级 / Parent',
-      noNeighbors: '暂无邻接信息 / No neighbor data',
-      trainingFeedback: '训练反馈 / Training Feedback',
-      correct: '回答正确 / Correct',
-      wrong: '回答错误 / Wrong',
-      yourAnswer: '你的答案 / Your Answer',
-      correctAnswer: '正确答案 / Correct Answer',
-      errorBook: '错题池 / Error Book',
-      recorded: '已记录 / Recorded',
-      notRecorded: '未记录 / Not Recorded',
-      neighborCount: '邻接数量 / Neighbor Count',
-      nextQuestion: '下一题 / Next',
-    }
-  }
-
   return {
     country: '国家',
     region: '地区',
@@ -119,13 +92,6 @@ function getDisplayNames(language: AppLanguage, regionFeature: RegionFeature) {
     }
   }
 
-  if (language === 'mixed') {
-    return {
-      title: regionFeature.labels.mixed,
-      subtitle: regionFeature.metadata.formalNameEn ?? null,
-    }
-  }
-
   return {
     title: regionFeature.labels.zh,
     subtitle: regionFeature.labels.en,
@@ -136,9 +102,6 @@ function formatPopulation(value: number | null | undefined, language: AppLanguag
   if (!value) return 'Unknown'
   if (language === 'en') {
     return new Intl.NumberFormat('en-US').format(Math.round(value))
-  }
-  if (language === 'mixed') {
-    return `${new Intl.NumberFormat('en-US').format(Math.round(value))} / ${formatPopulation(value, 'zh')}`
   }
   if (value >= 100_000_000) return `${(value / 100_000_000).toFixed(1)} 亿`
   if (value >= 10_000) return `${Math.round(value / 10_000)} 万`
@@ -350,7 +313,7 @@ function TrainingResultPopup() {
         <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-stone-400">{text.trainingFeedback}</div>
         <h3 className="mt-2 text-lg font-semibold text-stone-800">{session.prompt.content}</h3>
         {promptFeature && effectiveDensity === 'rich' ? (
-          <p className="mt-1 text-sm text-stone-500">{promptFeature.labels.mixed}</p>
+          <p className="mt-1 text-sm text-stone-500">{promptFeature.labels.en}</p>
         ) : null}
       </div>
 

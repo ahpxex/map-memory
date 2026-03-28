@@ -62,7 +62,6 @@ function ensureMapRegistered(mapKey: string, featureCollection: object) {
 
 function getRegionLabel(region: RegionMeta, language: AppLanguage) {
   if (language === 'en') return region.nameEn
-  if (language === 'mixed') return `${region.nameZh} / ${region.nameEn}`
   return region.nameZh
 }
 

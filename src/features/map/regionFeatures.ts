@@ -79,10 +79,6 @@ function buildNeighborMap(featureCollection: FeatureWithName) {
   return neighbors
 }
 
-function formatMixedLabel(nameZh: string, nameEn: string) {
-  return nameZh === nameEn ? nameZh : `${nameZh} / ${nameEn}`
-}
-
 function stripChinaSuffix(nameZh: string) {
   return nameZh
     .replace(/(维吾尔自治区|壮族自治区|回族自治区|自治区|特别行政区|自治州|地区|盟)$/u, '')
@@ -154,7 +150,6 @@ export function buildRegionFeatureMap(
       labels: {
         zh: region.nameZh,
         en: region.nameEn,
-        mixed: formatMixedLabel(region.nameZh, region.nameEn),
       },
       aliases: buildAliases(dataset, region),
       parentId: buildParentId(dataset, region),

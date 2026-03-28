@@ -150,24 +150,22 @@ const CONTINENT_NAMES: Record<string, string> = {
   'Americas': '美洲',
 }
 
-const CONTINENT_LABELS: Record<string, { zh: string; en: string; mixed: string }> = {
-  asia: { zh: '亚洲', en: 'Asia', mixed: '亚洲 / Asia' },
-  europe: { zh: '欧洲', en: 'Europe', mixed: '欧洲 / Europe' },
-  africa: { zh: '非洲', en: 'Africa', mixed: '非洲 / Africa' },
-  'north-america': { zh: '北美洲', en: 'North America', mixed: '北美洲 / North America' },
-  'south-america': { zh: '南美洲', en: 'South America', mixed: '南美洲 / South America' },
-  oceania: { zh: '大洋洲', en: 'Oceania', mixed: '大洋洲 / Oceania' },
+const CONTINENT_LABELS: Record<string, { zh: string; en: string }> = {
+  asia: { zh: '亚洲', en: 'Asia' },
+  europe: { zh: '欧洲', en: 'Europe' },
+  africa: { zh: '非洲', en: 'Africa' },
+  'north-america': { zh: '北美洲', en: 'North America' },
+  'south-america': { zh: '南美洲', en: 'South America' },
+  oceania: { zh: '大洋洲', en: 'Oceania' },
 }
 
 function getRegionLabel(region: RegionMeta, language: AppLanguage) {
   if (language === 'en') return region.nameEn
-  if (language === 'mixed') return `${region.nameZh} / ${region.nameEn}`
   return region.nameZh
 }
 
 function getPromptText(zh: string, en: string, language: AppLanguage) {
   if (language === 'en') return en
-  if (language === 'mixed') return `${zh} · ${en}`
   return zh
 }
 
@@ -478,14 +476,12 @@ export function buildCityToProvinceOptions(
     )
     .map(r => ({ 
       id: r.parentAdcode?.toString() ?? r.id, 
-      label: language === 'en' ? (r.parentNameEn ?? 'Unknown') : language === 'mixed' ? `${r.parentNameZh ?? '未知'} / ${r.parentNameEn ?? 'Unknown'}` : (r.parentNameZh ?? '未知')
+      label: language === 'en' ? (r.parentNameEn ?? 'Unknown') : (r.parentNameZh ?? '未知')
     }))
   
   const correctProvince = language === 'en'
     ? (region.parentNameEn ?? 'Unknown')
-    : language === 'mixed'
-      ? `${region.parentNameZh ?? '未知'} / ${region.parentNameEn ?? 'Unknown'}`
-      : (region.parentNameZh ?? '未知')
+    : (region.parentNameZh ?? '未知')
   
   const options = [
     { id: region.parentAdcode?.toString() ?? region.id, label: correctProvince },

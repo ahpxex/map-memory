@@ -176,7 +176,7 @@ export const trainingModeAtom = atom(
 
 export const languageAtom = atom(
   (get) => get(trainingSettingsAtom).language,
-  (_get, set, lang: 'zh' | 'en' | 'mixed') => {
+  (_get, set, lang: 'zh' | 'en') => {
     set(trainingSettingsAtom, (prev) => ({ ...prev, language: lang }))
   }
 )

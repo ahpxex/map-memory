@@ -267,7 +267,7 @@ export function downloadSnapshot(filename: string, snapshot: ExportTrainingSnaps
 }
 
 function normalizeLanguage(value: unknown): AppLanguage {
-  return value === 'en' || value === 'mixed' ? value : 'zh'
+  return value === 'en' ? 'en' : 'zh'
 }
 
 function normalizePopupDensity(value: unknown): PopupDensity {

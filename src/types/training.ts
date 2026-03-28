@@ -9,7 +9,7 @@
 // ============================================================================
 
 export type Dataset = 'world' | 'china'
-export type AppLanguage = 'zh' | 'en' | 'mixed'
+export type AppLanguage = 'zh' | 'en'
 export type PopupDensity = 'adaptive' | 'compact' | 'rich'
 export type BorderEmphasis = 'soft' | 'strong'
 export type ColorIntensity = 'soft' | 'normal' | 'vivid'
@@ -161,7 +161,6 @@ export type RegionMeta = {
 export type RegionLabels = {
   zh: string
   en: string
-  mixed: string
 }
 
 export type RegionFeature = {

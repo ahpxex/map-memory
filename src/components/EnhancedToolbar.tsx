@@ -31,7 +31,6 @@ import type { AppLanguage, BorderEmphasis, ChoiceOption, ColorIntensity, PopupDe
 const LANGUAGE_LABELS: Record<AppLanguage, string> = {
   zh: '中',
   en: 'EN',
-  mixed: '中英',
 }
 
 function getToolbarText(language: AppLanguage) {
@@ -55,29 +54,6 @@ function getToolbarText(language: AppLanguage) {
       confirmClear: 'Clear the current local training data?',
       chooseContinent: 'Choose Continent',
       chooseProvince: 'Choose Province',
-    }
-  }
-
-  if (language === 'mixed') {
-    return {
-      noTraining: '当前范围下暂无可训练题目 / No questions available',
-      tapMap: '在地图上点击你的答案 / Click the map to answer',
-      nextQuestion: '下一题 / Next',
-      submode: '训练子模式 / Submode',
-      scope: '练习范围 / Scope',
-      popup: 'Popup',
-      border: '边界 / Border',
-      color: '色彩 / Color',
-      reset: '重置视图 / Reset View',
-      export: '导出训练数据 / Export Data',
-      import: '导入训练数据 / Import Data',
-      clear: '清空本地数据 / Clear Local Data',
-      invalidImport: '导入失败，文件格式无效 / Import failed.',
-      invalidVersion: '快照版本不兼容 / Snapshot version is not supported.',
-      confirmImport: '导入将替换当前本地训练数据，是否继续？ / Replace local data?',
-      confirmClear: '确定清空当前本地训练数据吗？ / Clear local data?',
-      chooseContinent: '选择大洲 / Choose Continent',
-      chooseProvince: '选择省份 / Choose Province',
     }
   }
 
@@ -111,13 +87,6 @@ function getSubmodeOptions(language: AppLanguage) {
       { id: 'wrong-replay', label: 'Wrong Replay' },
     ]
   }
-  if (language === 'mixed') {
-    return [
-      { id: 'name-to-location', label: '看名点图 / Name to Map' },
-      { id: 'shape-to-name', label: '看图猜名 / Map to Name' },
-      { id: 'wrong-replay', label: '错题回放 / Wrong Replay' },
-    ]
-  }
   return [
     { id: 'name-to-location', label: '看名点图' },
     { id: 'shape-to-name', label: '看图猜名' },
@@ -131,13 +100,6 @@ function getPopupDensityOptions(language: AppLanguage): Array<{ id: PopupDensity
       { id: 'adaptive', label: 'Adaptive' },
       { id: 'compact', label: 'Compact' },
       { id: 'rich', label: 'Rich' },
-    ]
-  }
-  if (language === 'mixed') {
-    return [
-      { id: 'adaptive', label: '自适应 / Adaptive' },
-      { id: 'compact', label: '简洁 / Compact' },
-      { id: 'rich', label: '详细 / Rich' },
     ]
   }
   return [
@@ -154,12 +116,6 @@ function getBorderOptions(language: AppLanguage): Array<{ id: BorderEmphasis; la
       { id: 'strong', label: 'Strong' },
     ]
   }
-  if (language === 'mixed') {
-    return [
-      { id: 'soft', label: '柔和 / Soft' },
-      { id: 'strong', label: '强调 / Strong' },
-    ]
-  }
   return [
     { id: 'soft', label: '柔和' },
     { id: 'strong', label: '强调' },
@@ -172,13 +128,6 @@ function getColorOptions(language: AppLanguage): Array<{ id: ColorIntensity; lab
       { id: 'soft', label: 'Low' },
       { id: 'normal', label: 'Medium' },
       { id: 'vivid', label: 'High' },
-    ]
-  }
-  if (language === 'mixed') {
-    return [
-      { id: 'soft', label: '低 / Low' },
-      { id: 'normal', label: '中 / Medium' },
-      { id: 'vivid', label: '高 / High' },
     ]
   }
   return [
@@ -338,6 +287,56 @@ function Selector({
   )
 }
 
+function ScopeValueSelector({
+  value,
+  options,
+  onChange,
+  widthClass = 'w-52',
+}: {
+  value: string | null
+  options: Array<{ id: string; label: string }>
+  onChange: (value: string | null) => void
+  widthClass?: string
+}) {
+  const [open, setOpen] = useState(false)
+  const currentOption = options.find((option) => option.id === (value ?? ''))
+
+  return (
+    <div className="relative">
+      <button
+        className={`flex items-center justify-between gap-2 rounded-full bg-stone-100 px-3 py-1.5 text-xs font-medium text-stone-600 hover:bg-stone-200 ${widthClass}`}
+        onClick={() => setOpen((current) => !current)}
+        type="button"
+      >
+        <span>{currentOption?.label ?? options[0]?.label ?? '选择'}</span>
+        {open ? <ChevronUpIcon className="h-3 w-3" /> : <ChevronDownIcon className="h-3 w-3" />}
+      </button>
+      {open ? (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+          <div className={`absolute bottom-full left-0 z-50 mb-2 max-h-72 overflow-y-auto rounded-2xl border border-stone-200/70 bg-white/95 p-1 shadow-lg backdrop-blur-xl ${widthClass}`}>
+            {options.map((option) => (
+              <button
+                key={option.id || 'empty'}
+                className={`w-full rounded-xl px-3 py-2 text-left text-xs transition ${
+                  option.id === (value ?? '') ? 'bg-stone-800 text-white' : 'text-stone-600 hover:bg-stone-100'
+                }`}
+                onClick={() => {
+                  onChange(option.id || null)
+                  setOpen(false)
+                }}
+                type="button"
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </>
+      ) : null}
+    </div>
+  )
+}
+
 function OptionButtons({
   options,
   onSelect,
@@ -433,7 +432,7 @@ export function EnhancedToolbar() {
   const persistedTrainingData = useAtomValue(persistedTrainingDataAtom)
   const allScopes = getScopesForDataset(dataset).map((scope) => ({
     id: scope.id,
-    label: language === 'en' ? scope.labelEn : language === 'mixed' ? `${scope.label} / ${scope.labelEn}` : scope.label,
+    label: language === 'en' ? scope.labelEn : scope.label,
   }))
   const provinceOptions = getProvinceOptions(currentDatasetConfig.regionById)
 
@@ -500,27 +499,23 @@ export function EnhancedToolbar() {
   }
 
   function cycleLanguage() {
-    const next = language === 'zh' ? 'en' : language === 'en' ? 'mixed' : 'zh'
+    const next = language === 'zh' ? 'en' : 'zh'
     setLanguage(next)
   }
 
   const valueOptions = scopeType === 'continent'
     ? [{ id: '', label: text.chooseContinent }, ...[
-      { id: 'asia', label: language === 'en' ? 'Asia' : language === 'mixed' ? '亚洲 / Asia' : '亚洲' },
-      { id: 'europe', label: language === 'en' ? 'Europe' : language === 'mixed' ? '欧洲 / Europe' : '欧洲' },
-      { id: 'africa', label: language === 'en' ? 'Africa' : language === 'mixed' ? '非洲 / Africa' : '非洲' },
-      { id: 'north-america', label: language === 'en' ? 'North America' : language === 'mixed' ? '北美洲 / North America' : '北美洲' },
-      { id: 'south-america', label: language === 'en' ? 'South America' : language === 'mixed' ? '南美洲 / South America' : '南美洲' },
-      { id: 'oceania', label: language === 'en' ? 'Oceania' : language === 'mixed' ? '大洋洲 / Oceania' : '大洋洲' },
+      { id: 'asia', label: language === 'en' ? 'Asia' : '亚洲' },
+      { id: 'europe', label: language === 'en' ? 'Europe' : '欧洲' },
+      { id: 'africa', label: language === 'en' ? 'Africa' : '非洲' },
+      { id: 'north-america', label: language === 'en' ? 'North America' : '北美洲' },
+      { id: 'south-america', label: language === 'en' ? 'South America' : '南美洲' },
+      { id: 'oceania', label: language === 'en' ? 'Oceania' : '大洋洲' },
     ]]
     : scopeType === 'province' || scopeType === 'same-province'
       ? [{ id: '', label: text.chooseProvince }, ...provinceOptions.map((option) => ({
         id: option.id,
-        label: language === 'en'
-          ? option.labelEn
-          : language === 'mixed'
-            ? `${option.label} / ${option.labelEn}`
-            : option.label,
+        label: language === 'en' ? option.labelEn : option.label,
       }))]
       : []
 
@@ -634,18 +629,11 @@ export function EnhancedToolbar() {
                     widthClass="w-36"
                   />
                   {valueOptions.length > 0 ? (
-                    <select
-                      name="training-scope-value"
-                      value={scopeValue ?? ''}
-                      onChange={(event) => setScopeValue(event.target.value || null)}
-                      className="rounded-full bg-stone-100 px-3 py-1.5 text-xs font-medium text-stone-600 outline-none hover:bg-stone-200"
-                    >
-                      {valueOptions.map((option) => (
-                        <option key={option.id || 'empty'} value={option.id}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
+                    <ScopeValueSelector
+                      value={scopeValue}
+                      options={valueOptions}
+                      onChange={setScopeValue}
+                    />
                   ) : null}
                 </div>
               ) : null}

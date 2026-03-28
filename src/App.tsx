@@ -57,7 +57,7 @@ function migrateLegacyData(oldData: unknown): {
     settings.interactionMode = (data.settings.interactionMode as 'explore' | 'training') ?? 'explore'
     settings.trainingMode = (data.settings.trainingMode as typeof settings.trainingMode) ?? 'name-to-location'
     settings.showLabels = data.settings.showLabels ?? false
-    settings.language = (data.settings.language as 'zh' | 'en' | 'mixed') ?? 'zh'
+    settings.language = (data.settings.language as 'zh' | 'en') ?? 'zh'
     settings.scopeType = (data.settings.scopeType as typeof settings.scopeType) ?? 'all'
     settings.scopeValue = data.settings.scopeValue ?? null
     settings.popupDensity = (data.settings.popupDensity as typeof settings.popupDensity) ?? settings.popupDensity

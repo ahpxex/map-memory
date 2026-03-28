@@ -1,7 +1,7 @@
 export type DatasetMode = 'world' | 'china'
 export type InteractionMode = 'explore' | 'training'
 export type TrainingMode = 'locate-from-name'
-export type LanguageMode = 'zh' | 'en' | 'mixed'
+export type LanguageMode = 'zh' | 'en'
 export type TrainingResult = 'idle' | 'correct' | 'wrong'
 
 export type RegionMeta = {
