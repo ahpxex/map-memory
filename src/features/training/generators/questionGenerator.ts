@@ -6,6 +6,7 @@
 
 import type { RegionMeta } from '../../../types/app'
 import type {
+  AppLanguage,
   Dataset,
   TrainingMode,
   Prompt,
@@ -149,30 +150,53 @@ const CONTINENT_NAMES: Record<string, string> = {
   'Americas': '美洲',
 }
 
+const CONTINENT_LABELS: Record<string, { zh: string; en: string; mixed: string }> = {
+  asia: { zh: '亚洲', en: 'Asia', mixed: '亚洲 / Asia' },
+  europe: { zh: '欧洲', en: 'Europe', mixed: '欧洲 / Europe' },
+  africa: { zh: '非洲', en: 'Africa', mixed: '非洲 / Africa' },
+  'north-america': { zh: '北美洲', en: 'North America', mixed: '北美洲 / North America' },
+  'south-america': { zh: '南美洲', en: 'South America', mixed: '南美洲 / South America' },
+  oceania: { zh: '大洋洲', en: 'Oceania', mixed: '大洋洲 / Oceania' },
+}
+
+function getRegionLabel(region: RegionMeta, language: AppLanguage) {
+  if (language === 'en') return region.nameEn
+  if (language === 'mixed') return `${region.nameZh} / ${region.nameEn}`
+  return region.nameZh
+}
+
+function getPromptText(zh: string, en: string, language: AppLanguage) {
+  if (language === 'en') return en
+  if (language === 'mixed') return `${zh} · ${en}`
+  return zh
+}
+
 // ============================================================================
 // Prompt Builders
 // ============================================================================
 
-export function buildNameToLocationPrompt(region: RegionMeta): Prompt {
+export function buildNameToLocationPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
+  const zhLabel = region.nameZh
+  const enLabel = region.nameEn
   return {
     type: 'text',
-    content: `找到 ${region.nameZh}`,
+    content: getPromptText(`找到 ${zhLabel}`, `Find ${enLabel}`, language),
     regionId: region.id,
   }
 }
 
-export function buildShapeToNamePrompt(region: RegionMeta): Prompt {
+export function buildShapeToNamePrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
   return {
     type: 'shape',
-    content: '这是哪个国家/地区？',
+    content: getPromptText('这是哪个国家/地区？', 'Which country or region is highlighted?', language),
     regionId: region.id,
   }
 }
 
-export function buildFlagToLocationPrompt(region: RegionMeta): Prompt {
+export function buildFlagToLocationPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
   return {
     type: 'flag',
-    content: '这个国旗属于哪个国家？',
+    content: getPromptText('这个国旗属于哪个国家？', 'Which country does this flag belong to?', language),
     regionId: region.id,
     context: {
       flagUrl: `/flags/${region.isoA2?.toLowerCase()}.svg`,
@@ -180,36 +204,42 @@ export function buildFlagToLocationPrompt(region: RegionMeta): Prompt {
   }
 }
 
-export function buildNameToFlagPrompt(region: RegionMeta): Prompt {
+export function buildNameToFlagPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
+  const zhLabel = region.nameZh
+  const enLabel = region.nameEn
   return {
     type: 'text',
-    content: `请选择 ${region.nameZh} 的国旗`,
+    content: getPromptText(`请选择 ${zhLabel} 的国旗`, `Choose the flag of ${enLabel}`, language),
     regionId: region.id,
   }
 }
 
-export function buildCapitalToLocationPrompt(region: RegionMeta): Prompt {
+export function buildCapitalToLocationPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
   const capital = WORLD_CAPITALS[region.id] ?? '该国家'
   return {
     type: 'text',
-    content: `找到首都 ${capital} 所在的国家`,
+    content: getPromptText(`找到首都 ${capital} 所在的国家`, `Find the country whose capital is ${capital}`, language),
     regionId: region.id,
     context: { capital },
   }
 }
 
-export function buildNameToCapitalPrompt(region: RegionMeta): Prompt {
+export function buildNameToCapitalPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
+  const zhLabel = region.nameZh
+  const enLabel = region.nameEn
   return {
     type: 'text',
-    content: `${region.nameZh} 的首都是？`,
+    content: getPromptText(`${zhLabel} 的首都是？`, `What is the capital of ${enLabel}?`, language),
     regionId: region.id,
   }
 }
 
-export function buildNameToContinentPrompt(region: RegionMeta): Prompt {
+export function buildNameToContinentPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
+  const zhLabel = region.nameZh
+  const enLabel = region.nameEn
   return {
     type: 'text',
-    content: `${region.nameZh} 属于哪个大洲？`,
+    content: getPromptText(`${zhLabel} 属于哪个大洲？`, `Which continent does ${enLabel} belong to?`, language),
     regionId: region.id,
     context: {
       continent: CONTINENT_NAMES[region.continent ?? ''] ?? region.continent,
@@ -217,10 +247,12 @@ export function buildNameToContinentPrompt(region: RegionMeta): Prompt {
   }
 }
 
-export function buildNameToSubregionPrompt(region: RegionMeta): Prompt {
+export function buildNameToSubregionPrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
+  const zhLabel = region.nameZh
+  const enLabel = region.nameEn
   return {
     type: 'text',
-    content: `${region.nameZh} 属于哪个次区域？`,
+    content: getPromptText(`${zhLabel} 属于哪个次区域？`, `Which subregion does ${enLabel} belong to?`, language),
     regionId: region.id,
     context: {
       subregion: region.subregion ?? undefined,
@@ -228,10 +260,14 @@ export function buildNameToSubregionPrompt(region: RegionMeta): Prompt {
   }
 }
 
-export function buildNeighborJudgePrompt(region: RegionMeta, neighborRegion: RegionMeta): Prompt {
+export function buildNeighborJudgePrompt(region: RegionMeta, neighborRegion: RegionMeta, language: AppLanguage = 'zh'): Prompt {
   return {
     type: 'text',
-    content: `${region.nameZh} 与 ${neighborRegion.nameZh} 是否接壤？`,
+    content: getPromptText(
+      `${getRegionLabel(region, language)} 与 ${getRegionLabel(neighborRegion, language)} 是否接壤？`,
+      `Do ${getRegionLabel(region, language)} and ${getRegionLabel(neighborRegion, language)} share a border?`,
+      language,
+    ),
     regionId: region.id,
   }
 }
@@ -245,10 +281,12 @@ export function buildNeighborStreakPrompt(region: RegionMeta): Prompt {
   }
 }
 
-export function buildCityToProvincePrompt(region: RegionMeta): Prompt {
+export function buildCityToProvincePrompt(region: RegionMeta, language: AppLanguage = 'zh'): Prompt {
+  const zhLabel = region.nameZh
+  const enLabel = region.nameEn
   return {
     type: 'text',
-    content: `${region.nameZh} 属于哪个省份？`,
+    content: getPromptText(`${zhLabel} 属于哪个省份？`, `Which province is ${enLabel} in?`, language),
     regionId: region.id,
     context: {
       continent: region.parentNameZh ?? undefined,
@@ -333,7 +371,8 @@ export function generateDistractors(
 export function buildShapeToNameOptions(
   region: RegionMeta,
   allRegions: RegionMeta[],
-  dataset: Dataset
+  dataset: Dataset,
+  language: AppLanguage = 'zh',
 ): ChoiceOption[] {
   const distractors = generateDistractors(
     region,
@@ -343,8 +382,8 @@ export function buildShapeToNameOptions(
   )
   
   const options = [
-    { id: region.id, label: region.nameZh },
-    ...distractors.map(r => ({ id: r.id, label: r.nameZh })),
+    { id: region.id, label: getRegionLabel(region, language) },
+    ...distractors.map(r => ({ id: r.id, label: getRegionLabel(r, language) })),
   ]
   
   return options.sort(() => Math.random() - 0.5)
@@ -352,19 +391,20 @@ export function buildShapeToNameOptions(
 
 export function buildNameToFlagOptions(
   region: RegionMeta,
-  allRegions: RegionMeta[]
+  allRegions: RegionMeta[],
+  language: AppLanguage = 'zh',
 ): ChoiceOption[] {
   const distractors = generateDistractors(region, allRegions, 3, 'same-continent')
   
   const options = [
     { 
       id: region.id, 
-      label: region.nameZh,
+      label: getRegionLabel(region, language),
       flagUrl: `/flags/${region.isoA2?.toLowerCase()}.svg`,
     },
     ...distractors.map(r => ({
       id: r.id,
-      label: r.nameZh,
+      label: getRegionLabel(r, language),
       flagUrl: `/flags/${r.isoA2?.toLowerCase()}.svg`,
     })),
   ]
@@ -392,14 +432,14 @@ export function buildNameToCapitalOptions(
   return options.sort(() => Math.random() - 0.5)
 }
 
-export function buildContinentOptions(): ChoiceOption[] {
+export function buildContinentOptions(language: AppLanguage = 'zh'): ChoiceOption[] {
   const continents = [
-    { id: 'asia', label: '亚洲' },
-    { id: 'europe', label: '欧洲' },
-    { id: 'africa', label: '非洲' },
-    { id: 'north-america', label: '北美洲' },
-    { id: 'south-america', label: '南美洲' },
-    { id: 'oceania', label: '大洋洲' },
+    { id: 'asia', label: CONTINENT_LABELS.asia[language] ?? CONTINENT_LABELS.asia.zh },
+    { id: 'europe', label: CONTINENT_LABELS.europe[language] ?? CONTINENT_LABELS.europe.zh },
+    { id: 'africa', label: CONTINENT_LABELS.africa[language] ?? CONTINENT_LABELS.africa.zh },
+    { id: 'north-america', label: CONTINENT_LABELS['north-america'][language] ?? CONTINENT_LABELS['north-america'].zh },
+    { id: 'south-america', label: CONTINENT_LABELS['south-america'][language] ?? CONTINENT_LABELS['south-america'].zh },
+    { id: 'oceania', label: CONTINENT_LABELS.oceania[language] ?? CONTINENT_LABELS.oceania.zh },
   ]
   
   return continents.sort(() => Math.random() - 0.5)
@@ -426,7 +466,8 @@ export function buildSubregionOptions(region: RegionMeta): ChoiceOption[] {
 
 export function buildCityToProvinceOptions(
   region: RegionMeta,
-  allRegions: RegionMeta[]
+  allRegions: RegionMeta[],
+  language: AppLanguage = 'zh',
 ): ChoiceOption[] {
   // 选择其他省份作为干扰项
   const otherProvinces = allRegions
@@ -437,10 +478,14 @@ export function buildCityToProvinceOptions(
     )
     .map(r => ({ 
       id: r.parentAdcode?.toString() ?? r.id, 
-      label: r.parentNameZh ?? '未知' 
+      label: language === 'en' ? (r.parentNameEn ?? 'Unknown') : language === 'mixed' ? `${r.parentNameZh ?? '未知'} / ${r.parentNameEn ?? 'Unknown'}` : (r.parentNameZh ?? '未知')
     }))
   
-  const correctProvince = region.parentNameZh ?? '未知'
+  const correctProvince = language === 'en'
+    ? (region.parentNameEn ?? 'Unknown')
+    : language === 'mixed'
+      ? `${region.parentNameZh ?? '未知'} / ${region.parentNameEn ?? 'Unknown'}`
+      : (region.parentNameZh ?? '未知')
   
   const options = [
     { id: region.parentAdcode?.toString() ?? region.id, label: correctProvince },
@@ -495,20 +540,21 @@ export function generateQuestion(
   region: RegionMeta,
   mode: TrainingMode,
   dataset: Dataset,
-  allRegions: RegionMeta[]
+  allRegions: RegionMeta[],
+  language: AppLanguage = 'zh',
 ): GeneratedQuestion | null {
   switch (mode) {
     case 'name-to-location':
       return {
-        prompt: buildNameToLocationPrompt(region),
+        prompt: buildNameToLocationPrompt(region, language),
         correctAnswer: buildMapClickAnswer(region),
         skill: 'location',
       }
     
     case 'shape-to-name': {
-      const options = buildShapeToNameOptions(region, allRegions, dataset)
+      const options = buildShapeToNameOptions(region, allRegions, dataset, language)
       return {
-        prompt: buildShapeToNamePrompt(region),
+        prompt: buildShapeToNamePrompt(region, language),
         options,
         correctAnswer: buildChoiceAnswer(options, region),
         skill: 'shape_name',
@@ -517,16 +563,16 @@ export function generateQuestion(
     
     case 'flag-to-location':
       return {
-        prompt: buildFlagToLocationPrompt(region),
+        prompt: buildFlagToLocationPrompt(region, language),
         correctAnswer: buildMapClickAnswer(region),
         skill: 'flag',
       }
     
     case 'name-to-flag': {
       if (dataset !== 'world') return null
-      const flagOptions = buildNameToFlagOptions(region, allRegions)
+      const flagOptions = buildNameToFlagOptions(region, allRegions, language)
       return {
-        prompt: buildNameToFlagPrompt(region),
+        prompt: buildNameToFlagPrompt(region, language),
         options: flagOptions,
         correctAnswer: buildChoiceAnswer(flagOptions, region),
         skill: 'flag',
@@ -535,7 +581,7 @@ export function generateQuestion(
     
     case 'capital-to-location':
       return {
-        prompt: buildCapitalToLocationPrompt(region),
+        prompt: buildCapitalToLocationPrompt(region, language),
         correctAnswer: buildMapClickAnswer(region),
         skill: 'capital',
       }
@@ -544,7 +590,7 @@ export function generateQuestion(
       if (dataset !== 'world') return null
       const capitalOptions = buildNameToCapitalOptions(region, allRegions)
       return {
-        prompt: buildNameToCapitalPrompt(region),
+        prompt: buildNameToCapitalPrompt(region, language),
         options: capitalOptions,
         correctAnswer: buildChoiceAnswer(capitalOptions, region),
         skill: 'capital',
@@ -553,9 +599,9 @@ export function generateQuestion(
     
     case 'name-to-continent': {
       if (dataset !== 'world') return null
-      const continentOptions = buildContinentOptions()
+      const continentOptions = buildContinentOptions(language)
       return {
-        prompt: buildNameToContinentPrompt(region),
+        prompt: buildNameToContinentPrompt(region, language),
         options: continentOptions,
         correctAnswer: { type: 'choice', optionIndex: 0 }, // 需要正确映射
         skill: 'continent',
@@ -566,7 +612,7 @@ export function generateQuestion(
       if (dataset !== 'world') return null
       const subregionOptions = buildSubregionOptions(region)
       return {
-        prompt: buildNameToSubregionPrompt(region),
+        prompt: buildNameToSubregionPrompt(region, language),
         options: subregionOptions,
         correctAnswer: { type: 'choice', optionIndex: 0 },
         skill: 'subregion',
@@ -593,7 +639,7 @@ export function generateQuestion(
       if (!neighborRegion) return null
       
       return {
-        prompt: buildNeighborJudgePrompt(region, neighborRegion),
+        prompt: buildNeighborJudgePrompt(region, neighborRegion, language),
         options: buildBooleanOptions(),
         correctAnswer: buildBooleanAnswer(isNeighbor),
         skill: 'neighbors',
@@ -602,9 +648,9 @@ export function generateQuestion(
     
     case 'city-to-province': {
       if (dataset !== 'china') return null
-      const provinceOptions = buildCityToProvinceOptions(region, allRegions)
+      const provinceOptions = buildCityToProvinceOptions(region, allRegions, language)
       return {
-        prompt: buildCityToProvincePrompt(region),
+        prompt: buildCityToProvincePrompt(region, language),
         options: provinceOptions,
         correctAnswer: buildChoiceAnswer(provinceOptions, { ...region, id: region.parentAdcode?.toString() ?? region.id }),
         skill: 'province_affiliation',

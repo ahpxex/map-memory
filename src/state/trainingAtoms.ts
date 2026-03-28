@@ -81,6 +81,9 @@ export function createDefaultTrainingSettings(): TrainingSettings {
       timeLimit: 300,
       targetStreak: 10,
     },
+    popupDensity: 'adaptive',
+    borderEmphasis: 'soft',
+    colorIntensity: 'normal',
   }
 }
 
@@ -118,7 +121,7 @@ export const replaceTrainingDataAtom = atom(null, (_get, set, data: PersistedTra
 })
 
 export const persistedTrainingDataAtom = atom<PersistedTrainingData>((get) => ({
-  version: 3,
+  version: 4,
   settings: get(trainingSettingsAtom),
   progress: get(skillProgressAtom),
   errorBook: get(errorBookAtom),
@@ -173,7 +176,7 @@ export const trainingModeAtom = atom(
 
 export const languageAtom = atom(
   (get) => get(trainingSettingsAtom).language,
-  (_get, set, lang: 'zh' | 'en') => {
+  (_get, set, lang: 'zh' | 'en' | 'mixed') => {
     set(trainingSettingsAtom, (prev) => ({ ...prev, language: lang }))
   }
 )
@@ -215,6 +218,46 @@ export const challengeModeAtom = atom(
       challengeConfig: { ...prev.challengeConfig, mode },
     }))
   }
+)
+
+export const popupDensityAtom = atom(
+  (get) => get(trainingSettingsAtom).popupDensity,
+  (_get, set, popupDensity: 'adaptive' | 'compact' | 'rich') => {
+    set(trainingSettingsAtom, (prev) => ({ ...prev, popupDensity }))
+  },
+)
+
+export const borderEmphasisAtom = atom(
+  (get) => get(trainingSettingsAtom).borderEmphasis,
+  (_get, set, borderEmphasis: 'soft' | 'strong') => {
+    set(trainingSettingsAtom, (prev) => ({ ...prev, borderEmphasis }))
+  },
+)
+
+export const colorIntensityAtom = atom(
+  (get) => get(trainingSettingsAtom).colorIntensity,
+  (_get, set, colorIntensity: 'soft' | 'normal' | 'vivid') => {
+    set(trainingSettingsAtom, (prev) => ({ ...prev, colorIntensity }))
+  },
+)
+
+export const trainingSubmodeAtom = atom(
+  (get) => {
+    if (get(scopeTypeAtom) === 'wrong-only') return 'wrong-replay' as const
+    return get(trainingModeAtom) === 'shape-to-name' ? 'shape-to-name' as const : 'name-to-location' as const
+  },
+  (get, set, submode: 'name-to-location' | 'shape-to-name' | 'wrong-replay') => {
+    if (submode === 'wrong-replay') {
+      set(trainingModeAtom, 'name-to-location')
+      set(scopeTypeAtom, 'wrong-only')
+      return
+    }
+
+    if (get(scopeTypeAtom) === 'wrong-only') {
+      set(scopeTypeAtom, 'all')
+    }
+    set(trainingModeAtom, submode)
+  },
 )
 
 // ============================================================================
@@ -360,7 +403,7 @@ export const initTrainingSessionAtom = atom(null, (get, set) => {
     .map((id) => get(currentDatasetConfigAtom).regionById.get(id))
     .filter((r): r is RegionMeta => r !== undefined)
   
-  const generated = generateQuestion(region, settings.trainingMode, settings.dataset, allRegions)
+  const generated = generateQuestion(region, settings.trainingMode, settings.dataset, allRegions, settings.language)
   
   if (!generated) {
     set(primitiveTrainingSessionAtom, null)
@@ -478,7 +521,7 @@ export const updateProgressAtom = atom(null, (
 export const addErrorRecordAtom = atom(null, (
   get, set,
   session: TrainingSession,
-  userAnswer: { type: 'map-click'; regionId: string }
+  userAnswer: UserAnswer
 ) => {
   const config = get(currentDatasetConfigAtom)
   const region = config.regionById.get(session.prompt.regionId)
@@ -510,19 +553,28 @@ export const nextQuestionAtom = atom(null, (_get, set) => {
 export const currentDatasetStatsAtom = atom((get) => {
   const dataset = get(datasetAtom)
   const config = get(currentDatasetConfigAtom)
-  const skill = get(currentSkillAtom)
   const progress = get(skillProgressAtom)
   
-  const skillProgress = progress[dataset]?.[skill] ?? {}
+  const datasetProgress = progress[dataset] ?? {}
+  const regionIds = new Set<string>()
+  let attempts = 0
+  let correct = 0
+
+  for (const skillProgress of Object.values(datasetProgress)) {
+    for (const [regionId, entry] of Object.entries(skillProgress ?? {})) {
+      if ((entry?.attempts ?? 0) > 0) {
+        regionIds.add(regionId)
+      }
+      attempts += entry?.attempts ?? 0
+      correct += entry?.correct ?? 0
+    }
+  }
+
   const totalRegions = config.regionIds.length
-  const practicedRegions = Object.values(skillProgress).filter((p) => p.attempts > 0).length
-  
-  const attempts = Object.values(skillProgress).reduce((sum, p) => sum + p.attempts, 0)
-  const correct = Object.values(skillProgress).reduce((sum, p) => sum + p.correct, 0)
   
   return {
     totalRegions,
-    practicedRegions,
+    practicedRegions: regionIds.size,
     attempts,
     correct,
     accuracy: attempts > 0 ? Math.round((correct / attempts) * 100) : 0,

@@ -42,6 +42,9 @@ function migrateLegacyData(oldData: unknown): {
       language?: string
       scopeType?: string
       scopeValue?: string | null
+      popupDensity?: string
+      borderEmphasis?: string
+      colorIntensity?: string
     }
     progress?: Record<string, Record<string, unknown>>
     markedRegions?: Record<string, string[]>
@@ -54,9 +57,12 @@ function migrateLegacyData(oldData: unknown): {
     settings.interactionMode = (data.settings.interactionMode as 'explore' | 'training') ?? 'explore'
     settings.trainingMode = (data.settings.trainingMode as typeof settings.trainingMode) ?? 'name-to-location'
     settings.showLabels = data.settings.showLabels ?? false
-    settings.language = (data.settings.language as 'zh' | 'en') ?? 'zh'
+    settings.language = (data.settings.language as 'zh' | 'en' | 'mixed') ?? 'zh'
     settings.scopeType = (data.settings.scopeType as typeof settings.scopeType) ?? 'all'
     settings.scopeValue = data.settings.scopeValue ?? null
+    settings.popupDensity = (data.settings.popupDensity as typeof settings.popupDensity) ?? settings.popupDensity
+    settings.borderEmphasis = (data.settings.borderEmphasis as typeof settings.borderEmphasis) ?? settings.borderEmphasis
+    settings.colorIntensity = (data.settings.colorIntensity as typeof settings.colorIntensity) ?? settings.colorIntensity
   }
   
   const skillProgress = createDefaultTrainingData().progress

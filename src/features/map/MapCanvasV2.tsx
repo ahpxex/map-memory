@@ -10,6 +10,8 @@ import { TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import type { MapSeriesOption } from 'echarts'
 import {
+  borderEmphasisAtom,
+  colorIntensityAtom,
   datasetAtom,
   languageAtom,
   interactionModeAtom,
@@ -20,7 +22,7 @@ import {
   submitAnswerAtom,
   currentSkillProgressMapAtom,
 } from '../../state/trainingAtoms'
-import type { RegionMeta, SkillProgress } from '../../types/training'
+import type { AppLanguage, BorderEmphasis, ColorIntensity, RegionMeta, SkillProgress } from '../../types/training'
 import { selectedRegionIdForExploreAtom } from '../../state/exploreAtoms'
 
 echarts.use([CanvasRenderer, MapChart, TooltipComponent])
@@ -58,8 +60,10 @@ function ensureMapRegistered(mapKey: string, featureCollection: object) {
   registeredMaps.add(mapKey)
 }
 
-function getRegionLabel(region: RegionMeta, language: 'zh' | 'en') {
-  return language === 'en' ? region.nameEn : region.nameZh
+function getRegionLabel(region: RegionMeta, language: AppLanguage) {
+  if (language === 'en') return region.nameEn
+  if (language === 'mixed') return `${region.nameZh} / ${region.nameEn}`
+  return region.nameZh
 }
 
 function defaultAreaColor(dataset: 'world' | 'china') {
@@ -137,6 +141,31 @@ function getPracticedBorderColor(dataset: 'world' | 'china', progress: SkillProg
   return blendHexColors(defaultBorderColor(dataset), getPracticeAccentColor(progress), 0.22)
 }
 
+function getBorderWidth(base: number, emphasis: BorderEmphasis) {
+  return emphasis === 'strong' ? base * 1.45 : base
+}
+
+function applyColorIntensity(areaColor: string, dataset: 'world' | 'china', colorIntensity: ColorIntensity) {
+  if (colorIntensity === 'soft') {
+    return blendHexColors(areaColor, '#f7f3e8', dataset === 'world' ? 0.24 : 0.2)
+  }
+
+  if (colorIntensity === 'vivid') {
+    const accent = dataset === 'world' ? '#b8cca3' : '#d1b07a'
+    return blendHexColors(areaColor, accent, 0.16)
+  }
+
+  return areaColor
+}
+
+function getMutedAreaColor(areaColor: string) {
+  return blendHexColors(areaColor, '#efe8d8', 0.48)
+}
+
+function getMutedBorderColor(borderColor: string) {
+  return blendHexColors(borderColor, '#c6b8a4', 0.38)
+}
+
 function getRegionLabelThreshold(dataset: 'world' | 'china', zoom: number): number {
   if (dataset === 'world') {
     if (zoom < 1.2) return 200
@@ -193,14 +222,17 @@ export function MapCanvas() {
   const dataset = useAtomValue(datasetAtom)
   const language = useAtomValue(languageAtom)
   const showLabels = useAtomValue(showLabelsAtom)
+  const borderEmphasis = useAtomValue(borderEmphasisAtom)
+  const colorIntensity = useAtomValue(colorIntensityAtom)
   const interactionMode = useAtomValue(interactionModeAtom)
   const trainingSession = useAtomValue(trainingSessionAtom)
   const mapViewportResetToken = useAtomValue(mapViewportResetTokenAtom)
   const config = useAtomValue(currentDatasetConfigAtom)
   const skillProgress = useAtomValue(currentSkillProgressMapAtom)
   const submitAnswer = useSetAtom(submitAnswerAtom)
-  const [, setSelectedRegionId] = useAtom(selectedRegionIdForExploreAtom)
+  const [selectedRegionState, setSelectedRegionId] = useAtom(selectedRegionIdForExploreAtom)
   const activeLoadedMap = loadedMap?.mapKey === config.mapKey ? loadedMap : null
+  const selectedRegionId = selectedRegionState?.regionId ?? null
   
   const labelThreshold = getRegionLabelThreshold(dataset, zoom)
   const labelFontSize = getQuantizedLabelFontSize(dataset, zoom)
@@ -249,11 +281,31 @@ export function MapCanvas() {
       if (!regionId) return
       
       if (interactionMode === 'training') {
+        if (trainingSession?.correctAnswer.type !== 'map-click') {
+          return
+        }
         submitAnswer({ type: 'map-click', regionId })
         return
       }
 
-      setSelectedRegionId(regionId)
+      const rawEvent = params.event?.event as
+        | { offsetX?: number; offsetY?: number; zrX?: number; zrY?: number }
+        | undefined
+
+      setSelectedRegionId({
+        regionId,
+        anchor: {
+          x: rawEvent?.zrX ?? rawEvent?.offsetX ?? chartRef.current?.clientWidth ?? chart.getWidth() / 2,
+          y: rawEvent?.zrY ?? rawEvent?.offsetY ?? chartRef.current?.clientHeight ?? chart.getHeight() / 2,
+        },
+      })
+    })
+
+    chart.getZr().off('click')
+    chart.getZr().on('click', (event) => {
+      if (interactionMode !== 'explore') return
+      if (event.target) return
+      setSelectedRegionId(null)
     })
     
     // Handle zoom
@@ -351,7 +403,7 @@ export function MapCanvas() {
       chart.getDom().removeEventListener('wheel', handleWheel, true)
       resizeObserver.disconnect()
     }
-  }, [activeLoadedMap, config.mapKey, dataset, interactionMode, submitAnswer, setSelectedRegionId])
+  }, [activeLoadedMap, config.mapKey, dataset, interactionMode, submitAnswer, setSelectedRegionId, trainingSession])
 
   useEffect(() => {
     const chart = chartInstanceRef.current
@@ -380,14 +432,26 @@ export function MapCanvas() {
       if (!region) return { name: regionId }
       
       const progress = skillProgress[regionId]
-      let areaColor = defaultAreaColor(dataset)
+      let areaColor = applyColorIntensity(defaultAreaColor(dataset), dataset, colorIntensity)
       let borderColor = defaultBorderColor(dataset)
-      let borderWidth = dataset === 'world' ? 0.8 : 0.6
+      let borderWidth = getBorderWidth(dataset === 'world' ? 0.8 : 0.6, borderEmphasis)
       
       // 应用进度颜色
       if (progress && progress.attempts > 0) {
-        areaColor = getPracticedAreaColor(dataset, progress)
+        areaColor = applyColorIntensity(getPracticedAreaColor(dataset, progress), dataset, colorIntensity)
         borderColor = getPracticedBorderColor(dataset, progress)
+      }
+
+      const shouldMuteForExplore = interactionMode === 'explore' && selectedRegionId && selectedRegionId !== regionId
+      const shouldMuteForShapeQuestion =
+        interactionMode === 'training' &&
+        trainingSession?.status === 'idle' &&
+        trainingSession.mode === 'shape-to-name' &&
+        trainingSession.prompt.regionId !== regionId
+
+      if (shouldMuteForExplore || shouldMuteForShapeQuestion) {
+        areaColor = getMutedAreaColor(areaColor)
+        borderColor = getMutedBorderColor(borderColor)
       }
       
       // 训练模式高亮
@@ -402,21 +466,27 @@ export function MapCanvas() {
           if (promptRegionId === regionId) {
             areaColor = '#97d39b'  // 正确答案绿色
             borderColor = '#19602b'
-            borderWidth = 1.3
+            borderWidth = getBorderWidth(1.3, borderEmphasis)
           }
           if (trainingSession.userAnswer?.type === 'map-click' && 
               trainingSession.userAnswer.regionId === regionId &&
               trainingSession.userAnswer.regionId !== promptRegionId) {
             areaColor = '#ef8d8d'  // 错误答案红色
             borderColor = '#8f1e1e'
-            borderWidth = 1.3
+            borderWidth = getBorderWidth(1.3, borderEmphasis)
           }
         } else if (trainingSession.status === 'idle' && promptRegionId === regionId) {
           // 当前题目高亮
           areaColor = '#f4cf7f'
           borderColor = '#8b6914'
-          borderWidth = 1.0
+          borderWidth = getBorderWidth(1.0, borderEmphasis)
         }
+      }
+
+      if (interactionMode === 'explore' && selectedRegionId === regionId) {
+        areaColor = '#a6c7f6'
+        borderColor = '#20477a'
+        borderWidth = getBorderWidth(1.2, borderEmphasis)
       }
       
       return {
@@ -426,6 +496,7 @@ export function MapCanvas() {
           itemStyle: {
             areaColor: getRegionHoverAreaColor(region, dataset),
             borderColor: getRegionHoverBorderColor(region, dataset),
+            borderWidth: getBorderWidth(Math.max(borderWidth, 1.2), borderEmphasis),
           },
         },
       }
@@ -463,7 +534,8 @@ export function MapCanvas() {
     })
   }, [
     activeLoadedMap, config, dataset, skillProgress, showLabels,
-    labelThreshold, labelFontSize, language, interactionMode, trainingSession
+    labelThreshold, labelFontSize, language, interactionMode, trainingSession, selectedRegionId,
+    borderEmphasis, colorIntensity,
   ])
   
   // Cleanup

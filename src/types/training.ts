@@ -9,6 +9,10 @@
 // ============================================================================
 
 export type Dataset = 'world' | 'china'
+export type AppLanguage = 'zh' | 'en' | 'mixed'
+export type PopupDensity = 'adaptive' | 'compact' | 'rich'
+export type BorderEmphasis = 'soft' | 'strong'
+export type ColorIntensity = 'soft' | 'normal' | 'vivid'
 
 // 世界地图题型
 export type WorldTrainingMode =
@@ -154,6 +158,34 @@ export type RegionMeta = {
   labelWeight?: number | null
 }
 
+export type RegionLabels = {
+  zh: string
+  en: string
+  mixed: string
+}
+
+export type RegionFeature = {
+  id: string
+  dataset: Dataset
+  geometry: unknown
+  labels: RegionLabels
+  aliases: string[]
+  parentId: string | null
+  neighbors: string[]
+  metadata: {
+    continent?: string | null
+    subregion?: string | null
+    population?: number | null
+    capital?: string | null
+    level?: string | null
+    parentNameZh?: string | null
+    parentNameEn?: string | null
+    formalNameEn?: string | null
+    neighborCount: number
+  }
+  region: RegionMeta
+}
+
 // ============================================================================
 // Training Session
 // ============================================================================
@@ -280,12 +312,15 @@ export interface TrainingSettings {
   dataset: Dataset
   interactionMode: InteractionMode
   trainingMode: TrainingMode
-  language: 'zh' | 'en'
+  language: AppLanguage
   showLabels: boolean
   scopeType: ScopeType
   scopeValue: string | null
   challengeMode: ChallengeMode
   challengeConfig: ChallengeConfig
+  popupDensity: PopupDensity
+  borderEmphasis: BorderEmphasis
+  colorIntensity: ColorIntensity
 }
 
 // ============================================================================
@@ -316,7 +351,7 @@ export interface DatasetStats {
 // ============================================================================
 
 export interface PersistedTrainingData {
-  version: 3
+  version: 3 | 4
   settings: TrainingSettings
   progress: SkillProgressByDataset
   errorBook: ErrorRecord[]
@@ -325,7 +360,7 @@ export interface PersistedTrainingData {
 }
 
 export interface ExportTrainingSnapshot {
-  version: 3
+  version: 3 | 4
   exportedAt: string
   data: PersistedTrainingData
 }

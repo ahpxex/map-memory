@@ -1,10 +1,18 @@
 import { atom } from 'jotai'
 
-const primitiveSelectedRegionIdForExploreAtom = atom<string | null>(null) as ReturnType<typeof atom<string | null>> & { write: unknown }
+export type ExplorePopupState = {
+  regionId: string
+  anchor: {
+    x: number
+    y: number
+  }
+}
+
+const primitiveSelectedRegionIdForExploreAtom = atom<ExplorePopupState | null>(null) as ReturnType<typeof atom<ExplorePopupState | null>> & { write: unknown }
 
 export const selectedRegionIdForExploreAtom = atom(
   (get) => get(primitiveSelectedRegionIdForExploreAtom),
-  (_get, set, value: string | null) => {
+  (_get, set, value: ExplorePopupState | null) => {
     set(primitiveSelectedRegionIdForExploreAtom, value)
   },
 )

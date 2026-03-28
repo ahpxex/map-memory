@@ -10,6 +10,10 @@ import type {
   ExportTrainingSnapshot,
   TrainingSettings,
   Skill,
+  AppLanguage,
+  BorderEmphasis,
+  ColorIntensity,
+  PopupDensity,
 } from '../types/training'
 
 const DB_NAME = 'map-memory'
@@ -44,6 +48,9 @@ function createDefaultTrainingSettings(): TrainingSettings {
       timeLimit: 300,
       targetStreak: 10,
     },
+    popupDensity: 'adaptive',
+    borderEmphasis: 'soft',
+    colorIntensity: 'normal',
   }
 }
 
@@ -67,7 +74,7 @@ function createEmptyDatasetSkillProgress(): Record<Skill, Record<string, { attem
 // 创建默认数据
 export function createDefaultTrainingData(): PersistedTrainingData {
   return {
-    version: 3,
+    version: 4,
     settings: createDefaultTrainingSettings(),
     progress: {
       world: createEmptyDatasetSkillProgress(),
@@ -100,10 +107,13 @@ function migrateFromV2(oldData: unknown): PersistedTrainingData | null {
       dataset: (data.settings.dataset as 'world' | 'china') ?? 'world',
       interactionMode: (data.settings.interactionMode as 'explore' | 'training') ?? 'explore',
       trainingMode: (data.settings.trainingMode as TrainingSettings['trainingMode']) ?? 'name-to-location',
-      language: (data.settings.language as 'zh' | 'en') ?? 'zh',
+      language: normalizeLanguage(data.settings.language),
       showLabels: (data.settings.showLabels as boolean) ?? false,
       scopeType: (data.settings.scopeType as TrainingSettings['scopeType']) ?? 'all',
       scopeValue: (data.settings.scopeValue as string | null) ?? null,
+      popupDensity: 'adaptive',
+      borderEmphasis: 'soft',
+      colorIntensity: 'normal',
     }
   }
   
@@ -163,13 +173,17 @@ export function normalizeTrainingData(value: unknown): PersistedTrainingData | n
     return null
   }
   
-  if (candidate.version !== 3) {
+  if (candidate.version !== 3 && candidate.version !== 4) {
     const migrated = migrateFromV2(value)
     if (migrated) return migrated
     return null
   }
-  
-  return candidate as PersistedTrainingData
+
+  return {
+    ...candidate,
+    version: 4,
+    settings: normalizeTrainingSettings(candidate.settings),
+  } as PersistedTrainingData
 }
 
 // 加载数据
@@ -212,7 +226,7 @@ export async function savePersistedData(data: PersistedTrainingData): Promise<vo
 // 创建导出快照
 export function buildExportSnapshot(data: PersistedTrainingData): ExportTrainingSnapshot {
   return {
-    version: 3,
+    version: 4,
     exportedAt: new Date().toISOString(),
     data,
   }
@@ -223,7 +237,7 @@ export function normalizeExportSnapshot(value: unknown): ExportTrainingSnapshot 
   if (!value || typeof value !== 'object') return null
   
   const candidate = value as Partial<ExportTrainingSnapshot>
-  if (candidate.version !== 3 || !candidate.exportedAt || !candidate.data) {
+  if ((candidate.version !== 3 && candidate.version !== 4) || !candidate.exportedAt || !candidate.data) {
     return null
   }
   
@@ -231,7 +245,7 @@ export function normalizeExportSnapshot(value: unknown): ExportTrainingSnapshot 
   if (!normalizedData) return null
   
   return {
-    version: 3,
+    version: 4,
     exportedAt: candidate.exportedAt,
     data: normalizedData,
   }
@@ -250,4 +264,35 @@ export function downloadSnapshot(filename: string, snapshot: ExportTrainingSnaps
   link.click()
   
   URL.revokeObjectURL(url)
+}
+
+function normalizeLanguage(value: unknown): AppLanguage {
+  return value === 'en' || value === 'mixed' ? value : 'zh'
+}
+
+function normalizePopupDensity(value: unknown): PopupDensity {
+  return value === 'compact' || value === 'rich' ? value : 'adaptive'
+}
+
+function normalizeBorderEmphasis(value: unknown): BorderEmphasis {
+  return value === 'strong' ? 'strong' : 'soft'
+}
+
+function normalizeColorIntensity(value: unknown): ColorIntensity {
+  return value === 'soft' || value === 'vivid' ? value : 'normal'
+}
+
+function normalizeTrainingSettings(settings: unknown): TrainingSettings {
+  const defaults = createDefaultTrainingSettings()
+  if (!settings || typeof settings !== 'object') return defaults
+
+  const candidate = settings as Partial<TrainingSettings>
+  return {
+    ...defaults,
+    ...candidate,
+    language: normalizeLanguage(candidate.language),
+    popupDensity: normalizePopupDensity(candidate.popupDensity),
+    borderEmphasis: normalizeBorderEmphasis(candidate.borderEmphasis),
+    colorIntensity: normalizeColorIntensity(candidate.colorIntensity),
+  }
 }
