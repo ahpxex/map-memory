@@ -2,7 +2,7 @@
  * Region Popup - contextual learning card for explore mode and feedback card for training mode.
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useAtom } from 'jotai'
 import { useAtomValue, useSetAtom } from 'jotai'
 import {
@@ -20,7 +20,6 @@ import { selectedRegionIdForExploreAtom } from '../state/exploreAtoms'
 import type { AppLanguage, PopupDensity, RegionFeature, TrainingSession, UserAnswer } from '../types/training'
 
 const POPUP_WIDTH = 360
-const POPUP_HEIGHT = 340
 const VIEWPORT_PADDING = 20
 
 function getPopupDensity(mode: PopupDensity, showLabels: boolean) {
@@ -128,11 +127,24 @@ function formatAnswer(
   }
 }
 
-function getPopupPosition(anchor: { x: number; y: number }) {
-  const maxLeft = Math.max(VIEWPORT_PADDING, window.innerWidth - POPUP_WIDTH - VIEWPORT_PADDING)
-  const maxTop = Math.max(VIEWPORT_PADDING, window.innerHeight - POPUP_HEIGHT - VIEWPORT_PADDING)
-  const left = Math.min(Math.max(anchor.x + 16, VIEWPORT_PADDING), maxLeft)
-  const top = Math.min(Math.max(anchor.y - POPUP_HEIGHT / 2, VIEWPORT_PADDING), maxTop)
+function getPopupPosition(
+  anchor: { x: number; y: number },
+  popupRect: { width: number; height: number },
+) {
+  const maxLeft = Math.max(VIEWPORT_PADDING, window.innerWidth - popupRect.width - VIEWPORT_PADDING)
+  const maxTop = Math.max(VIEWPORT_PADDING, window.innerHeight - popupRect.height - VIEWPORT_PADDING)
+
+  let left = anchor.x + 16
+  if (left > maxLeft) {
+    left = anchor.x - popupRect.width - 16
+  }
+
+  const top = Math.min(
+    Math.max(anchor.y - popupRect.height / 2, VIEWPORT_PADDING),
+    maxTop,
+  )
+
+  left = Math.min(Math.max(left, VIEWPORT_PADDING), maxLeft)
   return { left, top }
 }
 
@@ -173,6 +185,7 @@ function InfoCard({ label, value }: { label: string; value: string }) {
 
 function ExplorePopup() {
   const popupRef = useRef<HTMLDivElement | null>(null)
+  const [popupStyle, setPopupStyle] = useState<{ left: number; top: number }>({ left: VIEWPORT_PADDING, top: VIEWPORT_PADDING })
   const [popupState, setPopupState] = useAtom(selectedRegionIdForExploreAtom)
   const dataset = useAtomValue(datasetAtom)
   const language = useAtomValue(languageAtom)
@@ -205,16 +218,46 @@ function ExplorePopup() {
     return () => document.removeEventListener('pointerdown', handlePointerDown, true)
   }, [popupState, setPopupState])
 
+  useLayoutEffect(() => {
+    if (!popupState || !popupRef.current) return
+
+    const frameId = window.requestAnimationFrame(() => {
+      const rect = popupRef.current?.getBoundingClientRect()
+      if (!rect) return
+      const nextPosition = getPopupPosition(popupState.anchor, {
+        width: rect.width || POPUP_WIDTH,
+        height: rect.height || 320,
+      })
+      setPopupStyle((current) =>
+        current.left === nextPosition.left && current.top === nextPosition.top ? current : nextPosition,
+      )
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [popupState, effectiveDensity, language, regionFeature])
+
+  useEffect(() => {
+    if (!popupState || !popupRef.current) return undefined
+
+    function handleResize() {
+      if (!popupRef.current || !popupState) return
+      const rect = popupRef.current.getBoundingClientRect()
+      setPopupStyle(getPopupPosition(popupState.anchor, { width: rect.width || POPUP_WIDTH, height: rect.height || 320 }))
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [popupState])
+
   if (!popupState || !regionFeature || !displayNames) return null
 
-  const popupPosition = getPopupPosition(popupState.anchor)
   const aliases = regionFeature.aliases.filter((alias) => alias !== displayNames.title)
 
   return (
     <div
       ref={popupRef}
       className="pointer-events-auto fixed z-30 w-[22.5rem] rounded-3xl border border-stone-200/60 bg-white/95 p-5 shadow-xl backdrop-blur-xl"
-      style={popupPosition}
+      style={popupStyle}
     >
       <div className="mb-4">
         <div className="text-[10px] font-medium uppercase tracking-[0.22em] text-stone-400">

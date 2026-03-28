@@ -9,6 +9,7 @@ import { MapChart } from 'echarts/charts'
 import { TooltipComponent } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import type { MapSeriesOption } from 'echarts'
+import type { FeatureCollection, Geometry, Position } from 'geojson'
 import {
   borderEmphasisAtom,
   colorIntensityAtom,
@@ -209,11 +210,73 @@ function getTrackpadZoomScale(deltaY: number) {
   return clamp(Math.exp(-deltaY * TRACKPAD_ZOOM_SENSITIVITY), TRACKPAD_ZOOM_MIN, TRACKPAD_ZOOM_MAX)
 }
 
+type MapFeatureCollection = FeatureCollection<Geometry, { name: string }>
+
+function isPointOnSegment(point: Position, start: Position, end: Position) {
+  const [px, py] = point
+  const [x1, y1] = start
+  const [x2, y2] = end
+  const cross = (px - x1) * (y2 - y1) - (py - y1) * (x2 - x1)
+  if (Math.abs(cross) > 1e-9) return false
+  const dot = (px - x1) * (px - x2) + (py - y1) * (py - y2)
+  return dot <= 1e-9
+}
+
+function pointInRing(point: Position, ring: Position[]) {
+  let inside = false
+  for (let index = 0, previousIndex = ring.length - 1; index < ring.length; previousIndex = index, index += 1) {
+    const current = ring[index]
+    const previous = ring[previousIndex]
+    if (isPointOnSegment(point, previous, current)) return true
+
+    const intersects =
+      (current[1] > point[1]) !== (previous[1] > point[1]) &&
+      point[0] < ((previous[0] - current[0]) * (point[1] - current[1])) / ((previous[1] - current[1]) || Number.EPSILON) + current[0]
+
+    if (intersects) {
+      inside = !inside
+    }
+  }
+  return inside
+}
+
+function pointInGeometry(point: Position, geometry: Geometry | null | undefined) {
+  if (!geometry) return false
+
+  if (geometry.type === 'Polygon') {
+    const [outerRing, ...holes] = geometry.coordinates
+    if (!outerRing || !pointInRing(point, outerRing as Position[])) return false
+    return !holes.some((hole) => pointInRing(point, hole as Position[]))
+  }
+
+  if (geometry.type === 'MultiPolygon') {
+    return geometry.coordinates.some((polygon) => {
+      const [outerRing, ...holes] = polygon
+      if (!outerRing || !pointInRing(point, outerRing as Position[])) return false
+      return !holes.some((hole) => pointInRing(point, hole as Position[]))
+    })
+  }
+
+  return false
+}
+
+function getRegionIdAtCoordinate(point: Position, featureCollection: MapFeatureCollection) {
+  for (const feature of featureCollection.features) {
+    if (pointInGeometry(point, feature.geometry)) {
+      return feature.properties?.name ?? null
+    }
+  }
+  return null
+}
+
 export function MapCanvas() {
   const chartRef = useRef<HTMLDivElement | null>(null)
   const chartInstanceRef = useRef<ReturnType<typeof echarts.init> | null>(null)
   const activeMapKeyRef = useRef<string | null>(null)
   const liveZoomRef = useRef(1)
+  const lastRegionClickAtRef = useRef(0)
+  const pointerDownRef = useRef<{ x: number; y: number; time: number } | null>(null)
+  const lastRoamAtRef = useRef(0)
   
   const [loadedMap, setLoadedMap] = useState<{ mapKey: string; featureCollection: object } | null>(null)
   const [zoom, setZoom] = useState(1)
@@ -273,12 +336,11 @@ export function MapCanvas() {
     chartInstanceRef.current = chart
     activeMapKeyRef.current = config.mapKey
     
-    // Handle click
-    chart.off('click')
-    chart.on('click', (params) => {
-      const regionId = typeof params.name === 'string' ? params.name : null
+    const featureCollection = activeLoadedMap.featureCollection as MapFeatureCollection
+
+    function handleResolvedRegionClick(regionId: string, pointer?: { x: number; y: number }) {
       if (!regionId) return
-      
+
       if (interactionMode === 'training') {
         if (trainingSession?.correctAnswer.type !== 'map-click') {
           return
@@ -286,27 +348,33 @@ export function MapCanvas() {
         submitAnswer({ type: 'map-click', regionId })
         return
       }
+      const region = config.regionById.get(regionId)
+      const center = region?.center ?? region?.centroid ?? null
+      const chartDom = chart.getDom()
+      const chartWidth = chartDom.clientWidth || chart.getWidth()
+      const chartHeight = chartDom.clientHeight || chart.getHeight()
+      let anchorX: number | null = pointer?.x ?? null
+      let anchorY: number | null = pointer?.y ?? null
 
-      const rawEvent = params.event?.event as
-        | { offsetX?: number; offsetY?: number; zrX?: number; zrY?: number }
-        | undefined
+      if (center) {
+        const pixel = chart.convertToPixel({ seriesIndex: 0 }, center as [number, number])
+        if (Array.isArray(pixel) && pixel.length === 2) {
+          anchorX = Number.isFinite(anchorX ?? NaN) ? anchorX : Number(pixel[0])
+          anchorY = Number.isFinite(anchorY ?? NaN) ? anchorY : Number(pixel[1])
+        }
+      }
+
+      lastRegionClickAtRef.current = performance.now()
 
       setSelectedRegionId({
         regionId,
         anchor: {
-          x: rawEvent?.zrX ?? rawEvent?.offsetX ?? chartRef.current?.clientWidth ?? chart.getWidth() / 2,
-          y: rawEvent?.zrY ?? rawEvent?.offsetY ?? chartRef.current?.clientHeight ?? chart.getHeight() / 2,
+          x: anchorX ?? chartWidth / 2,
+          y: anchorY ?? chartHeight / 2,
         },
       })
-    })
+    }
 
-    chart.getZr().off('click')
-    chart.getZr().on('click', (event) => {
-      if (interactionMode !== 'explore') return
-      if (event.target) return
-      setSelectedRegionId(null)
-    })
-    
     // Handle zoom
     chart.off('georoam')
     chart.on('georoam', (event) => {
@@ -319,6 +387,7 @@ export function MapCanvas() {
       const clampedZoom = clamp(newZoom, 1, getMaxZoom(dataset))
       liveZoomRef.current = clampedZoom
       setZoom(clampedZoom)
+      lastRoamAtRef.current = performance.now()
     })
     
     // Trackpad handling
@@ -391,8 +460,50 @@ export function MapCanvas() {
       pendingDy -= event.deltaY * TRACKPAD_PAN_SENSITIVITY * velocityFactor
       scheduleFlush()
     }
-    
+
+    function handlePointerDown(event: PointerEvent) {
+      pointerDownRef.current = {
+        x: event.offsetX,
+        y: event.offsetY,
+        time: performance.now(),
+      }
+    }
+
+    function handlePointerUp(event: PointerEvent) {
+      const pointerDown = pointerDownRef.current
+      pointerDownRef.current = null
+      if (!pointerDown) return
+
+      const dx = event.offsetX - pointerDown.x
+      const dy = event.offsetY - pointerDown.y
+      const distance = Math.hypot(dx, dy)
+      const elapsed = performance.now() - pointerDown.time
+      if (distance > 6 || elapsed > 450) return
+      if (performance.now() - lastRoamAtRef.current < 120) return
+
+      const pixel = [event.offsetX, event.offsetY] as [number, number]
+      const coordinate = chart.convertFromPixel({ seriesIndex: 0 }, pixel)
+      if (!Array.isArray(coordinate) || coordinate.length !== 2) {
+        if (interactionMode === 'explore') {
+          setSelectedRegionId(null)
+        }
+        return
+      }
+
+      const regionId = getRegionIdAtCoordinate([Number(coordinate[0]), Number(coordinate[1])], featureCollection)
+      if (regionId) {
+        handleResolvedRegionClick(regionId, { x: event.offsetX, y: event.offsetY })
+        return
+      }
+
+      if (interactionMode === 'explore') {
+        setSelectedRegionId(null)
+      }
+    }
+
     chart.getDom().addEventListener('wheel', handleWheel, { capture: true, passive: false })
+    chart.getDom().addEventListener('pointerdown', handlePointerDown, true)
+    chart.getDom().addEventListener('pointerup', handlePointerUp, true)
     
     const resizeObserver = new ResizeObserver(() => chart.resize())
     resizeObserver.observe(chartRef.current)
@@ -400,9 +511,11 @@ export function MapCanvas() {
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId)
       chart.getDom().removeEventListener('wheel', handleWheel, true)
+      chart.getDom().removeEventListener('pointerdown', handlePointerDown, true)
+      chart.getDom().removeEventListener('pointerup', handlePointerUp, true)
       resizeObserver.disconnect()
     }
-  }, [activeLoadedMap, config.mapKey, dataset, interactionMode, submitAnswer, setSelectedRegionId, trainingSession])
+  }, [activeLoadedMap, config.mapKey, config.regionById, dataset, interactionMode, submitAnswer, setSelectedRegionId, trainingSession])
 
   useEffect(() => {
     const chart = chartInstanceRef.current
@@ -532,7 +645,7 @@ export function MapCanvas() {
       series: [series],
     })
   }, [
-    activeLoadedMap, config, dataset, skillProgress, showLabels,
+    activeLoadedMap, config, config.regionById, dataset, skillProgress, showLabels,
     labelThreshold, labelFontSize, language, interactionMode, trainingSession, selectedRegionId,
     borderEmphasis, colorIntensity,
   ])
